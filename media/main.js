@@ -2224,2095 +2224,2095 @@ const vue = [
   },
 ];
 
-const lua=[
+const lua = [
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_absindex",
-      "body": "<pre>int lua_absindex (lua_State *L, int idx);</pre>\n<p>\n Converts the acceptable index\n <code>\n  idx\n </code>\n into an equivalent absolute index\n(that is, one that does not depend on the stack size).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_absindex",
+    body: "<pre>int lua_absindex (lua_State *L, int idx);</pre>\n<p>\n Converts the acceptable index\n <code>\n  idx\n </code>\n into an equivalent absolute index\n(that is, one that does not depend on the stack size).\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Alloc",
-      "body": "<pre>typedef void * (*lua_Alloc) (void *ud,\n                             void *ptr,\n                             size_t osize,\n                             size_t nsize);</pre>\n<p>\n The type of the memory-allocation function used by Lua states.\nThe allocator function must provide a\nfunctionality similar to\n <code>\n  realloc\n </code>\n ,\nbut not exactly the same.\nIts arguments are\n <code>\n  ud\n </code>\n , an opaque pointer passed to\n <a href=\"#lua_newstate\">\n  <code>\n   lua_newstate\n  </code>\n </a>\n ;\n <code>\n  ptr\n </code>\n , a pointer to the block being allocated/reallocated/freed;\n <code>\n  osize\n </code>\n , the original size of the block or some code about what\nis being allocated;\nand\n <code>\n  nsize\n </code>\n , the new size of the block.\n</p>\n<p>\n When\n <code>\n  ptr\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\n <code>\n  osize\n </code>\n is the size of the block pointed by\n <code>\n  ptr\n </code>\n ,\nthat is, the size given when it was allocated or reallocated.\n</p>\n<p>\n When\n <code>\n  ptr\n </code>\n is\n <code>\n  NULL\n </code>\n ,\n <code>\n  osize\n </code>\n encodes the kind of object that Lua is allocating.\n <code>\n  osize\n </code>\n is any of\n <a href=\"#pdf-LUA_TSTRING\">\n  <code>\n   LUA_TSTRING\n  </code>\n </a>\n ,\n <a href=\"#pdf-LUA_TTABLE\">\n  <code>\n   LUA_TTABLE\n  </code>\n </a>\n ,\n <a href=\"#pdf-LUA_TFUNCTION\">\n  <code>\n   LUA_TFUNCTION\n  </code>\n </a>\n ,\n <a href=\"#pdf-LUA_TUSERDATA\">\n  <code>\n   LUA_TUSERDATA\n  </code>\n </a>\n , or\n <a href=\"#pdf-LUA_TTHREAD\">\n  <code>\n   LUA_TTHREAD\n  </code>\n </a>\n when (and only when)\nLua is creating a new object of that type.\nWhen\n <code>\n  osize\n </code>\n is some other value,\nLua is allocating memory for something else.\n</p>\n<p>\n Lua assumes the following behavior from the allocator function:\n</p>\n<p>\n When\n <code>\n  nsize\n </code>\n is zero,\nthe allocator must behave like\n <code>\n  free\n </code>\n and then return\n <code>\n  NULL\n </code>\n .\n</p>\n<p>\n When\n <code>\n  nsize\n </code>\n is not zero,\nthe allocator must behave like\n <code>\n  realloc\n </code>\n .\nIn particular, the allocator returns\n <code>\n  NULL\n </code>\n if and only if it cannot fulfill the request.\n</p>\n<p>\n Here is a simple implementation for the allocator function.\nIt is used in the auxiliary library by\n <a href=\"#luaL_newstate\">\n  <code>\n   luaL_newstate\n  </code>\n </a>\n .\n</p>\n<pre>     static void *l_alloc (void *ud, void *ptr, size_t osize,\n                                                size_t nsize) {\n       (void)ud;  (void)osize;  /* not used */\n       if (nsize == 0) {\n         free(ptr);\n         return NULL;\n       }\n       else\n         return realloc(ptr, nsize);\n     }\n</pre>\n<p>\n Note that Standard\u00a0C ensures\nthat\n <code>\n  free(NULL)\n </code>\n has no effect and that\n <code>\n  realloc(NULL,size)\n </code>\n is equivalent to\n <code>\n  malloc(size)\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Alloc",
+    body: '<pre>typedef void * (*lua_Alloc) (void *ud,\n                             void *ptr,\n                             size_t osize,\n                             size_t nsize);</pre>\n<p>\n The type of the memory-allocation function used by Lua states.\nThe allocator function must provide a\nfunctionality similar to\n <code>\n  realloc\n </code>\n ,\nbut not exactly the same.\nIts arguments are\n <code>\n  ud\n </code>\n , an opaque pointer passed to\n <a href="#lua_newstate">\n  <code>\n   lua_newstate\n  </code>\n </a>\n ;\n <code>\n  ptr\n </code>\n , a pointer to the block being allocated/reallocated/freed;\n <code>\n  osize\n </code>\n , the original size of the block or some code about what\nis being allocated;\nand\n <code>\n  nsize\n </code>\n , the new size of the block.\n</p>\n<p>\n When\n <code>\n  ptr\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\n <code>\n  osize\n </code>\n is the size of the block pointed by\n <code>\n  ptr\n </code>\n ,\nthat is, the size given when it was allocated or reallocated.\n</p>\n<p>\n When\n <code>\n  ptr\n </code>\n is\n <code>\n  NULL\n </code>\n ,\n <code>\n  osize\n </code>\n encodes the kind of object that Lua is allocating.\n <code>\n  osize\n </code>\n is any of\n <a href="#pdf-LUA_TSTRING">\n  <code>\n   LUA_TSTRING\n  </code>\n </a>\n ,\n <a href="#pdf-LUA_TTABLE">\n  <code>\n   LUA_TTABLE\n  </code>\n </a>\n ,\n <a href="#pdf-LUA_TFUNCTION">\n  <code>\n   LUA_TFUNCTION\n  </code>\n </a>\n ,\n <a href="#pdf-LUA_TUSERDATA">\n  <code>\n   LUA_TUSERDATA\n  </code>\n </a>\n , or\n <a href="#pdf-LUA_TTHREAD">\n  <code>\n   LUA_TTHREAD\n  </code>\n </a>\n when (and only when)\nLua is creating a new object of that type.\nWhen\n <code>\n  osize\n </code>\n is some other value,\nLua is allocating memory for something else.\n</p>\n<p>\n Lua assumes the following behavior from the allocator function:\n</p>\n<p>\n When\n <code>\n  nsize\n </code>\n is zero,\nthe allocator must behave like\n <code>\n  free\n </code>\n and then return\n <code>\n  NULL\n </code>\n .\n</p>\n<p>\n When\n <code>\n  nsize\n </code>\n is not zero,\nthe allocator must behave like\n <code>\n  realloc\n </code>\n .\nIn particular, the allocator returns\n <code>\n  NULL\n </code>\n if and only if it cannot fulfill the request.\n</p>\n<p>\n Here is a simple implementation for the allocator function.\nIt is used in the auxiliary library by\n <a href="#luaL_newstate">\n  <code>\n   luaL_newstate\n  </code>\n </a>\n .\n</p>\n<pre>     static void *l_alloc (void *ud, void *ptr, size_t osize,\n                                                size_t nsize) {\n       (void)ud;  (void)osize;  /* not used */\n       if (nsize == 0) {\n         free(ptr);\n         return NULL;\n       }\n       else\n         return realloc(ptr, nsize);\n     }\n</pre>\n<p>\n Note that Standard\u00a0C ensures\nthat\n <code>\n  free(NULL)\n </code>\n has no effect and that\n <code>\n  realloc(NULL,size)\n </code>\n is equivalent to\n <code>\n  malloc(size)\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_arith",
-      "body": "<pre>void lua_arith (lua_State *L, int op);</pre>\n<p>\n Performs an arithmetic or bitwise operation over the two values\n(or one, in the case of negations)\nat the top of the stack,\nwith the value on the top being the second operand,\npops these values, and pushes the result of the operation.\nThe function follows the semantics of the corresponding Lua operator\n(that is, it may call metamethods).\n</p>\n<p>\n The value of\n <code>\n  op\n </code>\n must be one of the following constants:\n</p>\n<ul>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPADD\">\n    <code>\n     LUA_OPADD\n    </code>\n   </a>\n   :\n  </b>\n  performs addition (\n  <code>\n   +\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPSUB\">\n    <code>\n     LUA_OPSUB\n    </code>\n   </a>\n   :\n  </b>\n  performs subtraction (\n  <code>\n   -\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPMUL\">\n    <code>\n     LUA_OPMUL\n    </code>\n   </a>\n   :\n  </b>\n  performs multiplication (\n  <code>\n   *\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPDIV\">\n    <code>\n     LUA_OPDIV\n    </code>\n   </a>\n   :\n  </b>\n  performs float division (\n  <code>\n   /\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPIDIV\">\n    <code>\n     LUA_OPIDIV\n    </code>\n   </a>\n   :\n  </b>\n  performs floor division (\n  <code>\n   //\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPMOD\">\n    <code>\n     LUA_OPMOD\n    </code>\n   </a>\n   :\n  </b>\n  performs modulo (\n  <code>\n   %\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPPOW\">\n    <code>\n     LUA_OPPOW\n    </code>\n   </a>\n   :\n  </b>\n  performs exponentiation (\n  <code>\n   ^\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPUNM\">\n    <code>\n     LUA_OPUNM\n    </code>\n   </a>\n   :\n  </b>\n  performs mathematical negation (unary\n  <code>\n   -\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPBNOT\">\n    <code>\n     LUA_OPBNOT\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise NOT (\n  <code>\n   ~\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPBAND\">\n    <code>\n     LUA_OPBAND\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise AND (\n  <code>\n   &amp;\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPBOR\">\n    <code>\n     LUA_OPBOR\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise OR (\n  <code>\n   |\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPBXOR\">\n    <code>\n     LUA_OPBXOR\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise exclusive OR (\n  <code>\n   ~\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPSHL\">\n    <code>\n     LUA_OPSHL\n    </code>\n   </a>\n   :\n  </b>\n  performs left shift (\n  <code>\n   &lt;&lt;\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPSHR\">\n    <code>\n     LUA_OPSHR\n    </code>\n   </a>\n   :\n  </b>\n  performs right shift (\n  <code>\n   &gt;&gt;\n  </code>\n  )\n </li>\n</ul>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_arith",
+    body: '<pre>void lua_arith (lua_State *L, int op);</pre>\n<p>\n Performs an arithmetic or bitwise operation over the two values\n(or one, in the case of negations)\nat the top of the stack,\nwith the value on the top being the second operand,\npops these values, and pushes the result of the operation.\nThe function follows the semantics of the corresponding Lua operator\n(that is, it may call metamethods).\n</p>\n<p>\n The value of\n <code>\n  op\n </code>\n must be one of the following constants:\n</p>\n<ul>\n <li>\n  <b>\n   <a name="pdf-LUA_OPADD">\n    <code>\n     LUA_OPADD\n    </code>\n   </a>\n   :\n  </b>\n  performs addition (\n  <code>\n   +\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPSUB">\n    <code>\n     LUA_OPSUB\n    </code>\n   </a>\n   :\n  </b>\n  performs subtraction (\n  <code>\n   -\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPMUL">\n    <code>\n     LUA_OPMUL\n    </code>\n   </a>\n   :\n  </b>\n  performs multiplication (\n  <code>\n   *\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPDIV">\n    <code>\n     LUA_OPDIV\n    </code>\n   </a>\n   :\n  </b>\n  performs float division (\n  <code>\n   /\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPIDIV">\n    <code>\n     LUA_OPIDIV\n    </code>\n   </a>\n   :\n  </b>\n  performs floor division (\n  <code>\n   //\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPMOD">\n    <code>\n     LUA_OPMOD\n    </code>\n   </a>\n   :\n  </b>\n  performs modulo (\n  <code>\n   %\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPPOW">\n    <code>\n     LUA_OPPOW\n    </code>\n   </a>\n   :\n  </b>\n  performs exponentiation (\n  <code>\n   ^\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPUNM">\n    <code>\n     LUA_OPUNM\n    </code>\n   </a>\n   :\n  </b>\n  performs mathematical negation (unary\n  <code>\n   -\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPBNOT">\n    <code>\n     LUA_OPBNOT\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise NOT (\n  <code>\n   ~\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPBAND">\n    <code>\n     LUA_OPBAND\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise AND (\n  <code>\n   &amp;\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPBOR">\n    <code>\n     LUA_OPBOR\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise OR (\n  <code>\n   |\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPBXOR">\n    <code>\n     LUA_OPBXOR\n    </code>\n   </a>\n   :\n  </b>\n  performs bitwise exclusive OR (\n  <code>\n   ~\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPSHL">\n    <code>\n     LUA_OPSHL\n    </code>\n   </a>\n   :\n  </b>\n  performs left shift (\n  <code>\n   &lt;&lt;\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPSHR">\n    <code>\n     LUA_OPSHR\n    </code>\n   </a>\n   :\n  </b>\n  performs right shift (\n  <code>\n   &gt;&gt;\n  </code>\n  )\n </li>\n</ul>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_atpanic",
-      "body": "<pre>lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf);</pre>\n<p>\n Sets a new panic function and returns the old one (see\n <a href=\"#4.4\">\n  \u00a74.4\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_atpanic",
+    body: '<pre>lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf);</pre>\n<p>\n Sets a new panic function and returns the old one (see\n <a href="#4.4">\n  \u00a74.4\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_call",
-      "body": "<pre>void lua_call (lua_State *L, int nargs, int nresults);</pre>\n<p>\n Calls a function.\nLike regular Lua calls,\n <code>\n  lua_call\n </code>\n respects the\n <code>\n  __call\n </code>\n metamethod.\nSo, here the word \"function\"\nmeans any callable value.\n</p>\n<p>\n To do a call you must use the following protocol:\nfirst, the function to be called is pushed onto the stack;\nthen, the arguments to the call are pushed\nin direct order;\nthat is, the first argument is pushed first.\nFinally you call\n <a href=\"#lua_call\">\n  <code>\n   lua_call\n  </code>\n </a>\n ;\n <code>\n  nargs\n </code>\n is the number of arguments that you pushed onto the stack.\nWhen the function returns,\nall arguments and the function value are popped\nand the call results are pushed onto the stack.\nThe number of results is adjusted to\n <code>\n  nresults\n </code>\n ,\nunless\n <code>\n  nresults\n </code>\n is\n <a name=\"pdf-LUA_MULTRET\">\n  <code>\n   LUA_MULTRET\n  </code>\n </a>\n .\nIn this case, all results from the function are pushed;\nLua takes care that the returned values fit into the stack space,\nbut it does not ensure any extra space in the stack.\nThe function results are pushed onto the stack in direct order\n(the first result is pushed first),\nso that after the call the last result is on the top of the stack.\n</p>\n<p>\n Any error while calling and running the function is propagated upwards\n(with a\n <code>\n  longjmp\n </code>\n ).\n</p>\n<p>\n The following example shows how the host program can do the\nequivalent to this Lua code:\n</p>\n<pre>     a = f(\"how\", t.x, 14)\n</pre>\n<p>\n Here it is in\u00a0C:\n</p>\n<pre>     lua_getglobal(L, \"f\");                  /* function to be called */\n     lua_pushliteral(L, \"how\");                       /* 1st argument */\n     lua_getglobal(L, \"t\");                    /* table to be indexed */\n     lua_getfield(L, -1, \"x\");        /* push result of t.x (2nd arg) */\n     lua_remove(L, -2);                  /* remove 't' from the stack */\n     lua_pushinteger(L, 14);                          /* 3rd argument */\n     lua_call(L, 3, 1);     /* call 'f' with 3 arguments and 1 result */\n     lua_setglobal(L, \"a\");                         /* set global 'a' */\n</pre>\n<p>\n Note that the code above is\n <em>\n  balanced\n </em>\n :\nat its end, the stack is back to its original configuration.\nThis is considered good programming practice.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_call",
+    body: '<pre>void lua_call (lua_State *L, int nargs, int nresults);</pre>\n<p>\n Calls a function.\nLike regular Lua calls,\n <code>\n  lua_call\n </code>\n respects the\n <code>\n  __call\n </code>\n metamethod.\nSo, here the word "function"\nmeans any callable value.\n</p>\n<p>\n To do a call you must use the following protocol:\nfirst, the function to be called is pushed onto the stack;\nthen, the arguments to the call are pushed\nin direct order;\nthat is, the first argument is pushed first.\nFinally you call\n <a href="#lua_call">\n  <code>\n   lua_call\n  </code>\n </a>\n ;\n <code>\n  nargs\n </code>\n is the number of arguments that you pushed onto the stack.\nWhen the function returns,\nall arguments and the function value are popped\nand the call results are pushed onto the stack.\nThe number of results is adjusted to\n <code>\n  nresults\n </code>\n ,\nunless\n <code>\n  nresults\n </code>\n is\n <a name="pdf-LUA_MULTRET">\n  <code>\n   LUA_MULTRET\n  </code>\n </a>\n .\nIn this case, all results from the function are pushed;\nLua takes care that the returned values fit into the stack space,\nbut it does not ensure any extra space in the stack.\nThe function results are pushed onto the stack in direct order\n(the first result is pushed first),\nso that after the call the last result is on the top of the stack.\n</p>\n<p>\n Any error while calling and running the function is propagated upwards\n(with a\n <code>\n  longjmp\n </code>\n ).\n</p>\n<p>\n The following example shows how the host program can do the\nequivalent to this Lua code:\n</p>\n<pre>     a = f("how", t.x, 14)\n</pre>\n<p>\n Here it is in\u00a0C:\n</p>\n<pre>     lua_getglobal(L, "f");                  /* function to be called */\n     lua_pushliteral(L, "how");                       /* 1st argument */\n     lua_getglobal(L, "t");                    /* table to be indexed */\n     lua_getfield(L, -1, "x");        /* push result of t.x (2nd arg) */\n     lua_remove(L, -2);                  /* remove \'t\' from the stack */\n     lua_pushinteger(L, 14);                          /* 3rd argument */\n     lua_call(L, 3, 1);     /* call \'f\' with 3 arguments and 1 result */\n     lua_setglobal(L, "a");                         /* set global \'a\' */\n</pre>\n<p>\n Note that the code above is\n <em>\n  balanced\n </em>\n :\nat its end, the stack is back to its original configuration.\nThis is considered good programming practice.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_callk",
-      "body": "<pre>void lua_callk (lua_State *L,\n                int nargs,\n                int nresults,\n                lua_KContext ctx,\n                lua_KFunction k);</pre>\n<p>\n This function behaves exactly like\n <a href=\"#lua_call\">\n  <code>\n   lua_call\n  </code>\n </a>\n ,\nbut allows the called function to yield (see\n <a href=\"#4.5\">\n  \u00a74.5\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_callk",
+    body: '<pre>void lua_callk (lua_State *L,\n                int nargs,\n                int nresults,\n                lua_KContext ctx,\n                lua_KFunction k);</pre>\n<p>\n This function behaves exactly like\n <a href="#lua_call">\n  <code>\n   lua_call\n  </code>\n </a>\n ,\nbut allows the called function to yield (see\n <a href="#4.5">\n  \u00a74.5\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_CFunction",
-      "body": "<pre>typedef int (*lua_CFunction) (lua_State *L);</pre>\n<p>\n Type for C\u00a0functions.\n</p>\n<p>\n In order to communicate properly with Lua,\na C\u00a0function must use the following protocol,\nwhich defines the way parameters and results are passed:\na C\u00a0function receives its arguments from Lua in its stack\nin direct order (the first argument is pushed first).\nSo, when the function starts,\n <code>\n  lua_gettop(L)\n </code>\n returns the number of arguments received by the function.\nThe first argument (if any) is at index 1\nand its last argument is at index\n <code>\n  lua_gettop(L)\n </code>\n .\nTo return values to Lua, a C\u00a0function just pushes them onto the stack,\nin direct order (the first result is pushed first),\nand returns in C the number of results.\nAny other value in the stack below the results will be properly\ndiscarded by Lua.\nLike a Lua function, a C\u00a0function called by Lua can also return\nmany results.\n</p>\n<p>\n As an example, the following function receives a variable number\nof numeric arguments and returns their average and their sum:\n</p>\n<pre>     static int foo (lua_State *L) {\n       int n = lua_gettop(L);    /* number of arguments */\n       lua_Number sum = 0.0;\n       int i;\n       for (i = 1; i &lt;= n; i++) {\n         if (!lua_isnumber(L, i)) {\n           lua_pushliteral(L, \"incorrect argument\");\n           lua_error(L);\n         }\n         sum += lua_tonumber(L, i);\n       }\n       lua_pushnumber(L, sum/n);        /* first result */\n       lua_pushnumber(L, sum);         /* second result */\n       return 2;                   /* number of results */\n     }\n</pre>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_CFunction",
+    body: '<pre>typedef int (*lua_CFunction) (lua_State *L);</pre>\n<p>\n Type for C\u00a0functions.\n</p>\n<p>\n In order to communicate properly with Lua,\na C\u00a0function must use the following protocol,\nwhich defines the way parameters and results are passed:\na C\u00a0function receives its arguments from Lua in its stack\nin direct order (the first argument is pushed first).\nSo, when the function starts,\n <code>\n  lua_gettop(L)\n </code>\n returns the number of arguments received by the function.\nThe first argument (if any) is at index 1\nand its last argument is at index\n <code>\n  lua_gettop(L)\n </code>\n .\nTo return values to Lua, a C\u00a0function just pushes them onto the stack,\nin direct order (the first result is pushed first),\nand returns in C the number of results.\nAny other value in the stack below the results will be properly\ndiscarded by Lua.\nLike a Lua function, a C\u00a0function called by Lua can also return\nmany results.\n</p>\n<p>\n As an example, the following function receives a variable number\nof numeric arguments and returns their average and their sum:\n</p>\n<pre>     static int foo (lua_State *L) {\n       int n = lua_gettop(L);    /* number of arguments */\n       lua_Number sum = 0.0;\n       int i;\n       for (i = 1; i &lt;= n; i++) {\n         if (!lua_isnumber(L, i)) {\n           lua_pushliteral(L, "incorrect argument");\n           lua_error(L);\n         }\n         sum += lua_tonumber(L, i);\n       }\n       lua_pushnumber(L, sum/n);        /* first result */\n       lua_pushnumber(L, sum);         /* second result */\n       return 2;                   /* number of results */\n     }\n</pre>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_checkstack",
-      "body": "<pre>int lua_checkstack (lua_State *L, int n);</pre>\n<p>\n Ensures that the stack has space for at least\n <code>\n  n\n </code>\n extra elements,\nthat is, that you can safely push up to\n <code>\n  n\n </code>\n values into it.\nIt returns false if it cannot fulfill the request,\neither because it would cause the stack\nto be greater than a fixed maximum size\n(typically at least several thousand elements) or\nbecause it cannot allocate memory for the extra space.\nThis function never shrinks the stack;\nif the stack already has space for the extra elements,\nit is left unchanged.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_checkstack",
+    body: "<pre>int lua_checkstack (lua_State *L, int n);</pre>\n<p>\n Ensures that the stack has space for at least\n <code>\n  n\n </code>\n extra elements,\nthat is, that you can safely push up to\n <code>\n  n\n </code>\n values into it.\nIt returns false if it cannot fulfill the request,\neither because it would cause the stack\nto be greater than a fixed maximum size\n(typically at least several thousand elements) or\nbecause it cannot allocate memory for the extra space.\nThis function never shrinks the stack;\nif the stack already has space for the extra elements,\nit is left unchanged.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_close",
-      "body": "<pre>void lua_close (lua_State *L);</pre>\n<p>\n Close all active to-be-closed variables in the main thread,\nrelease all objects in the given Lua state\n(calling the corresponding garbage-collection metamethods, if any),\nand frees all dynamic memory used by this state.\n</p>\n<p>\n On several platforms, you may not need to call this function,\nbecause all resources are naturally released when the host program ends.\nOn the other hand, long-running programs that create multiple states,\nsuch as daemons or web servers,\nwill probably need to close states as soon as they are not needed.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_close",
+    body: "<pre>void lua_close (lua_State *L);</pre>\n<p>\n Close all active to-be-closed variables in the main thread,\nrelease all objects in the given Lua state\n(calling the corresponding garbage-collection metamethods, if any),\nand frees all dynamic memory used by this state.\n</p>\n<p>\n On several platforms, you may not need to call this function,\nbecause all resources are naturally released when the host program ends.\nOn the other hand, long-running programs that create multiple states,\nsuch as daemons or web servers,\nwill probably need to close states as soon as they are not needed.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_closeslot",
-      "body": "<pre>void lua_closeslot (lua_State *L, int index);</pre>\n<p>\n Close the to-be-closed slot at the given index and set its value to\n <b>\n  nil\n </b>\n .\nThe index must be the last index previously marked to be closed\n(see\n <a href=\"#lua_toclose\">\n  <code>\n   lua_toclose\n  </code>\n </a>\n ) that is still active (that is, not closed yet).\n</p>\n<p>\n A\n <code>\n  __close\n </code>\n metamethod cannot yield\nwhen called through this function.\n</p>\n<p>\n (Exceptionally, this function was introduced in release 5.4.3.\nIt is not present in previous 5.4 releases.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_closeslot",
+    body: '<pre>void lua_closeslot (lua_State *L, int index);</pre>\n<p>\n Close the to-be-closed slot at the given index and set its value to\n <b>\n  nil\n </b>\n .\nThe index must be the last index previously marked to be closed\n(see\n <a href="#lua_toclose">\n  <code>\n   lua_toclose\n  </code>\n </a>\n ) that is still active (that is, not closed yet).\n</p>\n<p>\n A\n <code>\n  __close\n </code>\n metamethod cannot yield\nwhen called through this function.\n</p>\n<p>\n (Exceptionally, this function was introduced in release 5.4.3.\nIt is not present in previous 5.4 releases.)\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_compare",
-      "body": "<pre>int lua_compare (lua_State *L, int index1, int index2, int op);</pre>\n<p>\n Compares two Lua values.\nReturns 1 if the value at index\n <code>\n  index1\n </code>\n satisfies\n <code>\n  op\n </code>\n when compared with the value at index\n <code>\n  index2\n </code>\n ,\nfollowing the semantics of the corresponding Lua operator\n(that is, it may call metamethods).\nOtherwise returns\u00a00.\nAlso returns\u00a00 if any of the indices is not valid.\n</p>\n<p>\n The value of\n <code>\n  op\n </code>\n must be one of the following constants:\n</p>\n<ul>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPEQ\">\n    <code>\n     LUA_OPEQ\n    </code>\n   </a>\n   :\n  </b>\n  compares for equality (\n  <code>\n   ==\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPLT\">\n    <code>\n     LUA_OPLT\n    </code>\n   </a>\n   :\n  </b>\n  compares for less than (\n  <code>\n   &lt;\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name=\"pdf-LUA_OPLE\">\n    <code>\n     LUA_OPLE\n    </code>\n   </a>\n   :\n  </b>\n  compares for less or equal (\n  <code>\n   &lt;=\n  </code>\n  )\n </li>\n</ul>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_compare",
+    body: '<pre>int lua_compare (lua_State *L, int index1, int index2, int op);</pre>\n<p>\n Compares two Lua values.\nReturns 1 if the value at index\n <code>\n  index1\n </code>\n satisfies\n <code>\n  op\n </code>\n when compared with the value at index\n <code>\n  index2\n </code>\n ,\nfollowing the semantics of the corresponding Lua operator\n(that is, it may call metamethods).\nOtherwise returns\u00a00.\nAlso returns\u00a00 if any of the indices is not valid.\n</p>\n<p>\n The value of\n <code>\n  op\n </code>\n must be one of the following constants:\n</p>\n<ul>\n <li>\n  <b>\n   <a name="pdf-LUA_OPEQ">\n    <code>\n     LUA_OPEQ\n    </code>\n   </a>\n   :\n  </b>\n  compares for equality (\n  <code>\n   ==\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPLT">\n    <code>\n     LUA_OPLT\n    </code>\n   </a>\n   :\n  </b>\n  compares for less than (\n  <code>\n   &lt;\n  </code>\n  )\n </li>\n <li>\n  <b>\n   <a name="pdf-LUA_OPLE">\n    <code>\n     LUA_OPLE\n    </code>\n   </a>\n   :\n  </b>\n  compares for less or equal (\n  <code>\n   &lt;=\n  </code>\n  )\n </li>\n</ul>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_concat",
-      "body": "<pre>void lua_concat (lua_State *L, int n);</pre>\n<p>\n Concatenates the\n <code>\n  n\n </code>\n values at the top of the stack,\npops them, and leaves the result on the top.\nIf\n <code>\n  n\n </code>\n is\u00a01, the result is the single value on the stack\n(that is, the function does nothing);\nif\n <code>\n  n\n </code>\n is 0, the result is the empty string.\nConcatenation is performed following the usual semantics of Lua\n(see\n <a href=\"#3.4.6\">\n  \u00a73.4.6\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_concat",
+    body: '<pre>void lua_concat (lua_State *L, int n);</pre>\n<p>\n Concatenates the\n <code>\n  n\n </code>\n values at the top of the stack,\npops them, and leaves the result on the top.\nIf\n <code>\n  n\n </code>\n is\u00a01, the result is the single value on the stack\n(that is, the function does nothing);\nif\n <code>\n  n\n </code>\n is 0, the result is the empty string.\nConcatenation is performed following the usual semantics of Lua\n(see\n <a href="#3.4.6">\n  \u00a73.4.6\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_copy",
-      "body": "<pre>void lua_copy (lua_State *L, int fromidx, int toidx);</pre>\n<p>\n Copies the element at index\n <code>\n  fromidx\n </code>\n into the valid index\n <code>\n  toidx\n </code>\n ,\nreplacing the value at that position.\nValues at other positions are not affected.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_copy",
+    body: "<pre>void lua_copy (lua_State *L, int fromidx, int toidx);</pre>\n<p>\n Copies the element at index\n <code>\n  fromidx\n </code>\n into the valid index\n <code>\n  toidx\n </code>\n ,\nreplacing the value at that position.\nValues at other positions are not affected.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_createtable",
-      "body": "<pre>void lua_createtable (lua_State *L, int narr, int nrec);</pre>\n<p>\n Creates a new empty table and pushes it onto the stack.\nParameter\n <code>\n  narr\n </code>\n is a hint for how many elements the table\nwill have as a sequence;\nparameter\n <code>\n  nrec\n </code>\n is a hint for how many other elements\nthe table will have.\nLua may use these hints to preallocate memory for the new table.\nThis preallocation may help performance when you know in advance\nhow many elements the table will have.\nOtherwise you can use the function\n <a href=\"#lua_newtable\">\n  <code>\n   lua_newtable\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_createtable",
+    body: '<pre>void lua_createtable (lua_State *L, int narr, int nrec);</pre>\n<p>\n Creates a new empty table and pushes it onto the stack.\nParameter\n <code>\n  narr\n </code>\n is a hint for how many elements the table\nwill have as a sequence;\nparameter\n <code>\n  nrec\n </code>\n is a hint for how many other elements\nthe table will have.\nLua may use these hints to preallocate memory for the new table.\nThis preallocation may help performance when you know in advance\nhow many elements the table will have.\nOtherwise you can use the function\n <a href="#lua_newtable">\n  <code>\n   lua_newtable\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_dump",
-      "body": "<pre>int lua_dump (lua_State *L,\n                        lua_Writer writer,\n                        void *data,\n                        int strip);</pre>\n<p>\n Dumps a function as a binary chunk.\nReceives a Lua function on the top of the stack\nand produces a binary chunk that,\nif loaded again,\nresults in a function equivalent to the one dumped.\nAs it produces parts of the chunk,\n <a href=\"#lua_dump\">\n  <code>\n   lua_dump\n  </code>\n </a>\n calls function\n <code>\n  writer\n </code>\n (see\n <a href=\"#lua_Writer\">\n  <code>\n   lua_Writer\n  </code>\n </a>\n )\nwith the given\n <code>\n  data\n </code>\n to write them.\n</p>\n<p>\n If\n <code>\n  strip\n </code>\n is true,\nthe binary representation may not include all debug information\nabout the function,\nto save space.\n</p>\n<p>\n The value returned is the error code returned by the last\ncall to the writer;\n0\u00a0means no errors.\n</p>\n<p>\n This function does not pop the Lua function from the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_dump",
+    body: '<pre>int lua_dump (lua_State *L,\n                        lua_Writer writer,\n                        void *data,\n                        int strip);</pre>\n<p>\n Dumps a function as a binary chunk.\nReceives a Lua function on the top of the stack\nand produces a binary chunk that,\nif loaded again,\nresults in a function equivalent to the one dumped.\nAs it produces parts of the chunk,\n <a href="#lua_dump">\n  <code>\n   lua_dump\n  </code>\n </a>\n calls function\n <code>\n  writer\n </code>\n (see\n <a href="#lua_Writer">\n  <code>\n   lua_Writer\n  </code>\n </a>\n )\nwith the given\n <code>\n  data\n </code>\n to write them.\n</p>\n<p>\n If\n <code>\n  strip\n </code>\n is true,\nthe binary representation may not include all debug information\nabout the function,\nto save space.\n</p>\n<p>\n The value returned is the error code returned by the last\ncall to the writer;\n0\u00a0means no errors.\n</p>\n<p>\n This function does not pop the Lua function from the stack.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_error",
-      "body": "<pre>int lua_error (lua_State *L);</pre>\n<p>\n Raises a Lua error,\nusing the value on the top of the stack as the error object.\nThis function does a long jump,\nand therefore never returns\n(see\n <a href=\"#luaL_error\">\n  <code>\n   luaL_error\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_error",
+    body: '<pre>int lua_error (lua_State *L);</pre>\n<p>\n Raises a Lua error,\nusing the value on the top of the stack as the error object.\nThis function does a long jump,\nand therefore never returns\n(see\n <a href="#luaL_error">\n  <code>\n   luaL_error\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_gc",
-      "body": "<pre>int lua_gc (lua_State *L, int what, ...);</pre>\n<p>\n Controls the garbage collector.\n</p>\n<p>\n This function performs several tasks,\naccording to the value of the parameter\n <code>\n  what\n </code>\n .\nFor options that need extra arguments,\nthey are listed after the option.\n</p>\n<ul>\n <li>\n  <b>\n   <code>\n    LUA_GCCOLLECT\n   </code>\n   :\n  </b>\n  Performs a full garbage-collection cycle.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCSTOP\n   </code>\n   :\n  </b>\n  Stops the garbage collector.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCRESTART\n   </code>\n   :\n  </b>\n  Restarts the garbage collector.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCCOUNT\n   </code>\n   :\n  </b>\n  Returns the current amount of memory (in Kbytes) in use by Lua.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCCOUNTB\n   </code>\n   :\n  </b>\n  Returns the remainder of dividing the current amount of bytes of\nmemory in use by Lua by 1024.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCSTEP\n   </code>\n   <code>\n    (int stepsize)\n   </code>\n   :\n  </b>\n  Performs an incremental step of garbage collection,\ncorresponding to the allocation of\n  <code>\n   stepsize\n  </code>\n  Kbytes.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCISRUNNING\n   </code>\n   :\n  </b>\n  Returns a boolean that tells whether the collector is running\n(i.e., not stopped).\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCINC\n   </code>\n   (int pause, int stepmul, stepsize):\n  </b>\n  Changes the collector to incremental mode\nwith the given parameters (see\n  <a href=\"#2.5.1\">\n   \u00a72.5.1\n  </a>\n  ).\nReturns the previous mode (\n  <code>\n   LUA_GCGEN\n  </code>\n  or\n  <code>\n   LUA_GCINC\n  </code>\n  ).\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCGEN\n   </code>\n   (int minormul, int majormul):\n  </b>\n  Changes the collector to generational mode\nwith the given parameters (see\n  <a href=\"#2.5.2\">\n   \u00a72.5.2\n  </a>\n  ).\nReturns the previous mode (\n  <code>\n   LUA_GCGEN\n  </code>\n  or\n  <code>\n   LUA_GCINC\n  </code>\n  ).\n </li>\n</ul>\n<p>\n For more details about these options,\nsee\n <a href=\"#pdf-collectgarbage\">\n  <code>\n   collectgarbage\n  </code>\n </a>\n .\n</p>\n<p>\n This function should not be called by a finalizer.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_gc",
+    body: '<pre>int lua_gc (lua_State *L, int what, ...);</pre>\n<p>\n Controls the garbage collector.\n</p>\n<p>\n This function performs several tasks,\naccording to the value of the parameter\n <code>\n  what\n </code>\n .\nFor options that need extra arguments,\nthey are listed after the option.\n</p>\n<ul>\n <li>\n  <b>\n   <code>\n    LUA_GCCOLLECT\n   </code>\n   :\n  </b>\n  Performs a full garbage-collection cycle.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCSTOP\n   </code>\n   :\n  </b>\n  Stops the garbage collector.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCRESTART\n   </code>\n   :\n  </b>\n  Restarts the garbage collector.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCCOUNT\n   </code>\n   :\n  </b>\n  Returns the current amount of memory (in Kbytes) in use by Lua.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCCOUNTB\n   </code>\n   :\n  </b>\n  Returns the remainder of dividing the current amount of bytes of\nmemory in use by Lua by 1024.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCSTEP\n   </code>\n   <code>\n    (int stepsize)\n   </code>\n   :\n  </b>\n  Performs an incremental step of garbage collection,\ncorresponding to the allocation of\n  <code>\n   stepsize\n  </code>\n  Kbytes.\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCISRUNNING\n   </code>\n   :\n  </b>\n  Returns a boolean that tells whether the collector is running\n(i.e., not stopped).\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCINC\n   </code>\n   (int pause, int stepmul, stepsize):\n  </b>\n  Changes the collector to incremental mode\nwith the given parameters (see\n  <a href="#2.5.1">\n   \u00a72.5.1\n  </a>\n  ).\nReturns the previous mode (\n  <code>\n   LUA_GCGEN\n  </code>\n  or\n  <code>\n   LUA_GCINC\n  </code>\n  ).\n </li>\n <li>\n  <b>\n   <code>\n    LUA_GCGEN\n   </code>\n   (int minormul, int majormul):\n  </b>\n  Changes the collector to generational mode\nwith the given parameters (see\n  <a href="#2.5.2">\n   \u00a72.5.2\n  </a>\n  ).\nReturns the previous mode (\n  <code>\n   LUA_GCGEN\n  </code>\n  or\n  <code>\n   LUA_GCINC\n  </code>\n  ).\n </li>\n</ul>\n<p>\n For more details about these options,\nsee\n <a href="#pdf-collectgarbage">\n  <code>\n   collectgarbage\n  </code>\n </a>\n .\n</p>\n<p>\n This function should not be called by a finalizer.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getallocf",
-      "body": "<pre>lua_Alloc lua_getallocf (lua_State *L, void **ud);</pre>\n<p>\n Returns the memory-allocation function of a given state.\nIf\n <code>\n  ud\n </code>\n is not\n <code>\n  NULL\n </code>\n , Lua stores in\n <code>\n  *ud\n </code>\n the\nopaque pointer given when the memory-allocator function was set.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getallocf",
+    body: "<pre>lua_Alloc lua_getallocf (lua_State *L, void **ud);</pre>\n<p>\n Returns the memory-allocation function of a given state.\nIf\n <code>\n  ud\n </code>\n is not\n <code>\n  NULL\n </code>\n , Lua stores in\n <code>\n  *ud\n </code>\n the\nopaque pointer given when the memory-allocator function was set.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getfield",
-      "body": "<pre>int lua_getfield (lua_State *L, int index, const char *k);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[k]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index.\nAs in Lua, this function may trigger a metamethod\nfor the \"index\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getfield",
+    body: '<pre>int lua_getfield (lua_State *L, int index, const char *k);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[k]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index.\nAs in Lua, this function may trigger a metamethod\nfor the "index" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getextraspace",
-      "body": "<pre>void *lua_getextraspace (lua_State *L);</pre>\n<p>\n Returns a pointer to a raw memory area associated with the\ngiven Lua state.\nThe application can use this area for any purpose;\nLua does not use it for anything.\n</p>\n<p>\n Each new thread has this area initialized with a copy\nof the area of the main thread.\n</p>\n<p>\n By default, this area has the size of a pointer to void,\nbut you can recompile Lua with a different size for this area.\n(See\n <code>\n  LUA_EXTRASPACE\n </code>\n in\n <code>\n  luaconf.h\n </code>\n .)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getextraspace",
+    body: "<pre>void *lua_getextraspace (lua_State *L);</pre>\n<p>\n Returns a pointer to a raw memory area associated with the\ngiven Lua state.\nThe application can use this area for any purpose;\nLua does not use it for anything.\n</p>\n<p>\n Each new thread has this area initialized with a copy\nof the area of the main thread.\n</p>\n<p>\n By default, this area has the size of a pointer to void,\nbut you can recompile Lua with a different size for this area.\n(See\n <code>\n  LUA_EXTRASPACE\n </code>\n in\n <code>\n  luaconf.h\n </code>\n .)\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getglobal",
-      "body": "<pre>int lua_getglobal (lua_State *L, const char *name);</pre>\n<p>\n Pushes onto the stack the value of the global\n <code>\n  name\n </code>\n .\nReturns the type of that value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getglobal",
+    body: "<pre>int lua_getglobal (lua_State *L, const char *name);</pre>\n<p>\n Pushes onto the stack the value of the global\n <code>\n  name\n </code>\n .\nReturns the type of that value.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_geti",
-      "body": "<pre>int lua_geti (lua_State *L, int index, lua_Integer i);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[i]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index.\nAs in Lua, this function may trigger a metamethod\nfor the \"index\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_geti",
+    body: '<pre>int lua_geti (lua_State *L, int index, lua_Integer i);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[i]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index.\nAs in Lua, this function may trigger a metamethod\nfor the "index" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getmetatable",
-      "body": "<pre>int lua_getmetatable (lua_State *L, int index);</pre>\n<p>\n If the value at the given index has a metatable,\nthe function pushes that metatable onto the stack and returns\u00a01.\nOtherwise,\nthe function returns\u00a00 and pushes nothing on the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getmetatable",
+    body: "<pre>int lua_getmetatable (lua_State *L, int index);</pre>\n<p>\n If the value at the given index has a metatable,\nthe function pushes that metatable onto the stack and returns\u00a01.\nOtherwise,\nthe function returns\u00a00 and pushes nothing on the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_gettable",
-      "body": "<pre>int lua_gettable (lua_State *L, int index);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[k]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index\nand\n <code>\n  k\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the key from the stack,\npushing the resulting value in its place.\nAs in Lua, this function may trigger a metamethod\nfor the \"index\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_gettable",
+    body: '<pre>int lua_gettable (lua_State *L, int index);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[k]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index\nand\n <code>\n  k\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the key from the stack,\npushing the resulting value in its place.\nAs in Lua, this function may trigger a metamethod\nfor the "index" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_gettop",
-      "body": "<pre>int lua_gettop (lua_State *L);</pre>\n<p>\n Returns the index of the top element in the stack.\nBecause indices start at\u00a01,\nthis result is equal to the number of elements in the stack;\nin particular, 0\u00a0means an empty stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_gettop",
+    body: "<pre>int lua_gettop (lua_State *L);</pre>\n<p>\n Returns the index of the top element in the stack.\nBecause indices start at\u00a01,\nthis result is equal to the number of elements in the stack;\nin particular, 0\u00a0means an empty stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getiuservalue",
-      "body": "<pre>int lua_getiuservalue (lua_State *L, int index, int n);</pre>\n<p>\n Pushes onto the stack the\n <code>\n  n\n </code>\n -th user value associated with the\nfull userdata at the given index and\nreturns the type of the pushed value.\n</p>\n<p>\n If the userdata does not have that value,\npushes\n <b>\n  nil\n </b>\n and returns\n <a href=\"#pdf-LUA_TNONE\">\n  <code>\n   LUA_TNONE\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getiuservalue",
+    body: '<pre>int lua_getiuservalue (lua_State *L, int index, int n);</pre>\n<p>\n Pushes onto the stack the\n <code>\n  n\n </code>\n -th user value associated with the\nfull userdata at the given index and\nreturns the type of the pushed value.\n</p>\n<p>\n If the userdata does not have that value,\npushes\n <b>\n  nil\n </b>\n and returns\n <a href="#pdf-LUA_TNONE">\n  <code>\n   LUA_TNONE\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_insert",
-      "body": "<pre>void lua_insert (lua_State *L, int index);</pre>\n<p>\n Moves the top element into the given valid index,\nshifting up the elements above this index to open space.\nThis function cannot be called with a pseudo-index,\nbecause a pseudo-index is not an actual stack position.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_insert",
+    body: "<pre>void lua_insert (lua_State *L, int index);</pre>\n<p>\n Moves the top element into the given valid index,\nshifting up the elements above this index to open space.\nThis function cannot be called with a pseudo-index,\nbecause a pseudo-index is not an actual stack position.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Integer",
-      "body": "<pre>typedef ... lua_Integer;</pre>\n<p>\n The type of integers in Lua.\n</p>\n<p>\n By default this type is\n <code>\n  long long\n </code>\n ,\n(usually a 64-bit two-complement integer),\nbut that can be changed to\n <code>\n  long\n </code>\n or\n <code>\n  int\n </code>\n (usually a 32-bit two-complement integer).\n(See\n <code>\n  LUA_INT_TYPE\n </code>\n in\n <code>\n  luaconf.h\n </code>\n .)\n</p>\n<p>\n Lua also defines the constants\n <a name=\"pdf-LUA_MININTEGER\">\n  <code>\n   LUA_MININTEGER\n  </code>\n </a>\n and\n <a name=\"pdf-LUA_MAXINTEGER\">\n  <code>\n   LUA_MAXINTEGER\n  </code>\n </a>\n ,\nwith the minimum and the maximum values that fit in this type.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Integer",
+    body: '<pre>typedef ... lua_Integer;</pre>\n<p>\n The type of integers in Lua.\n</p>\n<p>\n By default this type is\n <code>\n  long long\n </code>\n ,\n(usually a 64-bit two-complement integer),\nbut that can be changed to\n <code>\n  long\n </code>\n or\n <code>\n  int\n </code>\n (usually a 32-bit two-complement integer).\n(See\n <code>\n  LUA_INT_TYPE\n </code>\n in\n <code>\n  luaconf.h\n </code>\n .)\n</p>\n<p>\n Lua also defines the constants\n <a name="pdf-LUA_MININTEGER">\n  <code>\n   LUA_MININTEGER\n  </code>\n </a>\n and\n <a name="pdf-LUA_MAXINTEGER">\n  <code>\n   LUA_MAXINTEGER\n  </code>\n </a>\n ,\nwith the minimum and the maximum values that fit in this type.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isboolean",
-      "body": "<pre>int lua_isboolean (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a boolean,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isboolean",
+    body: "<pre>int lua_isboolean (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a boolean,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_iscfunction",
-      "body": "<pre>int lua_iscfunction (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a C\u00a0function,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_iscfunction",
+    body: "<pre>int lua_iscfunction (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a C\u00a0function,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isfunction",
-      "body": "<pre>int lua_isfunction (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a function\n(either C or Lua), and 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isfunction",
+    body: "<pre>int lua_isfunction (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a function\n(either C or Lua), and 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isinteger",
-      "body": "<pre>int lua_isinteger (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is an integer\n(that is, the value is a number and is represented as an integer),\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isinteger",
+    body: "<pre>int lua_isinteger (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is an integer\n(that is, the value is a number and is represented as an integer),\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_islightuserdata",
-      "body": "<pre>int lua_islightuserdata (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a light userdata,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_islightuserdata",
+    body: "<pre>int lua_islightuserdata (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a light userdata,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isnil",
-      "body": "<pre>int lua_isnil (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is\n <b>\n  nil\n </b>\n ,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isnil",
+    body: "<pre>int lua_isnil (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is\n <b>\n  nil\n </b>\n ,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isnone",
-      "body": "<pre>int lua_isnone (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the given index is not valid,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isnone",
+    body: "<pre>int lua_isnone (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the given index is not valid,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isnoneornil",
-      "body": "<pre>int lua_isnoneornil (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the given index is not valid\nor if the value at this index is\n <b>\n  nil\n </b>\n ,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isnoneornil",
+    body: "<pre>int lua_isnoneornil (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the given index is not valid\nor if the value at this index is\n <b>\n  nil\n </b>\n ,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isnumber",
-      "body": "<pre>int lua_isnumber (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a number\nor a string convertible to a number,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isnumber",
+    body: "<pre>int lua_isnumber (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a number\nor a string convertible to a number,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isstring",
-      "body": "<pre>int lua_isstring (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a string\nor a number (which is always convertible to a string),\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isstring",
+    body: "<pre>int lua_isstring (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a string\nor a number (which is always convertible to a string),\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_istable",
-      "body": "<pre>int lua_istable (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a table,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_istable",
+    body: "<pre>int lua_istable (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a table,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isthread",
-      "body": "<pre>int lua_isthread (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a thread,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isthread",
+    body: "<pre>int lua_isthread (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a thread,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isuserdata",
-      "body": "<pre>int lua_isuserdata (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a userdata\n(either full or light), and 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isuserdata",
+    body: "<pre>int lua_isuserdata (lua_State *L, int index);</pre>\n<p>\n Returns 1 if the value at the given index is a userdata\n(either full or light), and 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_isyieldable",
-      "body": "<pre>int lua_isyieldable (lua_State *L);</pre>\n<p>\n Returns 1 if the given coroutine can yield,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_isyieldable",
+    body: "<pre>int lua_isyieldable (lua_State *L);</pre>\n<p>\n Returns 1 if the given coroutine can yield,\nand 0\u00a0otherwise.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_KContext",
-      "body": "<pre>typedef ... lua_KContext;</pre>\n<p>\n The type for continuation-function contexts.\nIt must be a numeric type.\nThis type is defined as\n <code>\n  intptr_t\n </code>\n when\n <code>\n  intptr_t\n </code>\n is available,\nso that it can store pointers too.\nOtherwise, it is defined as\n <code>\n  ptrdiff_t\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_KContext",
+    body: "<pre>typedef ... lua_KContext;</pre>\n<p>\n The type for continuation-function contexts.\nIt must be a numeric type.\nThis type is defined as\n <code>\n  intptr_t\n </code>\n when\n <code>\n  intptr_t\n </code>\n is available,\nso that it can store pointers too.\nOtherwise, it is defined as\n <code>\n  ptrdiff_t\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_KFunction",
-      "body": "<pre>typedef int (*lua_KFunction) (lua_State *L, int status, lua_KContext ctx);</pre>\n<p>\n Type for continuation functions (see\n <a href=\"#4.5\">\n  \u00a74.5\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_KFunction",
+    body: '<pre>typedef int (*lua_KFunction) (lua_State *L, int status, lua_KContext ctx);</pre>\n<p>\n Type for continuation functions (see\n <a href="#4.5">\n  \u00a74.5\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_len",
-      "body": "<pre>void lua_len (lua_State *L, int index);</pre>\n<p>\n Returns the length of the value at the given index.\nIt is equivalent to the '\n <code>\n  #\n </code>\n ' operator in Lua (see\n <a href=\"#3.4.7\">\n  \u00a73.4.7\n </a>\n ) and\nmay trigger a metamethod for the \"length\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\nThe result is pushed on the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_len",
+    body: '<pre>void lua_len (lua_State *L, int index);</pre>\n<p>\n Returns the length of the value at the given index.\nIt is equivalent to the \'\n <code>\n  #\n </code>\n \' operator in Lua (see\n <a href="#3.4.7">\n  \u00a73.4.7\n </a>\n ) and\nmay trigger a metamethod for the "length" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\nThe result is pushed on the stack.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_load",
-      "body": "<pre>int lua_load (lua_State *L,\n              lua_Reader reader,\n              void *data,\n              const char *chunkname,\n              const char *mode);</pre>\n<p>\n Loads a Lua chunk without running it.\nIf there are no errors,\n <code>\n  lua_load\n </code>\n pushes the compiled chunk as a Lua\nfunction on top of the stack.\nOtherwise, it pushes an error message.\n</p>\n<p>\n The\n <code>\n  lua_load\n </code>\n function uses a user-supplied\n <code>\n  reader\n </code>\n function\nto read the chunk (see\n <a href=\"#lua_Reader\">\n  <code>\n   lua_Reader\n  </code>\n </a>\n ).\nThe\n <code>\n  data\n </code>\n argument is an opaque value passed to the reader function.\n</p>\n<p>\n The\n <code>\n  chunkname\n </code>\n argument gives a name to the chunk,\nwhich is used for error messages and in debug information (see\n <a href=\"#4.7\">\n  \u00a74.7\n </a>\n ).\n</p>\n<p>\n <code>\n  lua_load\n </code>\n automatically detects whether the chunk is text or binary\nand loads it accordingly (see program\n <code>\n  luac\n </code>\n ).\nThe string\n <code>\n  mode\n </code>\n works as in function\n <a href=\"#pdf-load\">\n  <code>\n   load\n  </code>\n </a>\n ,\nwith the addition that\na\n <code>\n  NULL\n </code>\n value is equivalent to the string \"\n <code>\n  bt\n </code>\n \".\n</p>\n<p>\n <code>\n  lua_load\n </code>\n uses the stack internally,\nso the reader function must always leave the stack\nunmodified when returning.\n</p>\n<p>\n <code>\n  lua_load\n </code>\n can return\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n ,\n <a href=\"#pdf-LUA_ERRSYNTAX\">\n  <code>\n   LUA_ERRSYNTAX\n  </code>\n </a>\n , or\n <a href=\"#pdf-LUA_ERRMEM\">\n  <code>\n   LUA_ERRMEM\n  </code>\n </a>\n .\nThe function may also return other values corresponding to\nerrors raised by the read function (see\n <a href=\"#4.4.1\">\n  \u00a74.4.1\n </a>\n ).\n</p>\n<p>\n If the resulting function has upvalues,\nits first upvalue is set to the value of the global environment\nstored at index\n <code>\n  LUA_RIDX_GLOBALS\n </code>\n in the registry (see\n <a href=\"#4.3\">\n  \u00a74.3\n </a>\n ).\nWhen loading main chunks,\nthis upvalue will be the\n <code>\n  _ENV\n </code>\n variable (see\n <a href=\"#2.2\">\n  \u00a72.2\n </a>\n ).\nOther upvalues are initialized with\n <b>\n  nil\n </b>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_load",
+    body: '<pre>int lua_load (lua_State *L,\n              lua_Reader reader,\n              void *data,\n              const char *chunkname,\n              const char *mode);</pre>\n<p>\n Loads a Lua chunk without running it.\nIf there are no errors,\n <code>\n  lua_load\n </code>\n pushes the compiled chunk as a Lua\nfunction on top of the stack.\nOtherwise, it pushes an error message.\n</p>\n<p>\n The\n <code>\n  lua_load\n </code>\n function uses a user-supplied\n <code>\n  reader\n </code>\n function\nto read the chunk (see\n <a href="#lua_Reader">\n  <code>\n   lua_Reader\n  </code>\n </a>\n ).\nThe\n <code>\n  data\n </code>\n argument is an opaque value passed to the reader function.\n</p>\n<p>\n The\n <code>\n  chunkname\n </code>\n argument gives a name to the chunk,\nwhich is used for error messages and in debug information (see\n <a href="#4.7">\n  \u00a74.7\n </a>\n ).\n</p>\n<p>\n <code>\n  lua_load\n </code>\n automatically detects whether the chunk is text or binary\nand loads it accordingly (see program\n <code>\n  luac\n </code>\n ).\nThe string\n <code>\n  mode\n </code>\n works as in function\n <a href="#pdf-load">\n  <code>\n   load\n  </code>\n </a>\n ,\nwith the addition that\na\n <code>\n  NULL\n </code>\n value is equivalent to the string "\n <code>\n  bt\n </code>\n ".\n</p>\n<p>\n <code>\n  lua_load\n </code>\n uses the stack internally,\nso the reader function must always leave the stack\nunmodified when returning.\n</p>\n<p>\n <code>\n  lua_load\n </code>\n can return\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n ,\n <a href="#pdf-LUA_ERRSYNTAX">\n  <code>\n   LUA_ERRSYNTAX\n  </code>\n </a>\n , or\n <a href="#pdf-LUA_ERRMEM">\n  <code>\n   LUA_ERRMEM\n  </code>\n </a>\n .\nThe function may also return other values corresponding to\nerrors raised by the read function (see\n <a href="#4.4.1">\n  \u00a74.4.1\n </a>\n ).\n</p>\n<p>\n If the resulting function has upvalues,\nits first upvalue is set to the value of the global environment\nstored at index\n <code>\n  LUA_RIDX_GLOBALS\n </code>\n in the registry (see\n <a href="#4.3">\n  \u00a74.3\n </a>\n ).\nWhen loading main chunks,\nthis upvalue will be the\n <code>\n  _ENV\n </code>\n variable (see\n <a href="#2.2">\n  \u00a72.2\n </a>\n ).\nOther upvalues are initialized with\n <b>\n  nil\n </b>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_newstate",
-      "body": "<pre>lua_State *lua_newstate (lua_Alloc f, void *ud);</pre>\n<p>\n Creates a new independent state and returns its main thread.\nReturns\n <code>\n  NULL\n </code>\n if it cannot create the state\n(due to lack of memory).\nThe argument\n <code>\n  f\n </code>\n is the allocator function;\nLua will do all memory allocation for this state\nthrough this function (see\n <a href=\"#lua_Alloc\">\n  <code>\n   lua_Alloc\n  </code>\n </a>\n ).\nThe second argument,\n <code>\n  ud\n </code>\n , is an opaque pointer that Lua\npasses to the allocator in every call.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_newstate",
+    body: '<pre>lua_State *lua_newstate (lua_Alloc f, void *ud);</pre>\n<p>\n Creates a new independent state and returns its main thread.\nReturns\n <code>\n  NULL\n </code>\n if it cannot create the state\n(due to lack of memory).\nThe argument\n <code>\n  f\n </code>\n is the allocator function;\nLua will do all memory allocation for this state\nthrough this function (see\n <a href="#lua_Alloc">\n  <code>\n   lua_Alloc\n  </code>\n </a>\n ).\nThe second argument,\n <code>\n  ud\n </code>\n , is an opaque pointer that Lua\npasses to the allocator in every call.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_newtable",
-      "body": "<pre>void lua_newtable (lua_State *L);</pre>\n<p>\n Creates a new empty table and pushes it onto the stack.\nIt is equivalent to\n <code>\n  lua_createtable(L, 0, 0)\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_newtable",
+    body: "<pre>void lua_newtable (lua_State *L);</pre>\n<p>\n Creates a new empty table and pushes it onto the stack.\nIt is equivalent to\n <code>\n  lua_createtable(L, 0, 0)\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_newthread",
-      "body": "<pre>lua_State *lua_newthread (lua_State *L);</pre>\n<p>\n Creates a new thread, pushes it on the stack,\nand returns a pointer to a\n <a href=\"#lua_State\">\n  <code>\n   lua_State\n  </code>\n </a>\n that represents this new thread.\nThe new thread returned by this function shares with the original thread\nits global environment,\nbut has an independent execution stack.\n</p>\n<p>\n Threads are subject to garbage collection,\nlike any Lua object.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_newthread",
+    body: '<pre>lua_State *lua_newthread (lua_State *L);</pre>\n<p>\n Creates a new thread, pushes it on the stack,\nand returns a pointer to a\n <a href="#lua_State">\n  <code>\n   lua_State\n  </code>\n </a>\n that represents this new thread.\nThe new thread returned by this function shares with the original thread\nits global environment,\nbut has an independent execution stack.\n</p>\n<p>\n Threads are subject to garbage collection,\nlike any Lua object.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_newuserdatauv",
-      "body": "<pre>void *lua_newuserdatauv (lua_State *L, size_t size, int nuvalue);</pre>\n<p>\n This function creates and pushes on the stack a new full userdata,\nwith\n <code>\n  nuvalue\n </code>\n associated Lua values, called\n <code>\n  user values\n </code>\n ,\nplus an associated block of raw memory with\n <code>\n  size\n </code>\n bytes.\n(The user values can be set and read with the functions\n <a href=\"#lua_setiuservalue\">\n  <code>\n   lua_setiuservalue\n  </code>\n </a>\n and\n <a href=\"#lua_getiuservalue\">\n  <code>\n   lua_getiuservalue\n  </code>\n </a>\n .)\n</p>\n<p>\n The function returns the address of the block of memory.\nLua ensures that this address is valid as long as\nthe corresponding userdata is alive (see\n <a href=\"#2.5\">\n  \u00a72.5\n </a>\n ).\nMoreover, if the userdata is marked for finalization (see\n <a href=\"#2.5.3\">\n  \u00a72.5.3\n </a>\n ),\nits address is valid at least until the call to its finalizer.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_newuserdatauv",
+    body: '<pre>void *lua_newuserdatauv (lua_State *L, size_t size, int nuvalue);</pre>\n<p>\n This function creates and pushes on the stack a new full userdata,\nwith\n <code>\n  nuvalue\n </code>\n associated Lua values, called\n <code>\n  user values\n </code>\n ,\nplus an associated block of raw memory with\n <code>\n  size\n </code>\n bytes.\n(The user values can be set and read with the functions\n <a href="#lua_setiuservalue">\n  <code>\n   lua_setiuservalue\n  </code>\n </a>\n and\n <a href="#lua_getiuservalue">\n  <code>\n   lua_getiuservalue\n  </code>\n </a>\n .)\n</p>\n<p>\n The function returns the address of the block of memory.\nLua ensures that this address is valid as long as\nthe corresponding userdata is alive (see\n <a href="#2.5">\n  \u00a72.5\n </a>\n ).\nMoreover, if the userdata is marked for finalization (see\n <a href="#2.5.3">\n  \u00a72.5.3\n </a>\n ),\nits address is valid at least until the call to its finalizer.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_next",
-      "body": "<pre>int lua_next (lua_State *L, int index);</pre>\n<p>\n Pops a key from the stack,\nand pushes a key\u2013value pair from the table at the given index,\nthe \"next\" pair after the given key.\nIf there are no more elements in the table,\nthen\n <a href=\"#lua_next\">\n  <code>\n   lua_next\n  </code>\n </a>\n returns 0 and pushes nothing.\n</p>\n<p>\n A typical table traversal looks like this:\n</p>\n<pre>     /* table is in the stack at index 't' */\n     lua_pushnil(L);  /* first key */\n     while (lua_next(L, t) != 0) {\n       /* uses 'key' (at index -2) and 'value' (at index -1) */\n       printf(\"%s - %s\\n\",\n              lua_typename(L, lua_type(L, -2)),\n              lua_typename(L, lua_type(L, -1)));\n       /* removes 'value'; keeps 'key' for next iteration */\n       lua_pop(L, 1);\n     }\n</pre>\n<p>\n While traversing a table,\navoid calling\n <a href=\"#lua_tolstring\">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n directly on a key,\nunless you know that the key is actually a string.\nRecall that\n <a href=\"#lua_tolstring\">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n may change\nthe value at the given index;\nthis confuses the next call to\n <a href=\"#lua_next\">\n  <code>\n   lua_next\n  </code>\n </a>\n .\n</p>\n<p>\n This function may raise an error if the given key\nis neither\n <b>\n  nil\n </b>\n nor present in the table.\nSee function\n <a href=\"#pdf-next\">\n  <code>\n   next\n  </code>\n </a>\n for the caveats of modifying\nthe table during its traversal.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_next",
+    body: '<pre>int lua_next (lua_State *L, int index);</pre>\n<p>\n Pops a key from the stack,\nand pushes a key\u2013value pair from the table at the given index,\nthe "next" pair after the given key.\nIf there are no more elements in the table,\nthen\n <a href="#lua_next">\n  <code>\n   lua_next\n  </code>\n </a>\n returns 0 and pushes nothing.\n</p>\n<p>\n A typical table traversal looks like this:\n</p>\n<pre>     /* table is in the stack at index \'t\' */\n     lua_pushnil(L);  /* first key */\n     while (lua_next(L, t) != 0) {\n       /* uses \'key\' (at index -2) and \'value\' (at index -1) */\n       printf("%s - %s\\n",\n              lua_typename(L, lua_type(L, -2)),\n              lua_typename(L, lua_type(L, -1)));\n       /* removes \'value\'; keeps \'key\' for next iteration */\n       lua_pop(L, 1);\n     }\n</pre>\n<p>\n While traversing a table,\navoid calling\n <a href="#lua_tolstring">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n directly on a key,\nunless you know that the key is actually a string.\nRecall that\n <a href="#lua_tolstring">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n may change\nthe value at the given index;\nthis confuses the next call to\n <a href="#lua_next">\n  <code>\n   lua_next\n  </code>\n </a>\n .\n</p>\n<p>\n This function may raise an error if the given key\nis neither\n <b>\n  nil\n </b>\n nor present in the table.\nSee function\n <a href="#pdf-next">\n  <code>\n   next\n  </code>\n </a>\n for the caveats of modifying\nthe table during its traversal.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Number",
-      "body": "<pre>typedef ... lua_Number;</pre>\n<p>\n The type of floats in Lua.\n</p>\n<p>\n By default this type is double,\nbut that can be changed to a single float or a long double.\n(See\n <code>\n  LUA_FLOAT_TYPE\n </code>\n in\n <code>\n  luaconf.h\n </code>\n .)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Number",
+    body: "<pre>typedef ... lua_Number;</pre>\n<p>\n The type of floats in Lua.\n</p>\n<p>\n By default this type is double,\nbut that can be changed to a single float or a long double.\n(See\n <code>\n  LUA_FLOAT_TYPE\n </code>\n in\n <code>\n  luaconf.h\n </code>\n .)\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_numbertointeger",
-      "body": "<pre>int lua_numbertointeger (lua_Number n, lua_Integer *p);</pre>\n<p>\n Tries to convert a Lua float to a Lua integer;\nthe float\n <code>\n  n\n </code>\n must have an integral value.\nIf that value is within the range of Lua integers,\nit is converted to an integer and assigned to\n <code>\n  *p\n </code>\n .\nThe macro results in a boolean indicating whether the\nconversion was successful.\n(Note that this range test can be tricky to do\ncorrectly without this macro, due to rounding.)\n</p>\n<p>\n This macro may evaluate its arguments more than once.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_numbertointeger",
+    body: "<pre>int lua_numbertointeger (lua_Number n, lua_Integer *p);</pre>\n<p>\n Tries to convert a Lua float to a Lua integer;\nthe float\n <code>\n  n\n </code>\n must have an integral value.\nIf that value is within the range of Lua integers,\nit is converted to an integer and assigned to\n <code>\n  *p\n </code>\n .\nThe macro results in a boolean indicating whether the\nconversion was successful.\n(Note that this range test can be tricky to do\ncorrectly without this macro, due to rounding.)\n</p>\n<p>\n This macro may evaluate its arguments more than once.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pcall",
-      "body": "<pre>int lua_pcall (lua_State *L, int nargs, int nresults, int msgh);</pre>\n<p>\n Calls a function (or a callable object) in protected mode.\n</p>\n<p>\n Both\n <code>\n  nargs\n </code>\n and\n <code>\n  nresults\n </code>\n have the same meaning as\nin\n <a href=\"#lua_call\">\n  <code>\n   lua_call\n  </code>\n </a>\n .\nIf there are no errors during the call,\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n behaves exactly like\n <a href=\"#lua_call\">\n  <code>\n   lua_call\n  </code>\n </a>\n .\nHowever, if there is any error,\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n catches it,\npushes a single value on the stack (the error object),\nand returns an error code.\nLike\n <a href=\"#lua_call\">\n  <code>\n   lua_call\n  </code>\n </a>\n ,\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n always removes the function\nand its arguments from the stack.\n</p>\n<p>\n If\n <code>\n  msgh\n </code>\n is 0,\nthen the error object returned on the stack\nis exactly the original error object.\nOtherwise,\n <code>\n  msgh\n </code>\n is the stack index of a\n <em>\n  message handler\n </em>\n .\n(This index cannot be a pseudo-index.)\nIn case of runtime errors,\nthis handler will be called with the error object\nand its return value will be the object\nreturned on the stack by\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n .\n</p>\n<p>\n Typically, the message handler is used to add more debug\ninformation to the error object, such as a stack traceback.\nSuch information cannot be gathered after the return of\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n ,\nsince by then the stack has unwound.\n</p>\n<p>\n The\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n function returns one of the following status codes:\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n ,\n <a href=\"#pdf-LUA_ERRRUN\">\n  <code>\n   LUA_ERRRUN\n  </code>\n </a>\n ,\n <a href=\"#pdf-LUA_ERRMEM\">\n  <code>\n   LUA_ERRMEM\n  </code>\n </a>\n , or\n <a href=\"#pdf-LUA_ERRERR\">\n  <code>\n   LUA_ERRERR\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pcall",
+    body: '<pre>int lua_pcall (lua_State *L, int nargs, int nresults, int msgh);</pre>\n<p>\n Calls a function (or a callable object) in protected mode.\n</p>\n<p>\n Both\n <code>\n  nargs\n </code>\n and\n <code>\n  nresults\n </code>\n have the same meaning as\nin\n <a href="#lua_call">\n  <code>\n   lua_call\n  </code>\n </a>\n .\nIf there are no errors during the call,\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n behaves exactly like\n <a href="#lua_call">\n  <code>\n   lua_call\n  </code>\n </a>\n .\nHowever, if there is any error,\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n catches it,\npushes a single value on the stack (the error object),\nand returns an error code.\nLike\n <a href="#lua_call">\n  <code>\n   lua_call\n  </code>\n </a>\n ,\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n always removes the function\nand its arguments from the stack.\n</p>\n<p>\n If\n <code>\n  msgh\n </code>\n is 0,\nthen the error object returned on the stack\nis exactly the original error object.\nOtherwise,\n <code>\n  msgh\n </code>\n is the stack index of a\n <em>\n  message handler\n </em>\n .\n(This index cannot be a pseudo-index.)\nIn case of runtime errors,\nthis handler will be called with the error object\nand its return value will be the object\nreturned on the stack by\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n .\n</p>\n<p>\n Typically, the message handler is used to add more debug\ninformation to the error object, such as a stack traceback.\nSuch information cannot be gathered after the return of\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n ,\nsince by then the stack has unwound.\n</p>\n<p>\n The\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n function returns one of the following status codes:\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n ,\n <a href="#pdf-LUA_ERRRUN">\n  <code>\n   LUA_ERRRUN\n  </code>\n </a>\n ,\n <a href="#pdf-LUA_ERRMEM">\n  <code>\n   LUA_ERRMEM\n  </code>\n </a>\n , or\n <a href="#pdf-LUA_ERRERR">\n  <code>\n   LUA_ERRERR\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pcallk",
-      "body": "<pre>int lua_pcallk (lua_State *L,\n                int nargs,\n                int nresults,\n                int msgh,\n                lua_KContext ctx,\n                lua_KFunction k);</pre>\n<p>\n This function behaves exactly like\n <a href=\"#lua_pcall\">\n  <code>\n   lua_pcall\n  </code>\n </a>\n ,\nexcept that it allows the called function to yield (see\n <a href=\"#4.5\">\n  \u00a74.5\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pcallk",
+    body: '<pre>int lua_pcallk (lua_State *L,\n                int nargs,\n                int nresults,\n                int msgh,\n                lua_KContext ctx,\n                lua_KFunction k);</pre>\n<p>\n This function behaves exactly like\n <a href="#lua_pcall">\n  <code>\n   lua_pcall\n  </code>\n </a>\n ,\nexcept that it allows the called function to yield (see\n <a href="#4.5">\n  \u00a74.5\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pop",
-      "body": "<pre>void lua_pop (lua_State *L, int n);</pre>\n<p>\n Pops\n <code>\n  n\n </code>\n elements from the stack.\nIt is implemented as a macro over\n <a href=\"#lua_settop\">\n  <code>\n   lua_settop\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pop",
+    body: '<pre>void lua_pop (lua_State *L, int n);</pre>\n<p>\n Pops\n <code>\n  n\n </code>\n elements from the stack.\nIt is implemented as a macro over\n <a href="#lua_settop">\n  <code>\n   lua_settop\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushboolean",
-      "body": "<pre>void lua_pushboolean (lua_State *L, int b);</pre>\n<p>\n Pushes a boolean value with value\n <code>\n  b\n </code>\n onto the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushboolean",
+    body: "<pre>void lua_pushboolean (lua_State *L, int b);</pre>\n<p>\n Pushes a boolean value with value\n <code>\n  b\n </code>\n onto the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushcclosure",
-      "body": "<pre>void lua_pushcclosure (lua_State *L, lua_CFunction fn, int n);</pre>\n<p>\n Pushes a new C\u00a0closure onto the stack.\nThis function receives a pointer to a C\u00a0function\nand pushes onto the stack a Lua value of type\n <code>\n  function\n </code>\n that,\nwhen called, invokes the corresponding C\u00a0function.\nThe parameter\n <code>\n  n\n </code>\n tells how many upvalues this function will have\n(see\n <a href=\"#4.2\">\n  \u00a74.2\n </a>\n ).\n</p>\n<p>\n Any function to be callable by Lua must\nfollow the correct protocol to receive its parameters\nand return its results (see\n <a href=\"#lua_CFunction\">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n ).\n</p>\n<p>\n When a C\u00a0function is created,\nit is possible to associate some values with it,\nthe so called upvalues;\nthese upvalues are then accessible to the function whenever it is called.\nThis association is called a C\u00a0closure (see\n <a href=\"#4.2\">\n  \u00a74.2\n </a>\n ).\nTo create a C\u00a0closure,\nfirst the initial values for its upvalues must be pushed onto the stack.\n(When there are multiple upvalues, the first value is pushed first.)\nThen\n <a href=\"#lua_pushcclosure\">\n  <code>\n   lua_pushcclosure\n  </code>\n </a>\n is called to create and push the C\u00a0function onto the stack,\nwith the argument\n <code>\n  n\n </code>\n telling how many values will be\nassociated with the function.\n <a href=\"#lua_pushcclosure\">\n  <code>\n   lua_pushcclosure\n  </code>\n </a>\n also pops these values from the stack.\n</p>\n<p>\n The maximum value for\n <code>\n  n\n </code>\n is 255.\n</p>\n<p>\n When\n <code>\n  n\n </code>\n is zero,\nthis function creates a\n <em>\n  light C\u00a0function\n </em>\n ,\nwhich is just a pointer to the C\u00a0function.\nIn that case, it never raises a memory error.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushcclosure",
+    body: '<pre>void lua_pushcclosure (lua_State *L, lua_CFunction fn, int n);</pre>\n<p>\n Pushes a new C\u00a0closure onto the stack.\nThis function receives a pointer to a C\u00a0function\nand pushes onto the stack a Lua value of type\n <code>\n  function\n </code>\n that,\nwhen called, invokes the corresponding C\u00a0function.\nThe parameter\n <code>\n  n\n </code>\n tells how many upvalues this function will have\n(see\n <a href="#4.2">\n  \u00a74.2\n </a>\n ).\n</p>\n<p>\n Any function to be callable by Lua must\nfollow the correct protocol to receive its parameters\nand return its results (see\n <a href="#lua_CFunction">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n ).\n</p>\n<p>\n When a C\u00a0function is created,\nit is possible to associate some values with it,\nthe so called upvalues;\nthese upvalues are then accessible to the function whenever it is called.\nThis association is called a C\u00a0closure (see\n <a href="#4.2">\n  \u00a74.2\n </a>\n ).\nTo create a C\u00a0closure,\nfirst the initial values for its upvalues must be pushed onto the stack.\n(When there are multiple upvalues, the first value is pushed first.)\nThen\n <a href="#lua_pushcclosure">\n  <code>\n   lua_pushcclosure\n  </code>\n </a>\n is called to create and push the C\u00a0function onto the stack,\nwith the argument\n <code>\n  n\n </code>\n telling how many values will be\nassociated with the function.\n <a href="#lua_pushcclosure">\n  <code>\n   lua_pushcclosure\n  </code>\n </a>\n also pops these values from the stack.\n</p>\n<p>\n The maximum value for\n <code>\n  n\n </code>\n is 255.\n</p>\n<p>\n When\n <code>\n  n\n </code>\n is zero,\nthis function creates a\n <em>\n  light C\u00a0function\n </em>\n ,\nwhich is just a pointer to the C\u00a0function.\nIn that case, it never raises a memory error.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushcfunction",
-      "body": "<pre>void lua_pushcfunction (lua_State *L, lua_CFunction f);</pre>\n<p>\n Pushes a C\u00a0function onto the stack.\nThis function is equivalent to\n <a href=\"#lua_pushcclosure\">\n  <code>\n   lua_pushcclosure\n  </code>\n </a>\n with no upvalues.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushcfunction",
+    body: '<pre>void lua_pushcfunction (lua_State *L, lua_CFunction f);</pre>\n<p>\n Pushes a C\u00a0function onto the stack.\nThis function is equivalent to\n <a href="#lua_pushcclosure">\n  <code>\n   lua_pushcclosure\n  </code>\n </a>\n with no upvalues.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushfstring",
-      "body": "<pre>const char *lua_pushfstring (lua_State *L, const char *fmt, ...);</pre>\n<p>\n Pushes onto the stack a formatted string\nand returns a pointer to this string (see\n <a href=\"#4.1.3\">\n  \u00a74.1.3\n </a>\n ).\nIt is similar to the ISO\u00a0C function\n <code>\n  sprintf\n </code>\n ,\nbut has two important differences.\nFirst,\nyou do not have to allocate space for the result;\nthe result is a Lua string and Lua takes care of memory allocation\n(and deallocation, through garbage collection).\nSecond,\nthe conversion specifiers are quite restricted.\nThere are no flags, widths, or precisions.\nThe conversion specifiers can only be\n'\n <code>\n  %%\n </code>\n ' (inserts the character '\n <code>\n  %\n </code>\n '),\n'\n <code>\n  %s\n </code>\n ' (inserts a zero-terminated string, with no size restrictions),\n'\n <code>\n  %f\n </code>\n ' (inserts a\n <a href=\"#lua_Number\">\n  <code>\n   lua_Number\n  </code>\n </a>\n ),\n'\n <code>\n  %I\n </code>\n ' (inserts a\n <a href=\"#lua_Integer\">\n  <code>\n   lua_Integer\n  </code>\n </a>\n ),\n'\n <code>\n  %p\n </code>\n ' (inserts a pointer),\n'\n <code>\n  %d\n </code>\n ' (inserts an\n <code>\n  int\n </code>\n ),\n'\n <code>\n  %c\n </code>\n ' (inserts an\n <code>\n  int\n </code>\n as a one-byte character), and\n'\n <code>\n  %U\n </code>\n ' (inserts a\n <code>\n  long int\n </code>\n as a UTF-8 byte sequence).\n</p>\n<p>\n This function may raise errors due to memory overflow\nor an invalid conversion specifier.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushfstring",
+    body: "<pre>const char *lua_pushfstring (lua_State *L, const char *fmt, ...);</pre>\n<p>\n Pushes onto the stack a formatted string\nand returns a pointer to this string (see\n <a href=\"#4.1.3\">\n  \u00a74.1.3\n </a>\n ).\nIt is similar to the ISO\u00a0C function\n <code>\n  sprintf\n </code>\n ,\nbut has two important differences.\nFirst,\nyou do not have to allocate space for the result;\nthe result is a Lua string and Lua takes care of memory allocation\n(and deallocation, through garbage collection).\nSecond,\nthe conversion specifiers are quite restricted.\nThere are no flags, widths, or precisions.\nThe conversion specifiers can only be\n'\n <code>\n  %%\n </code>\n ' (inserts the character '\n <code>\n  %\n </code>\n '),\n'\n <code>\n  %s\n </code>\n ' (inserts a zero-terminated string, with no size restrictions),\n'\n <code>\n  %f\n </code>\n ' (inserts a\n <a href=\"#lua_Number\">\n  <code>\n   lua_Number\n  </code>\n </a>\n ),\n'\n <code>\n  %I\n </code>\n ' (inserts a\n <a href=\"#lua_Integer\">\n  <code>\n   lua_Integer\n  </code>\n </a>\n ),\n'\n <code>\n  %p\n </code>\n ' (inserts a pointer),\n'\n <code>\n  %d\n </code>\n ' (inserts an\n <code>\n  int\n </code>\n ),\n'\n <code>\n  %c\n </code>\n ' (inserts an\n <code>\n  int\n </code>\n as a one-byte character), and\n'\n <code>\n  %U\n </code>\n ' (inserts a\n <code>\n  long int\n </code>\n as a UTF-8 byte sequence).\n</p>\n<p>\n This function may raise errors due to memory overflow\nor an invalid conversion specifier.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushglobaltable",
-      "body": "<pre>void lua_pushglobaltable (lua_State *L);</pre>\n<p>\n Pushes the global environment onto the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushglobaltable",
+    body: "<pre>void lua_pushglobaltable (lua_State *L);</pre>\n<p>\n Pushes the global environment onto the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushinteger",
-      "body": "<pre>void lua_pushinteger (lua_State *L, lua_Integer n);</pre>\n<p>\n Pushes an integer with value\n <code>\n  n\n </code>\n onto the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushinteger",
+    body: "<pre>void lua_pushinteger (lua_State *L, lua_Integer n);</pre>\n<p>\n Pushes an integer with value\n <code>\n  n\n </code>\n onto the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushlightuserdata",
-      "body": "<pre>void lua_pushlightuserdata (lua_State *L, void *p);</pre>\n<p>\n Pushes a light userdata onto the stack.\n</p>\n<p>\n Userdata represent C\u00a0values in Lua.\nA\n <em>\n  light userdata\n </em>\n represents a pointer, a\n <code>\n  void*\n </code>\n .\nIt is a value (like a number):\nyou do not create it, it has no individual metatable,\nand it is not collected (as it was never created).\nA light userdata is equal to \"any\"\nlight userdata with the same C\u00a0address.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushlightuserdata",
+    body: '<pre>void lua_pushlightuserdata (lua_State *L, void *p);</pre>\n<p>\n Pushes a light userdata onto the stack.\n</p>\n<p>\n Userdata represent C\u00a0values in Lua.\nA\n <em>\n  light userdata\n </em>\n represents a pointer, a\n <code>\n  void*\n </code>\n .\nIt is a value (like a number):\nyou do not create it, it has no individual metatable,\nand it is not collected (as it was never created).\nA light userdata is equal to "any"\nlight userdata with the same C\u00a0address.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushliteral",
-      "body": "<pre>const char *lua_pushliteral (lua_State *L, const char *s);</pre>\n<p>\n This macro is equivalent to\n <a href=\"#lua_pushstring\">\n  <code>\n   lua_pushstring\n  </code>\n </a>\n ,\nbut should be used only when\n <code>\n  s\n </code>\n is a literal string.\n(Lua may optimize this case.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushliteral",
+    body: '<pre>const char *lua_pushliteral (lua_State *L, const char *s);</pre>\n<p>\n This macro is equivalent to\n <a href="#lua_pushstring">\n  <code>\n   lua_pushstring\n  </code>\n </a>\n ,\nbut should be used only when\n <code>\n  s\n </code>\n is a literal string.\n(Lua may optimize this case.)\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushlstring",
-      "body": "<pre>const char *lua_pushlstring (lua_State *L, const char *s, size_t len);</pre>\n<p>\n Pushes the string pointed to by\n <code>\n  s\n </code>\n with size\n <code>\n  len\n </code>\n onto the stack.\nLua will make or reuse an internal copy of the given string,\nso the memory at\n <code>\n  s\n </code>\n can be freed or reused immediately after\nthe function returns.\nThe string can contain any binary data,\nincluding embedded zeros.\n</p>\n<p>\n Returns a pointer to the internal copy of the string (see\n <a href=\"#4.1.3\">\n  \u00a74.1.3\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushlstring",
+    body: '<pre>const char *lua_pushlstring (lua_State *L, const char *s, size_t len);</pre>\n<p>\n Pushes the string pointed to by\n <code>\n  s\n </code>\n with size\n <code>\n  len\n </code>\n onto the stack.\nLua will make or reuse an internal copy of the given string,\nso the memory at\n <code>\n  s\n </code>\n can be freed or reused immediately after\nthe function returns.\nThe string can contain any binary data,\nincluding embedded zeros.\n</p>\n<p>\n Returns a pointer to the internal copy of the string (see\n <a href="#4.1.3">\n  \u00a74.1.3\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushnil",
-      "body": "<pre>void lua_pushnil (lua_State *L);</pre>\n<p>\n Pushes a nil value onto the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushnil",
+    body: "<pre>void lua_pushnil (lua_State *L);</pre>\n<p>\n Pushes a nil value onto the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushnumber",
-      "body": "<pre>void lua_pushnumber (lua_State *L, lua_Number n);</pre>\n<p>\n Pushes a float with value\n <code>\n  n\n </code>\n onto the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushnumber",
+    body: "<pre>void lua_pushnumber (lua_State *L, lua_Number n);</pre>\n<p>\n Pushes a float with value\n <code>\n  n\n </code>\n onto the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushstring",
-      "body": "<pre>const char *lua_pushstring (lua_State *L, const char *s);</pre>\n<p>\n Pushes the zero-terminated string pointed to by\n <code>\n  s\n </code>\n onto the stack.\nLua will make or reuse an internal copy of the given string,\nso the memory at\n <code>\n  s\n </code>\n can be freed or reused immediately after\nthe function returns.\n</p>\n<p>\n Returns a pointer to the internal copy of the string (see\n <a href=\"#4.1.3\">\n  \u00a74.1.3\n </a>\n ).\n</p>\n<p>\n If\n <code>\n  s\n </code>\n is\n <code>\n  NULL\n </code>\n , pushes\n <b>\n  nil\n </b>\n and returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushstring",
+    body: '<pre>const char *lua_pushstring (lua_State *L, const char *s);</pre>\n<p>\n Pushes the zero-terminated string pointed to by\n <code>\n  s\n </code>\n onto the stack.\nLua will make or reuse an internal copy of the given string,\nso the memory at\n <code>\n  s\n </code>\n can be freed or reused immediately after\nthe function returns.\n</p>\n<p>\n Returns a pointer to the internal copy of the string (see\n <a href="#4.1.3">\n  \u00a74.1.3\n </a>\n ).\n</p>\n<p>\n If\n <code>\n  s\n </code>\n is\n <code>\n  NULL\n </code>\n , pushes\n <b>\n  nil\n </b>\n and returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushthread",
-      "body": "<pre>int lua_pushthread (lua_State *L);</pre>\n<p>\n Pushes the thread represented by\n <code>\n  L\n </code>\n onto the stack.\nReturns 1 if this thread is the main thread of its state.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushthread",
+    body: "<pre>int lua_pushthread (lua_State *L);</pre>\n<p>\n Pushes the thread represented by\n <code>\n  L\n </code>\n onto the stack.\nReturns 1 if this thread is the main thread of its state.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushvalue",
-      "body": "<pre>void lua_pushvalue (lua_State *L, int index);</pre>\n<p>\n Pushes a copy of the element at the given index\nonto the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushvalue",
+    body: "<pre>void lua_pushvalue (lua_State *L, int index);</pre>\n<p>\n Pushes a copy of the element at the given index\nonto the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_pushvfstring",
-      "body": "<pre>const char *lua_pushvfstring (lua_State *L,\n                              const char *fmt,\n                              va_list argp);</pre>\n<p>\n Equivalent to\n <a href=\"#lua_pushfstring\">\n  <code>\n   lua_pushfstring\n  </code>\n </a>\n , except that it receives a\n <code>\n  va_list\n </code>\n instead of a variable number of arguments.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_pushvfstring",
+    body: '<pre>const char *lua_pushvfstring (lua_State *L,\n                              const char *fmt,\n                              va_list argp);</pre>\n<p>\n Equivalent to\n <a href="#lua_pushfstring">\n  <code>\n   lua_pushfstring\n  </code>\n </a>\n , except that it receives a\n <code>\n  va_list\n </code>\n instead of a variable number of arguments.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawequal",
-      "body": "<pre>int lua_rawequal (lua_State *L, int index1, int index2);</pre>\n<p>\n Returns 1 if the two values in indices\n <code>\n  index1\n </code>\n and\n <code>\n  index2\n </code>\n are primitively equal\n(that is, equal without calling the\n <code>\n  __eq\n </code>\n metamethod).\nOtherwise returns\u00a00.\nAlso returns\u00a00 if any of the indices are not valid.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawequal",
+    body: "<pre>int lua_rawequal (lua_State *L, int index1, int index2);</pre>\n<p>\n Returns 1 if the two values in indices\n <code>\n  index1\n </code>\n and\n <code>\n  index2\n </code>\n are primitively equal\n(that is, equal without calling the\n <code>\n  __eq\n </code>\n metamethod).\nOtherwise returns\u00a00.\nAlso returns\u00a00 if any of the indices are not valid.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawget",
-      "body": "<pre>int lua_rawget (lua_State *L, int index);</pre>\n<p>\n Similar to\n <a href=\"#lua_gettable\">\n  <code>\n   lua_gettable\n  </code>\n </a>\n , but does a raw access\n(i.e., without metamethods).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawget",
+    body: '<pre>int lua_rawget (lua_State *L, int index);</pre>\n<p>\n Similar to\n <a href="#lua_gettable">\n  <code>\n   lua_gettable\n  </code>\n </a>\n , but does a raw access\n(i.e., without metamethods).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawgeti",
-      "body": "<pre>int lua_rawgeti (lua_State *L, int index, lua_Integer n);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[n]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index.\nThe access is raw,\nthat is, it does not use the\n <code>\n  __index\n </code>\n metavalue.\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawgeti",
+    body: "<pre>int lua_rawgeti (lua_State *L, int index, lua_Integer n);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[n]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index.\nThe access is raw,\nthat is, it does not use the\n <code>\n  __index\n </code>\n metavalue.\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawgetp",
-      "body": "<pre>int lua_rawgetp (lua_State *L, int index, const void *p);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[k]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index and\n <code>\n  k\n </code>\n is the pointer\n <code>\n  p\n </code>\n represented as a light userdata.\nThe access is raw;\nthat is, it does not use the\n <code>\n  __index\n </code>\n metavalue.\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawgetp",
+    body: "<pre>int lua_rawgetp (lua_State *L, int index, const void *p);</pre>\n<p>\n Pushes onto the stack the value\n <code>\n  t[k]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index and\n <code>\n  k\n </code>\n is the pointer\n <code>\n  p\n </code>\n represented as a light userdata.\nThe access is raw;\nthat is, it does not use the\n <code>\n  __index\n </code>\n metavalue.\n</p>\n<p>\n Returns the type of the pushed value.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawlen",
-      "body": "<pre>lua_Unsigned lua_rawlen (lua_State *L, int index);</pre>\n<p>\n Returns the raw \"length\" of the value at the given index:\nfor strings, this is the string length;\nfor tables, this is the result of the length operator ('\n <code>\n  #\n </code>\n ')\nwith no metamethods;\nfor userdata, this is the size of the block of memory allocated\nfor the userdata.\nFor other values, this call returns\u00a00.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawlen",
+    body: "<pre>lua_Unsigned lua_rawlen (lua_State *L, int index);</pre>\n<p>\n Returns the raw \"length\" of the value at the given index:\nfor strings, this is the string length;\nfor tables, this is the result of the length operator ('\n <code>\n  #\n </code>\n ')\nwith no metamethods;\nfor userdata, this is the size of the block of memory allocated\nfor the userdata.\nFor other values, this call returns\u00a00.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawset",
-      "body": "<pre>void lua_rawset (lua_State *L, int index);</pre>\n<p>\n Similar to\n <a href=\"#lua_settable\">\n  <code>\n   lua_settable\n  </code>\n </a>\n , but does a raw assignment\n(i.e., without metamethods).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawset",
+    body: '<pre>void lua_rawset (lua_State *L, int index);</pre>\n<p>\n Similar to\n <a href="#lua_settable">\n  <code>\n   lua_settable\n  </code>\n </a>\n , but does a raw assignment\n(i.e., without metamethods).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawseti",
-      "body": "<pre>void lua_rawseti (lua_State *L, int index, lua_Integer i);</pre>\n<p>\n Does the equivalent of\n <code>\n  t[i] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nThe assignment is raw,\nthat is, it does not use the\n <code>\n  __newindex\n </code>\n metavalue.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawseti",
+    body: "<pre>void lua_rawseti (lua_State *L, int index, lua_Integer i);</pre>\n<p>\n Does the equivalent of\n <code>\n  t[i] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nThe assignment is raw,\nthat is, it does not use the\n <code>\n  __newindex\n </code>\n metavalue.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rawsetp",
-      "body": "<pre>void lua_rawsetp (lua_State *L, int index, const void *p);</pre>\n<p>\n Does the equivalent of\n <code>\n  t[p] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index,\n <code>\n  p\n </code>\n is encoded as a light userdata,\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nThe assignment is raw,\nthat is, it does not use the\n <code>\n  __newindex\n </code>\n metavalue.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rawsetp",
+    body: "<pre>void lua_rawsetp (lua_State *L, int index, const void *p);</pre>\n<p>\n Does the equivalent of\n <code>\n  t[p] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the table at the given index,\n <code>\n  p\n </code>\n is encoded as a light userdata,\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nThe assignment is raw,\nthat is, it does not use the\n <code>\n  __newindex\n </code>\n metavalue.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Reader",
-      "body": "<pre>typedef const char * (*lua_Reader) (lua_State *L,\n                                    void *data,\n                                    size_t *size);</pre>\n<p>\n The reader function used by\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n .\nEvery time\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n needs another piece of the chunk,\nit calls the reader,\npassing along its\n <code>\n  data\n </code>\n parameter.\nThe reader must return a pointer to a block of memory\nwith a new piece of the chunk\nand set\n <code>\n  size\n </code>\n to the block size.\nThe block must exist until the reader function is called again.\nTo signal the end of the chunk,\nthe reader must return\n <code>\n  NULL\n </code>\n or set\n <code>\n  size\n </code>\n to zero.\nThe reader function may return pieces of any size greater than zero.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Reader",
+    body: '<pre>typedef const char * (*lua_Reader) (lua_State *L,\n                                    void *data,\n                                    size_t *size);</pre>\n<p>\n The reader function used by\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n .\nEvery time\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n needs another piece of the chunk,\nit calls the reader,\npassing along its\n <code>\n  data\n </code>\n parameter.\nThe reader must return a pointer to a block of memory\nwith a new piece of the chunk\nand set\n <code>\n  size\n </code>\n to the block size.\nThe block must exist until the reader function is called again.\nTo signal the end of the chunk,\nthe reader must return\n <code>\n  NULL\n </code>\n or set\n <code>\n  size\n </code>\n to zero.\nThe reader function may return pieces of any size greater than zero.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_register",
-      "body": "<pre>void lua_register (lua_State *L, const char *name, lua_CFunction f);</pre>\n<p>\n Sets the C\u00a0function\n <code>\n  f\n </code>\n as the new value of global\n <code>\n  name\n </code>\n .\nIt is defined as a macro:\n</p>\n<pre>     #define lua_register(L,n,f) \\\n            (lua_pushcfunction(L, f), lua_setglobal(L, n))\n</pre>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_register",
+    body: "<pre>void lua_register (lua_State *L, const char *name, lua_CFunction f);</pre>\n<p>\n Sets the C\u00a0function\n <code>\n  f\n </code>\n as the new value of global\n <code>\n  name\n </code>\n .\nIt is defined as a macro:\n</p>\n<pre>     #define lua_register(L,n,f) \\\n            (lua_pushcfunction(L, f), lua_setglobal(L, n))\n</pre>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_remove",
-      "body": "<pre>void lua_remove (lua_State *L, int index);</pre>\n<p>\n Removes the element at the given valid index,\nshifting down the elements above this index to fill the gap.\nThis function cannot be called with a pseudo-index,\nbecause a pseudo-index is not an actual stack position.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_remove",
+    body: "<pre>void lua_remove (lua_State *L, int index);</pre>\n<p>\n Removes the element at the given valid index,\nshifting down the elements above this index to fill the gap.\nThis function cannot be called with a pseudo-index,\nbecause a pseudo-index is not an actual stack position.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_replace",
-      "body": "<pre>void lua_replace (lua_State *L, int index);</pre>\n<p>\n Moves the top element into the given valid index\nwithout shifting any element\n(therefore replacing the value at that given index),\nand then pops the top element.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_replace",
+    body: "<pre>void lua_replace (lua_State *L, int index);</pre>\n<p>\n Moves the top element into the given valid index\nwithout shifting any element\n(therefore replacing the value at that given index),\nand then pops the top element.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_resetthread",
-      "body": "<pre>int lua_resetthread (lua_State *L);</pre>\n<p>\n Resets a thread, cleaning its call stack and closing all pending\nto-be-closed variables.\nReturns a status code:\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n for no errors in the thread\n(either the original error that stopped the thread or\nerrors in closing methods),\nor an error status otherwise.\nIn case of error,\nleaves the error object on the top of the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_resetthread",
+    body: '<pre>int lua_resetthread (lua_State *L);</pre>\n<p>\n Resets a thread, cleaning its call stack and closing all pending\nto-be-closed variables.\nReturns a status code:\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n for no errors in the thread\n(either the original error that stopped the thread or\nerrors in closing methods),\nor an error status otherwise.\nIn case of error,\nleaves the error object on the top of the stack.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_resume",
-      "body": "<pre>int lua_resume (lua_State *L, lua_State *from, int nargs,\n                          int *nresults);</pre>\n<p>\n Starts and resumes a coroutine in the given thread\n <code>\n  L\n </code>\n .\n</p>\n<p>\n To start a coroutine,\nyou push the main function plus any arguments\nonto the empty stack of the thread.\nthen you call\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n ,\nwith\n <code>\n  nargs\n </code>\n being the number of arguments.\nThis call returns when the coroutine suspends or finishes its execution.\nWhen it returns,\n <code>\n  *nresults\n </code>\n is updated and\nthe top of the stack contains\nthe\n <code>\n  *nresults\n </code>\n values passed to\n <a href=\"#lua_yield\">\n  <code>\n   lua_yield\n  </code>\n </a>\n or returned by the body function.\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n returns\n <a href=\"#pdf-LUA_YIELD\">\n  <code>\n   LUA_YIELD\n  </code>\n </a>\n if the coroutine yields,\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n if the coroutine finishes its execution\nwithout errors,\nor an error code in case of errors (see\n <a href=\"#4.4.1\">\n  \u00a74.4.1\n </a>\n ).\nIn case of errors,\nthe error object is on the top of the stack.\n</p>\n<p>\n To resume a coroutine,\nyou remove the\n <code>\n  *nresults\n </code>\n yielded values from its stack,\npush the values to be passed as results from\n <code>\n  yield\n </code>\n ,\nand then call\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n .\n</p>\n<p>\n The parameter\n <code>\n  from\n </code>\n represents the coroutine that is resuming\n <code>\n  L\n </code>\n .\nIf there is no such coroutine,\nthis parameter can be\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_resume",
+    body: '<pre>int lua_resume (lua_State *L, lua_State *from, int nargs,\n                          int *nresults);</pre>\n<p>\n Starts and resumes a coroutine in the given thread\n <code>\n  L\n </code>\n .\n</p>\n<p>\n To start a coroutine,\nyou push the main function plus any arguments\nonto the empty stack of the thread.\nthen you call\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n ,\nwith\n <code>\n  nargs\n </code>\n being the number of arguments.\nThis call returns when the coroutine suspends or finishes its execution.\nWhen it returns,\n <code>\n  *nresults\n </code>\n is updated and\nthe top of the stack contains\nthe\n <code>\n  *nresults\n </code>\n values passed to\n <a href="#lua_yield">\n  <code>\n   lua_yield\n  </code>\n </a>\n or returned by the body function.\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n returns\n <a href="#pdf-LUA_YIELD">\n  <code>\n   LUA_YIELD\n  </code>\n </a>\n if the coroutine yields,\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n if the coroutine finishes its execution\nwithout errors,\nor an error code in case of errors (see\n <a href="#4.4.1">\n  \u00a74.4.1\n </a>\n ).\nIn case of errors,\nthe error object is on the top of the stack.\n</p>\n<p>\n To resume a coroutine,\nyou remove the\n <code>\n  *nresults\n </code>\n yielded values from its stack,\npush the values to be passed as results from\n <code>\n  yield\n </code>\n ,\nand then call\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n .\n</p>\n<p>\n The parameter\n <code>\n  from\n </code>\n represents the coroutine that is resuming\n <code>\n  L\n </code>\n .\nIf there is no such coroutine,\nthis parameter can be\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_rotate",
-      "body": "<pre>void lua_rotate (lua_State *L, int idx, int n);</pre>\n<p>\n Rotates the stack elements between the valid index\n <code>\n  idx\n </code>\n and the top of the stack.\nThe elements are rotated\n <code>\n  n\n </code>\n positions in the direction of the top,\nfor a positive\n <code>\n  n\n </code>\n ,\nor\n <code>\n  -n\n </code>\n positions in the direction of the bottom,\nfor a negative\n <code>\n  n\n </code>\n .\nThe absolute value of\n <code>\n  n\n </code>\n must not be greater than the size\nof the slice being rotated.\nThis function cannot be called with a pseudo-index,\nbecause a pseudo-index is not an actual stack position.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_rotate",
+    body: "<pre>void lua_rotate (lua_State *L, int idx, int n);</pre>\n<p>\n Rotates the stack elements between the valid index\n <code>\n  idx\n </code>\n and the top of the stack.\nThe elements are rotated\n <code>\n  n\n </code>\n positions in the direction of the top,\nfor a positive\n <code>\n  n\n </code>\n ,\nor\n <code>\n  -n\n </code>\n positions in the direction of the bottom,\nfor a negative\n <code>\n  n\n </code>\n .\nThe absolute value of\n <code>\n  n\n </code>\n must not be greater than the size\nof the slice being rotated.\nThis function cannot be called with a pseudo-index,\nbecause a pseudo-index is not an actual stack position.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setallocf",
-      "body": "<pre>void lua_setallocf (lua_State *L, lua_Alloc f, void *ud);</pre>\n<p>\n Changes the allocator function of a given state to\n <code>\n  f\n </code>\n with user data\n <code>\n  ud\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setallocf",
+    body: "<pre>void lua_setallocf (lua_State *L, lua_Alloc f, void *ud);</pre>\n<p>\n Changes the allocator function of a given state to\n <code>\n  f\n </code>\n with user data\n <code>\n  ud\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setfield",
-      "body": "<pre>void lua_setfield (lua_State *L, int index, const char *k);</pre>\n<p>\n Does the equivalent to\n <code>\n  t[k] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nAs in Lua, this function may trigger a metamethod\nfor the \"newindex\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setfield",
+    body: '<pre>void lua_setfield (lua_State *L, int index, const char *k);</pre>\n<p>\n Does the equivalent to\n <code>\n  t[k] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nAs in Lua, this function may trigger a metamethod\nfor the "newindex" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setglobal",
-      "body": "<pre>void lua_setglobal (lua_State *L, const char *name);</pre>\n<p>\n Pops a value from the stack and\nsets it as the new value of global\n <code>\n  name\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setglobal",
+    body: "<pre>void lua_setglobal (lua_State *L, const char *name);</pre>\n<p>\n Pops a value from the stack and\nsets it as the new value of global\n <code>\n  name\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_seti",
-      "body": "<pre>void lua_seti (lua_State *L, int index, lua_Integer n);</pre>\n<p>\n Does the equivalent to\n <code>\n  t[n] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nAs in Lua, this function may trigger a metamethod\nfor the \"newindex\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_seti",
+    body: '<pre>void lua_seti (lua_State *L, int index, lua_Integer n);</pre>\n<p>\n Does the equivalent to\n <code>\n  t[n] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index\nand\n <code>\n  v\n </code>\n is the value on the top of the stack.\n</p>\n<p>\n This function pops the value from the stack.\nAs in Lua, this function may trigger a metamethod\nfor the "newindex" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setiuservalue",
-      "body": "<pre>int lua_setiuservalue (lua_State *L, int index, int n);</pre>\n<p>\n Pops a value from the stack and sets it as\nthe new\n <code>\n  n\n </code>\n -th user value associated to the\nfull userdata at the given index.\nReturns 0 if the userdata does not have that value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setiuservalue",
+    body: "<pre>int lua_setiuservalue (lua_State *L, int index, int n);</pre>\n<p>\n Pops a value from the stack and sets it as\nthe new\n <code>\n  n\n </code>\n -th user value associated to the\nfull userdata at the given index.\nReturns 0 if the userdata does not have that value.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setmetatable",
-      "body": "<pre>int lua_setmetatable (lua_State *L, int index);</pre>\n<p>\n Pops a table or\n <b>\n  nil\n </b>\n from the stack and\nsets that value as the new metatable for the value at the given index.\n(\n <b>\n  nil\n </b>\n means no metatable.)\n</p>\n<p>\n (For historical reasons, this function returns an\n <code>\n  int\n </code>\n ,\nwhich now is always 1.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setmetatable",
+    body: "<pre>int lua_setmetatable (lua_State *L, int index);</pre>\n<p>\n Pops a table or\n <b>\n  nil\n </b>\n from the stack and\nsets that value as the new metatable for the value at the given index.\n(\n <b>\n  nil\n </b>\n means no metatable.)\n</p>\n<p>\n (For historical reasons, this function returns an\n <code>\n  int\n </code>\n ,\nwhich now is always 1.)\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_settable",
-      "body": "<pre>void lua_settable (lua_State *L, int index);</pre>\n<p>\n Does the equivalent to\n <code>\n  t[k] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index,\n <code>\n  v\n </code>\n is the value on the top of the stack,\nand\n <code>\n  k\n </code>\n is the value just below the top.\n</p>\n<p>\n This function pops both the key and the value from the stack.\nAs in Lua, this function may trigger a metamethod\nfor the \"newindex\" event (see\n <a href=\"#2.4\">\n  \u00a72.4\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_settable",
+    body: '<pre>void lua_settable (lua_State *L, int index);</pre>\n<p>\n Does the equivalent to\n <code>\n  t[k] = v\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at the given index,\n <code>\n  v\n </code>\n is the value on the top of the stack,\nand\n <code>\n  k\n </code>\n is the value just below the top.\n</p>\n<p>\n This function pops both the key and the value from the stack.\nAs in Lua, this function may trigger a metamethod\nfor the "newindex" event (see\n <a href="#2.4">\n  \u00a72.4\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_settop",
-      "body": "<pre>void lua_settop (lua_State *L, int index);</pre>\n<p>\n Accepts any index, or\u00a00,\nand sets the stack top to this index.\nIf the new top is greater than the old one,\nthen the new elements are filled with\n <b>\n  nil\n </b>\n .\nIf\n <code>\n  index\n </code>\n is\u00a00, then all stack elements are removed.\n</p>\n<p>\n This function can run arbitrary code when removing an index\nmarked as to-be-closed from the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_settop",
+    body: "<pre>void lua_settop (lua_State *L, int index);</pre>\n<p>\n Accepts any index, or\u00a00,\nand sets the stack top to this index.\nIf the new top is greater than the old one,\nthen the new elements are filled with\n <b>\n  nil\n </b>\n .\nIf\n <code>\n  index\n </code>\n is\u00a00, then all stack elements are removed.\n</p>\n<p>\n This function can run arbitrary code when removing an index\nmarked as to-be-closed from the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setwarnf",
-      "body": "<pre>void lua_setwarnf (lua_State *L, lua_WarnFunction f, void *ud);</pre>\n<p>\n Sets the warning function to be used by Lua to emit warnings\n(see\n <a href=\"#lua_WarnFunction\">\n  <code>\n   lua_WarnFunction\n  </code>\n </a>\n ).\nThe\n <code>\n  ud\n </code>\n parameter sets the value\n <code>\n  ud\n </code>\n passed to\nthe warning function.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setwarnf",
+    body: '<pre>void lua_setwarnf (lua_State *L, lua_WarnFunction f, void *ud);</pre>\n<p>\n Sets the warning function to be used by Lua to emit warnings\n(see\n <a href="#lua_WarnFunction">\n  <code>\n   lua_WarnFunction\n  </code>\n </a>\n ).\nThe\n <code>\n  ud\n </code>\n parameter sets the value\n <code>\n  ud\n </code>\n passed to\nthe warning function.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_State",
-      "body": "<pre>typedef struct lua_State lua_State;</pre>\n<p>\n An opaque structure that points to a thread and indirectly\n(through the thread) to the whole state of a Lua interpreter.\nThe Lua library is fully reentrant:\nit has no global variables.\nAll information about a state is accessible through this structure.\n</p>\n<p>\n A pointer to this structure must be passed as the first argument to\nevery function in the library, except to\n <a href=\"#lua_newstate\">\n  <code>\n   lua_newstate\n  </code>\n </a>\n ,\nwhich creates a Lua state from scratch.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_State",
+    body: '<pre>typedef struct lua_State lua_State;</pre>\n<p>\n An opaque structure that points to a thread and indirectly\n(through the thread) to the whole state of a Lua interpreter.\nThe Lua library is fully reentrant:\nit has no global variables.\nAll information about a state is accessible through this structure.\n</p>\n<p>\n A pointer to this structure must be passed as the first argument to\nevery function in the library, except to\n <a href="#lua_newstate">\n  <code>\n   lua_newstate\n  </code>\n </a>\n ,\nwhich creates a Lua state from scratch.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_status",
-      "body": "<pre>int lua_status (lua_State *L);</pre>\n<p>\n Returns the status of the thread\n <code>\n  L\n </code>\n .\n</p>\n<p>\n The status can be\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n for a normal thread,\nan error code if the thread finished the execution\nof a\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n with an error,\nor\n <a href=\"#pdf-LUA_YIELD\">\n  <code>\n   LUA_YIELD\n  </code>\n </a>\n if the thread is suspended.\n</p>\n<p>\n You can call functions only in threads with status\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n .\nYou can resume threads with status\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n (to start a new coroutine) or\n <a href=\"#pdf-LUA_YIELD\">\n  <code>\n   LUA_YIELD\n  </code>\n </a>\n (to resume a coroutine).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_status",
+    body: '<pre>int lua_status (lua_State *L);</pre>\n<p>\n Returns the status of the thread\n <code>\n  L\n </code>\n .\n</p>\n<p>\n The status can be\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n for a normal thread,\nan error code if the thread finished the execution\nof a\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n with an error,\nor\n <a href="#pdf-LUA_YIELD">\n  <code>\n   LUA_YIELD\n  </code>\n </a>\n if the thread is suspended.\n</p>\n<p>\n You can call functions only in threads with status\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n .\nYou can resume threads with status\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n (to start a new coroutine) or\n <a href="#pdf-LUA_YIELD">\n  <code>\n   LUA_YIELD\n  </code>\n </a>\n (to resume a coroutine).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_stringtonumber",
-      "body": "<pre>size_t lua_stringtonumber (lua_State *L, const char *s);</pre>\n<p>\n Converts the zero-terminated string\n <code>\n  s\n </code>\n to a number,\npushes that number into the stack,\nand returns the total size of the string,\nthat is, its length plus one.\nThe conversion can result in an integer or a float,\naccording to the lexical conventions of Lua (see\n <a href=\"#3.1\">\n  \u00a73.1\n </a>\n ).\nThe string may have leading and trailing whitespaces and a sign.\nIf the string is not a valid numeral,\nreturns 0 and pushes nothing.\n(Note that the result can be used as a boolean,\ntrue if the conversion succeeds.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_stringtonumber",
+    body: '<pre>size_t lua_stringtonumber (lua_State *L, const char *s);</pre>\n<p>\n Converts the zero-terminated string\n <code>\n  s\n </code>\n to a number,\npushes that number into the stack,\nand returns the total size of the string,\nthat is, its length plus one.\nThe conversion can result in an integer or a float,\naccording to the lexical conventions of Lua (see\n <a href="#3.1">\n  \u00a73.1\n </a>\n ).\nThe string may have leading and trailing whitespaces and a sign.\nIf the string is not a valid numeral,\nreturns 0 and pushes nothing.\n(Note that the result can be used as a boolean,\ntrue if the conversion succeeds.)\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_toboolean",
-      "body": "<pre>int lua_toboolean (lua_State *L, int index);</pre>\n<p>\n Converts the Lua value at the given index to a C\u00a0boolean\nvalue (0\u00a0or\u00a01).\nLike all tests in Lua,\n <a href=\"#lua_toboolean\">\n  <code>\n   lua_toboolean\n  </code>\n </a>\n returns true for any Lua value\ndifferent from\n <b>\n  false\n </b>\n and\n <b>\n  nil\n </b>\n ;\notherwise it returns false.\n(If you want to accept only actual boolean values,\nuse\n <a href=\"#lua_isboolean\">\n  <code>\n   lua_isboolean\n  </code>\n </a>\n to test the value's type.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_toboolean",
+    body: '<pre>int lua_toboolean (lua_State *L, int index);</pre>\n<p>\n Converts the Lua value at the given index to a C\u00a0boolean\nvalue (0\u00a0or\u00a01).\nLike all tests in Lua,\n <a href="#lua_toboolean">\n  <code>\n   lua_toboolean\n  </code>\n </a>\n returns true for any Lua value\ndifferent from\n <b>\n  false\n </b>\n and\n <b>\n  nil\n </b>\n ;\notherwise it returns false.\n(If you want to accept only actual boolean values,\nuse\n <a href="#lua_isboolean">\n  <code>\n   lua_isboolean\n  </code>\n </a>\n to test the value\'s type.)\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tocfunction",
-      "body": "<pre>lua_CFunction lua_tocfunction (lua_State *L, int index);</pre>\n<p>\n Converts a value at the given index to a C\u00a0function.\nThat value must be a C\u00a0function;\notherwise, returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tocfunction",
+    body: "<pre>lua_CFunction lua_tocfunction (lua_State *L, int index);</pre>\n<p>\n Converts a value at the given index to a C\u00a0function.\nThat value must be a C\u00a0function;\notherwise, returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_toclose",
-      "body": "<pre>void lua_toclose (lua_State *L, int index);</pre>\n<p>\n Marks the given index in the stack as a\nto-be-closed slot (see\n <a href=\"#3.3.8\">\n  \u00a73.3.8\n </a>\n ).\nLike a to-be-closed variable in Lua,\nthe value at that slot in the stack will be closed\nwhen it goes out of scope.\nHere, in the context of a C function,\nto go out of scope means that the running function returns to Lua,\nor there is an error,\nor the slot is removed from the stack through\n <a href=\"#lua_settop\">\n  <code>\n   lua_settop\n  </code>\n </a>\n or\n <a href=\"#lua_pop\">\n  <code>\n   lua_pop\n  </code>\n </a>\n ,\nor there is a call to\n <a href=\"#lua_closeslot\">\n  <code>\n   lua_closeslot\n  </code>\n </a>\n .\nA slot marked as to-be-closed should not be removed from the stack\nby any other function in the API except\n <a href=\"#lua_settop\">\n  <code>\n   lua_settop\n  </code>\n </a>\n or\n <a href=\"#lua_pop\">\n  <code>\n   lua_pop\n  </code>\n </a>\n ,\nunless previously deactivated by\n <a href=\"#lua_closeslot\">\n  <code>\n   lua_closeslot\n  </code>\n </a>\n .\n</p>\n<p>\n This function should not be called for an index\nthat is equal to or below an active to-be-closed slot.\n</p>\n<p>\n Note that, both in case of errors and of a regular return,\nby the time the\n <code>\n  __close\n </code>\n metamethod runs,\nthe C\u00a0stack was already unwound,\nso that any automatic C\u00a0variable declared in the calling function\n(e.g., a buffer) will be out of scope.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_toclose",
+    body: '<pre>void lua_toclose (lua_State *L, int index);</pre>\n<p>\n Marks the given index in the stack as a\nto-be-closed slot (see\n <a href="#3.3.8">\n  \u00a73.3.8\n </a>\n ).\nLike a to-be-closed variable in Lua,\nthe value at that slot in the stack will be closed\nwhen it goes out of scope.\nHere, in the context of a C function,\nto go out of scope means that the running function returns to Lua,\nor there is an error,\nor the slot is removed from the stack through\n <a href="#lua_settop">\n  <code>\n   lua_settop\n  </code>\n </a>\n or\n <a href="#lua_pop">\n  <code>\n   lua_pop\n  </code>\n </a>\n ,\nor there is a call to\n <a href="#lua_closeslot">\n  <code>\n   lua_closeslot\n  </code>\n </a>\n .\nA slot marked as to-be-closed should not be removed from the stack\nby any other function in the API except\n <a href="#lua_settop">\n  <code>\n   lua_settop\n  </code>\n </a>\n or\n <a href="#lua_pop">\n  <code>\n   lua_pop\n  </code>\n </a>\n ,\nunless previously deactivated by\n <a href="#lua_closeslot">\n  <code>\n   lua_closeslot\n  </code>\n </a>\n .\n</p>\n<p>\n This function should not be called for an index\nthat is equal to or below an active to-be-closed slot.\n</p>\n<p>\n Note that, both in case of errors and of a regular return,\nby the time the\n <code>\n  __close\n </code>\n metamethod runs,\nthe C\u00a0stack was already unwound,\nso that any automatic C\u00a0variable declared in the calling function\n(e.g., a buffer) will be out of scope.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tointeger",
-      "body": "<pre>lua_Integer lua_tointeger (lua_State *L, int index);</pre>\n<p>\n Equivalent to\n <a href=\"#lua_tointegerx\">\n  <code>\n   lua_tointegerx\n  </code>\n </a>\n with\n <code>\n  isnum\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tointeger",
+    body: '<pre>lua_Integer lua_tointeger (lua_State *L, int index);</pre>\n<p>\n Equivalent to\n <a href="#lua_tointegerx">\n  <code>\n   lua_tointegerx\n  </code>\n </a>\n with\n <code>\n  isnum\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tointegerx",
-      "body": "<pre>lua_Integer lua_tointegerx (lua_State *L, int index, int *isnum);</pre>\n<p>\n Converts the Lua value at the given index\nto the signed integral type\n <a href=\"#lua_Integer\">\n  <code>\n   lua_Integer\n  </code>\n </a>\n .\nThe Lua value must be an integer,\nor a number or string convertible to an integer (see\n <a href=\"#3.4.3\">\n  \u00a73.4.3\n </a>\n );\notherwise,\n <code>\n  lua_tointegerx\n </code>\n returns\u00a00.\n</p>\n<p>\n If\n <code>\n  isnum\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nits referent is assigned a boolean value that\nindicates whether the operation succeeded.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tointegerx",
+    body: '<pre>lua_Integer lua_tointegerx (lua_State *L, int index, int *isnum);</pre>\n<p>\n Converts the Lua value at the given index\nto the signed integral type\n <a href="#lua_Integer">\n  <code>\n   lua_Integer\n  </code>\n </a>\n .\nThe Lua value must be an integer,\nor a number or string convertible to an integer (see\n <a href="#3.4.3">\n  \u00a73.4.3\n </a>\n );\notherwise,\n <code>\n  lua_tointegerx\n </code>\n returns\u00a00.\n</p>\n<p>\n If\n <code>\n  isnum\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nits referent is assigned a boolean value that\nindicates whether the operation succeeded.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tolstring",
-      "body": "<pre>const char *lua_tolstring (lua_State *L, int index, size_t *len);</pre>\n<p>\n Converts the Lua value at the given index to a C\u00a0string.\nIf\n <code>\n  len\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nit sets\n <code>\n  *len\n </code>\n with the string length.\nThe Lua value must be a string or a number;\notherwise, the function returns\n <code>\n  NULL\n </code>\n .\nIf the value is a number,\nthen\n <code>\n  lua_tolstring\n </code>\n also\n <em>\n  changes the actual value in the stack to a string\n </em>\n .\n(This change confuses\n <a href=\"#lua_next\">\n  <code>\n   lua_next\n  </code>\n </a>\n when\n <code>\n  lua_tolstring\n </code>\n is applied to keys during a table traversal.)\n</p>\n<p>\n <code>\n  lua_tolstring\n </code>\n returns a pointer\nto a string inside the Lua state (see\n <a href=\"#4.1.3\">\n  \u00a74.1.3\n </a>\n ).\nThis string always has a zero ('\n <code>\n  \\0\n </code>\n ')\nafter its last character (as in\u00a0C),\nbut can contain other zeros in its body.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tolstring",
+    body: '<pre>const char *lua_tolstring (lua_State *L, int index, size_t *len);</pre>\n<p>\n Converts the Lua value at the given index to a C\u00a0string.\nIf\n <code>\n  len\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nit sets\n <code>\n  *len\n </code>\n with the string length.\nThe Lua value must be a string or a number;\notherwise, the function returns\n <code>\n  NULL\n </code>\n .\nIf the value is a number,\nthen\n <code>\n  lua_tolstring\n </code>\n also\n <em>\n  changes the actual value in the stack to a string\n </em>\n .\n(This change confuses\n <a href="#lua_next">\n  <code>\n   lua_next\n  </code>\n </a>\n when\n <code>\n  lua_tolstring\n </code>\n is applied to keys during a table traversal.)\n</p>\n<p>\n <code>\n  lua_tolstring\n </code>\n returns a pointer\nto a string inside the Lua state (see\n <a href="#4.1.3">\n  \u00a74.1.3\n </a>\n ).\nThis string always has a zero (\'\n <code>\n  \\0\n </code>\n \')\nafter its last character (as in\u00a0C),\nbut can contain other zeros in its body.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tonumber",
-      "body": "<pre>lua_Number lua_tonumber (lua_State *L, int index);</pre>\n<p>\n Equivalent to\n <a href=\"#lua_tonumberx\">\n  <code>\n   lua_tonumberx\n  </code>\n </a>\n with\n <code>\n  isnum\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tonumber",
+    body: '<pre>lua_Number lua_tonumber (lua_State *L, int index);</pre>\n<p>\n Equivalent to\n <a href="#lua_tonumberx">\n  <code>\n   lua_tonumberx\n  </code>\n </a>\n with\n <code>\n  isnum\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tonumberx",
-      "body": "<pre>lua_Number lua_tonumberx (lua_State *L, int index, int *isnum);</pre>\n<p>\n Converts the Lua value at the given index\nto the C\u00a0type\n <a href=\"#lua_Number\">\n  <code>\n   lua_Number\n  </code>\n </a>\n (see\n <a href=\"#lua_Number\">\n  <code>\n   lua_Number\n  </code>\n </a>\n ).\nThe Lua value must be a number or a string convertible to a number\n(see\n <a href=\"#3.4.3\">\n  \u00a73.4.3\n </a>\n );\notherwise,\n <a href=\"#lua_tonumberx\">\n  <code>\n   lua_tonumberx\n  </code>\n </a>\n returns\u00a00.\n</p>\n<p>\n If\n <code>\n  isnum\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nits referent is assigned a boolean value that\nindicates whether the operation succeeded.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tonumberx",
+    body: '<pre>lua_Number lua_tonumberx (lua_State *L, int index, int *isnum);</pre>\n<p>\n Converts the Lua value at the given index\nto the C\u00a0type\n <a href="#lua_Number">\n  <code>\n   lua_Number\n  </code>\n </a>\n (see\n <a href="#lua_Number">\n  <code>\n   lua_Number\n  </code>\n </a>\n ).\nThe Lua value must be a number or a string convertible to a number\n(see\n <a href="#3.4.3">\n  \u00a73.4.3\n </a>\n );\notherwise,\n <a href="#lua_tonumberx">\n  <code>\n   lua_tonumberx\n  </code>\n </a>\n returns\u00a00.\n</p>\n<p>\n If\n <code>\n  isnum\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nits referent is assigned a boolean value that\nindicates whether the operation succeeded.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_topointer",
-      "body": "<pre>const void *lua_topointer (lua_State *L, int index);</pre>\n<p>\n Converts the value at the given index to a generic\nC\u00a0pointer (\n <code>\n  void*\n </code>\n ).\nThe value can be a userdata, a table, a thread, a string, or a function;\notherwise,\n <code>\n  lua_topointer\n </code>\n returns\n <code>\n  NULL\n </code>\n .\nDifferent objects will give different pointers.\nThere is no way to convert the pointer back to its original value.\n</p>\n<p>\n Typically this function is used only for hashing and debug information.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_topointer",
+    body: "<pre>const void *lua_topointer (lua_State *L, int index);</pre>\n<p>\n Converts the value at the given index to a generic\nC\u00a0pointer (\n <code>\n  void*\n </code>\n ).\nThe value can be a userdata, a table, a thread, a string, or a function;\notherwise,\n <code>\n  lua_topointer\n </code>\n returns\n <code>\n  NULL\n </code>\n .\nDifferent objects will give different pointers.\nThere is no way to convert the pointer back to its original value.\n</p>\n<p>\n Typically this function is used only for hashing and debug information.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tostring",
-      "body": "<pre>const char *lua_tostring (lua_State *L, int index);</pre>\n<p>\n Equivalent to\n <a href=\"#lua_tolstring\">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n with\n <code>\n  len\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tostring",
+    body: '<pre>const char *lua_tostring (lua_State *L, int index);</pre>\n<p>\n Equivalent to\n <a href="#lua_tolstring">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n with\n <code>\n  len\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_tothread",
-      "body": "<pre>lua_State *lua_tothread (lua_State *L, int index);</pre>\n<p>\n Converts the value at the given index to a Lua thread\n(represented as\n <code>\n  lua_State*\n </code>\n ).\nThis value must be a thread;\notherwise, the function returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_tothread",
+    body: "<pre>lua_State *lua_tothread (lua_State *L, int index);</pre>\n<p>\n Converts the value at the given index to a Lua thread\n(represented as\n <code>\n  lua_State*\n </code>\n ).\nThis value must be a thread;\notherwise, the function returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_touserdata",
-      "body": "<pre>void *lua_touserdata (lua_State *L, int index);</pre>\n<p>\n If the value at the given index is a full userdata,\nreturns its memory-block address.\nIf the value is a light userdata,\nreturns its value (a pointer).\nOtherwise, returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_touserdata",
+    body: "<pre>void *lua_touserdata (lua_State *L, int index);</pre>\n<p>\n If the value at the given index is a full userdata,\nreturns its memory-block address.\nIf the value is a light userdata,\nreturns its value (a pointer).\nOtherwise, returns\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_type",
-      "body": "<pre>int lua_type (lua_State *L, int index);</pre>\n<p>\n Returns the type of the value in the given valid index,\nor\n <code>\n  LUA_TNONE\n </code>\n for a non-valid but acceptable index.\nThe types returned by\n <a href=\"#lua_type\">\n  <code>\n   lua_type\n  </code>\n </a>\n are coded by the following constants\ndefined in\n <code>\n  lua.h\n </code>\n :\n <a name=\"pdf-LUA_TNIL\">\n  <code>\n   LUA_TNIL\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TNUMBER\">\n  <code>\n   LUA_TNUMBER\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TBOOLEAN\">\n  <code>\n   LUA_TBOOLEAN\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TSTRING\">\n  <code>\n   LUA_TSTRING\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TTABLE\">\n  <code>\n   LUA_TTABLE\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TFUNCTION\">\n  <code>\n   LUA_TFUNCTION\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TUSERDATA\">\n  <code>\n   LUA_TUSERDATA\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_TTHREAD\">\n  <code>\n   LUA_TTHREAD\n  </code>\n </a>\n ,\nand\n <a name=\"pdf-LUA_TLIGHTUSERDATA\">\n  <code>\n   LUA_TLIGHTUSERDATA\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_type",
+    body: '<pre>int lua_type (lua_State *L, int index);</pre>\n<p>\n Returns the type of the value in the given valid index,\nor\n <code>\n  LUA_TNONE\n </code>\n for a non-valid but acceptable index.\nThe types returned by\n <a href="#lua_type">\n  <code>\n   lua_type\n  </code>\n </a>\n are coded by the following constants\ndefined in\n <code>\n  lua.h\n </code>\n :\n <a name="pdf-LUA_TNIL">\n  <code>\n   LUA_TNIL\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TNUMBER">\n  <code>\n   LUA_TNUMBER\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TBOOLEAN">\n  <code>\n   LUA_TBOOLEAN\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TSTRING">\n  <code>\n   LUA_TSTRING\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TTABLE">\n  <code>\n   LUA_TTABLE\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TFUNCTION">\n  <code>\n   LUA_TFUNCTION\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TUSERDATA">\n  <code>\n   LUA_TUSERDATA\n  </code>\n </a>\n ,\n <a name="pdf-LUA_TTHREAD">\n  <code>\n   LUA_TTHREAD\n  </code>\n </a>\n ,\nand\n <a name="pdf-LUA_TLIGHTUSERDATA">\n  <code>\n   LUA_TLIGHTUSERDATA\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_typename",
-      "body": "<pre>const char *lua_typename (lua_State *L, int tp);</pre>\n<p>\n Returns the name of the type encoded by the value\n <code>\n  tp\n </code>\n ,\nwhich must be one the values returned by\n <a href=\"#lua_type\">\n  <code>\n   lua_type\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_typename",
+    body: '<pre>const char *lua_typename (lua_State *L, int tp);</pre>\n<p>\n Returns the name of the type encoded by the value\n <code>\n  tp\n </code>\n ,\nwhich must be one the values returned by\n <a href="#lua_type">\n  <code>\n   lua_type\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Unsigned",
-      "body": "<pre>typedef ... lua_Unsigned;</pre>\n<p>\n The unsigned version of\n <a href=\"#lua_Integer\">\n  <code>\n   lua_Integer\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Unsigned",
+    body: '<pre>typedef ... lua_Unsigned;</pre>\n<p>\n The unsigned version of\n <a href="#lua_Integer">\n  <code>\n   lua_Integer\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_upvalueindex",
-      "body": "<pre>int lua_upvalueindex (int i);</pre>\n<p>\n Returns the pseudo-index that represents the\n <code>\n  i\n </code>\n -th upvalue of\nthe running function (see\n <a href=\"#4.2\">\n  \u00a74.2\n </a>\n ).\n <code>\n  i\n </code>\n must be in the range\n <em>\n  [1,256]\n </em>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_upvalueindex",
+    body: '<pre>int lua_upvalueindex (int i);</pre>\n<p>\n Returns the pseudo-index that represents the\n <code>\n  i\n </code>\n -th upvalue of\nthe running function (see\n <a href="#4.2">\n  \u00a74.2\n </a>\n ).\n <code>\n  i\n </code>\n must be in the range\n <em>\n  [1,256]\n </em>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_version",
-      "body": "<pre>lua_Number lua_version (lua_State *L);</pre>\n<p>\n Returns the version number of this core.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_version",
+    body: "<pre>lua_Number lua_version (lua_State *L);</pre>\n<p>\n Returns the version number of this core.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_WarnFunction",
-      "body": "<pre>typedef void (*lua_WarnFunction) (void *ud, const char *msg, int tocont);</pre>\n<p>\n The type of warning functions, called by Lua to emit warnings.\nThe first parameter is an opaque pointer\nset by\n <a href=\"#lua_setwarnf\">\n  <code>\n   lua_setwarnf\n  </code>\n </a>\n .\nThe second parameter is the warning message.\nThe third parameter is a boolean that\nindicates whether the message is\nto be continued by the message in the next call.\n</p>\n<p>\n See\n <a href=\"#pdf-warn\">\n  <code>\n   warn\n  </code>\n </a>\n for more details about warnings.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_WarnFunction",
+    body: '<pre>typedef void (*lua_WarnFunction) (void *ud, const char *msg, int tocont);</pre>\n<p>\n The type of warning functions, called by Lua to emit warnings.\nThe first parameter is an opaque pointer\nset by\n <a href="#lua_setwarnf">\n  <code>\n   lua_setwarnf\n  </code>\n </a>\n .\nThe second parameter is the warning message.\nThe third parameter is a boolean that\nindicates whether the message is\nto be continued by the message in the next call.\n</p>\n<p>\n See\n <a href="#pdf-warn">\n  <code>\n   warn\n  </code>\n </a>\n for more details about warnings.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_warning",
-      "body": "<pre>void lua_warning (lua_State *L, const char *msg, int tocont);</pre>\n<p>\n Emits a warning with the given message.\nA message in a call with\n <code>\n  tocont\n </code>\n true should be\ncontinued in another call to this function.\n</p>\n<p>\n See\n <a href=\"#pdf-warn\">\n  <code>\n   warn\n  </code>\n </a>\n for more details about warnings.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_warning",
+    body: '<pre>void lua_warning (lua_State *L, const char *msg, int tocont);</pre>\n<p>\n Emits a warning with the given message.\nA message in a call with\n <code>\n  tocont\n </code>\n true should be\ncontinued in another call to this function.\n</p>\n<p>\n See\n <a href="#pdf-warn">\n  <code>\n   warn\n  </code>\n </a>\n for more details about warnings.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Writer",
-      "body": "<pre>typedef int (*lua_Writer) (lua_State *L,\n                           const void* p,\n                           size_t sz,\n                           void* ud);</pre>\n<p>\n The type of the writer function used by\n <a href=\"#lua_dump\">\n  <code>\n   lua_dump\n  </code>\n </a>\n .\nEvery time\n <a href=\"#lua_dump\">\n  <code>\n   lua_dump\n  </code>\n </a>\n produces another piece of chunk,\nit calls the writer,\npassing along the buffer to be written (\n <code>\n  p\n </code>\n ),\nits size (\n <code>\n  sz\n </code>\n ),\nand the\n <code>\n  ud\n </code>\n parameter supplied to\n <a href=\"#lua_dump\">\n  <code>\n   lua_dump\n  </code>\n </a>\n .\n</p>\n<p>\n The writer returns an error code:\n0\u00a0means no errors;\nany other value means an error and stops\n <a href=\"#lua_dump\">\n  <code>\n   lua_dump\n  </code>\n </a>\n from\ncalling the writer again.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Writer",
+    body: '<pre>typedef int (*lua_Writer) (lua_State *L,\n                           const void* p,\n                           size_t sz,\n                           void* ud);</pre>\n<p>\n The type of the writer function used by\n <a href="#lua_dump">\n  <code>\n   lua_dump\n  </code>\n </a>\n .\nEvery time\n <a href="#lua_dump">\n  <code>\n   lua_dump\n  </code>\n </a>\n produces another piece of chunk,\nit calls the writer,\npassing along the buffer to be written (\n <code>\n  p\n </code>\n ),\nits size (\n <code>\n  sz\n </code>\n ),\nand the\n <code>\n  ud\n </code>\n parameter supplied to\n <a href="#lua_dump">\n  <code>\n   lua_dump\n  </code>\n </a>\n .\n</p>\n<p>\n The writer returns an error code:\n0\u00a0means no errors;\nany other value means an error and stops\n <a href="#lua_dump">\n  <code>\n   lua_dump\n  </code>\n </a>\n from\ncalling the writer again.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_xmove",
-      "body": "<pre>void lua_xmove (lua_State *from, lua_State *to, int n);</pre>\n<p>\n Exchange values between different threads of the same state.\n</p>\n<p>\n This function pops\n <code>\n  n\n </code>\n values from the stack\n <code>\n  from\n </code>\n ,\nand pushes them onto the stack\n <code>\n  to\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_xmove",
+    body: "<pre>void lua_xmove (lua_State *from, lua_State *to, int n);</pre>\n<p>\n Exchange values between different threads of the same state.\n</p>\n<p>\n This function pops\n <code>\n  n\n </code>\n values from the stack\n <code>\n  from\n </code>\n ,\nand pushes them onto the stack\n <code>\n  to\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_yield",
-      "body": "<pre>int lua_yield (lua_State *L, int nresults);</pre>\n<p>\n This function is equivalent to\n <a href=\"#lua_yieldk\">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n ,\nbut it has no continuation (see\n <a href=\"#4.5\">\n  \u00a74.5\n </a>\n ).\nTherefore, when the thread resumes,\nit continues the function that called\nthe function calling\n <code>\n  lua_yield\n </code>\n .\nTo avoid surprises,\nthis function should be called only in a tail call.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_yield",
+    body: '<pre>int lua_yield (lua_State *L, int nresults);</pre>\n<p>\n This function is equivalent to\n <a href="#lua_yieldk">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n ,\nbut it has no continuation (see\n <a href="#4.5">\n  \u00a74.5\n </a>\n ).\nTherefore, when the thread resumes,\nit continues the function that called\nthe function calling\n <code>\n  lua_yield\n </code>\n .\nTo avoid surprises,\nthis function should be called only in a tail call.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_yieldk",
-      "body": "<pre>int lua_yieldk (lua_State *L,\n                int nresults,\n                lua_KContext ctx,\n                lua_KFunction k);</pre>\n<p>\n Yields a coroutine (thread).\n</p>\n<p>\n When a C\u00a0function calls\n <a href=\"#lua_yieldk\">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n ,\nthe running coroutine suspends its execution,\nand the call to\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n that started this coroutine returns.\nThe parameter\n <code>\n  nresults\n </code>\n is the number of values from the stack\nthat will be passed as results to\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n .\n</p>\n<p>\n When the coroutine is resumed again,\nLua calls the given continuation function\n <code>\n  k\n </code>\n to continue\nthe execution of the C\u00a0function that yielded (see\n <a href=\"#4.5\">\n  \u00a74.5\n </a>\n ).\nThis continuation function receives the same stack\nfrom the previous function,\nwith the\n <code>\n  n\n </code>\n results removed and\nreplaced by the arguments passed to\n <a href=\"#lua_resume\">\n  <code>\n   lua_resume\n  </code>\n </a>\n .\nMoreover,\nthe continuation function receives the value\n <code>\n  ctx\n </code>\n that was passed to\n <a href=\"#lua_yieldk\">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n .\n</p>\n<p>\n Usually, this function does not return;\nwhen the coroutine eventually resumes,\nit continues executing the continuation function.\nHowever, there is one special case,\nwhich is when this function is called\nfrom inside a line or a count hook (see\n <a href=\"#4.7\">\n  \u00a74.7\n </a>\n ).\nIn that case,\n <code>\n  lua_yieldk\n </code>\n should be called with no continuation\n(probably in the form of\n <a href=\"#lua_yield\">\n  <code>\n   lua_yield\n  </code>\n </a>\n ) and no results,\nand the hook should return immediately after the call.\nLua will yield and,\nwhen the coroutine resumes again,\nit will continue the normal execution\nof the (Lua) function that triggered the hook.\n</p>\n<p>\n This function can raise an error if it is called from a thread\nwith a pending C call with no continuation function\n(what is called a\n <em>\n  C-call boundary\n </em>\n ),\nor it is called from a thread that is not running inside a resume\n(typically the main thread).\n</p>\n<h2>\n 4.7 \u2013\n <a name=\"4.7\">\n  The Debug Interface\n </a>\n</h2>\n<p>\n Lua has no built-in debugging facilities.\nInstead, it offers a special interface\nby means of functions and\n <em>\n  hooks\n </em>\n .\nThis interface allows the construction of different\nkinds of debuggers, profilers, and other tools\nthat need \"inside information\" from the interpreter.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_yieldk",
+    body: '<pre>int lua_yieldk (lua_State *L,\n                int nresults,\n                lua_KContext ctx,\n                lua_KFunction k);</pre>\n<p>\n Yields a coroutine (thread).\n</p>\n<p>\n When a C\u00a0function calls\n <a href="#lua_yieldk">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n ,\nthe running coroutine suspends its execution,\nand the call to\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n that started this coroutine returns.\nThe parameter\n <code>\n  nresults\n </code>\n is the number of values from the stack\nthat will be passed as results to\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n .\n</p>\n<p>\n When the coroutine is resumed again,\nLua calls the given continuation function\n <code>\n  k\n </code>\n to continue\nthe execution of the C\u00a0function that yielded (see\n <a href="#4.5">\n  \u00a74.5\n </a>\n ).\nThis continuation function receives the same stack\nfrom the previous function,\nwith the\n <code>\n  n\n </code>\n results removed and\nreplaced by the arguments passed to\n <a href="#lua_resume">\n  <code>\n   lua_resume\n  </code>\n </a>\n .\nMoreover,\nthe continuation function receives the value\n <code>\n  ctx\n </code>\n that was passed to\n <a href="#lua_yieldk">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n .\n</p>\n<p>\n Usually, this function does not return;\nwhen the coroutine eventually resumes,\nit continues executing the continuation function.\nHowever, there is one special case,\nwhich is when this function is called\nfrom inside a line or a count hook (see\n <a href="#4.7">\n  \u00a74.7\n </a>\n ).\nIn that case,\n <code>\n  lua_yieldk\n </code>\n should be called with no continuation\n(probably in the form of\n <a href="#lua_yield">\n  <code>\n   lua_yield\n  </code>\n </a>\n ) and no results,\nand the hook should return immediately after the call.\nLua will yield and,\nwhen the coroutine resumes again,\nit will continue the normal execution\nof the (Lua) function that triggered the hook.\n</p>\n<p>\n This function can raise an error if it is called from a thread\nwith a pending C call with no continuation function\n(what is called a\n <em>\n  C-call boundary\n </em>\n ),\nor it is called from a thread that is not running inside a resume\n(typically the main thread).\n</p>\n<h2>\n 4.7 \u2013\n <a name="4.7">\n  The Debug Interface\n </a>\n</h2>\n<p>\n Lua has no built-in debugging facilities.\nInstead, it offers a special interface\nby means of functions and\n <em>\n  hooks\n </em>\n .\nThis interface allows the construction of different\nkinds of debuggers, profilers, and other tools\nthat need "inside information" from the interpreter.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Debug",
-      "body": "<pre>typedef struct lua_Debug {\n  int event;\n  const char *name;           /* (n) */\n  const char *namewhat;       /* (n) */\n  const char *what;           /* (S) */\n  const char *source;         /* (S) */\n  size_t srclen;              /* (S) */\n  int currentline;            /* (l) */\n  int linedefined;            /* (S) */\n  int lastlinedefined;        /* (S) */\n  unsigned char nups;         /* (u) number of upvalues */\n  unsigned char nparams;      /* (u) number of parameters */\n  char isvararg;              /* (u) */\n  char istailcall;            /* (t) */\n  unsigned short ftransfer;   /* (r) index of first value transferred */\n  unsigned short ntransfer;   /* (r) number of transferred values */\n  char short_src[LUA_IDSIZE]; /* (S) */\n  /* private part */\n  <em>other fields</em>\n} lua_Debug;</pre>\n<p>\n A structure used to carry different pieces of\ninformation about a function or an activation record.\n <a href=\"#lua_getstack\">\n  <code>\n   lua_getstack\n  </code>\n </a>\n fills only the private part\nof this structure, for later use.\nTo fill the other fields of\n <a href=\"#lua_Debug\">\n  <code>\n   lua_Debug\n  </code>\n </a>\n with useful information,\nyou must call\n <a href=\"#lua_getinfo\">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n with an appropriate parameter.\n(Specifically, to get a field,\nyou must add the letter between parentheses in the field's comment\nto the parameter\n <code>\n  what\n </code>\n of\n <a href=\"#lua_getinfo\">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n .)\n</p>\n<p>\n The fields of\n <a href=\"#lua_Debug\">\n  <code>\n   lua_Debug\n  </code>\n </a>\n have the following meaning:\n</p>\n<ul>\n <li>\n  <b>\n   <code>\n    source\n   </code>\n   :\n  </b>\n  the source of the chunk that created the function.\nIf\n  <code>\n   source\n  </code>\n  starts with a '\n  <code>\n   @\n  </code>\n  ',\nit means that the function was defined in a file where\nthe file name follows the '\n  <code>\n   @\n  </code>\n  '.\nIf\n  <code>\n   source\n  </code>\n  starts with a '\n  <code>\n   =\n  </code>\n  ',\nthe remainder of its contents describes the source in a user-dependent manner.\nOtherwise,\nthe function was defined in a string where\n  <code>\n   source\n  </code>\n  is that string.\n </li>\n <li>\n  <b>\n   <code>\n    srclen\n   </code>\n   :\n  </b>\n  The length of the string\n  <code>\n   source\n  </code>\n  .\n </li>\n <li>\n  <b>\n   <code>\n    short_src\n   </code>\n   :\n  </b>\n  a \"printable\" version of\n  <code>\n   source\n  </code>\n  , to be used in error messages.\n </li>\n <li>\n  <b>\n   <code>\n    linedefined\n   </code>\n   :\n  </b>\n  the line number where the definition of the function starts.\n </li>\n <li>\n  <b>\n   <code>\n    lastlinedefined\n   </code>\n   :\n  </b>\n  the line number where the definition of the function ends.\n </li>\n <li>\n  <b>\n   <code>\n    what\n   </code>\n   :\n  </b>\n  the string\n  <code>\n   \"Lua\"\n  </code>\n  if the function is a Lua function,\n  <code>\n   \"C\"\n  </code>\n  if it is a C\u00a0function,\n  <code>\n   \"main\"\n  </code>\n  if it is the main part of a chunk.\n </li>\n <li>\n  <b>\n   <code>\n    currentline\n   </code>\n   :\n  </b>\n  the current line where the given function is executing.\nWhen no line information is available,\n  <code>\n   currentline\n  </code>\n  is set to -1.\n </li>\n <li>\n  <b>\n   <code>\n    name\n   </code>\n   :\n  </b>\n  a reasonable name for the given function.\nBecause functions in Lua are first-class values,\nthey do not have a fixed name:\nsome functions can be the value of multiple global variables,\nwhile others can be stored only in a table field.\nThe\n  <code>\n   lua_getinfo\n  </code>\n  function checks how the function was\ncalled to find a suitable name.\nIf it cannot find a name,\nthen\n  <code>\n   name\n  </code>\n  is set to\n  <code>\n   NULL\n  </code>\n  .\n </li>\n <li>\n  <b>\n   <code>\n    namewhat\n   </code>\n   :\n  </b>\n  explains the\n  <code>\n   name\n  </code>\n  field.\nThe value of\n  <code>\n   namewhat\n  </code>\n  can be\n  <code>\n   \"global\"\n  </code>\n  ,\n  <code>\n   \"local\"\n  </code>\n  ,\n  <code>\n   \"method\"\n  </code>\n  ,\n  <code>\n   \"field\"\n  </code>\n  ,\n  <code>\n   \"upvalue\"\n  </code>\n  , or\n  <code>\n   \"\"\n  </code>\n  (the empty string),\naccording to how the function was called.\n(Lua uses the empty string when no other option seems to apply.)\n </li>\n <li>\n  <b>\n   <code>\n    istailcall\n   </code>\n   :\n  </b>\n  true if this function invocation was called by a tail call.\nIn this case, the caller of this level is not in the stack.\n </li>\n <li>\n  <b>\n   <code>\n    nups\n   </code>\n   :\n  </b>\n  the number of upvalues of the function.\n </li>\n <li>\n  <b>\n   <code>\n    nparams\n   </code>\n   :\n  </b>\n  the number of parameters of the function\n(always 0\u00a0for C\u00a0functions).\n </li>\n <li>\n  <b>\n   <code>\n    isvararg\n   </code>\n   :\n  </b>\n  true if the function is a vararg function\n(always true for C\u00a0functions).\n </li>\n <li>\n  <b>\n   <code>\n    ftransfer\n   </code>\n   :\n  </b>\n  the index in the stack of the first value being \"transferred\",\nthat is, parameters in a call or return values in a return.\n(The other values are in consecutive indices.)\nUsing this index, you can access and modify these values\nthrough\n  <a href=\"#lua_getlocal\">\n   <code>\n    lua_getlocal\n   </code>\n  </a>\n  and\n  <a href=\"#lua_setlocal\">\n   <code>\n    lua_setlocal\n   </code>\n  </a>\n  .\nThis field is only meaningful during a\ncall hook, denoting the first parameter,\nor a return hook, denoting the first value being returned.\n(For call hooks, this value is always 1.)\n </li>\n <li>\n  <b>\n   <code>\n    ntransfer\n   </code>\n   :\n  </b>\n  The number of values being transferred (see previous item).\n(For calls of Lua functions,\nthis value is always equal to\n  <code>\n   nparams\n  </code>\n  .)\n </li>\n</ul>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Debug",
+    body: '<pre>typedef struct lua_Debug {\n  int event;\n  const char *name;           /* (n) */\n  const char *namewhat;       /* (n) */\n  const char *what;           /* (S) */\n  const char *source;         /* (S) */\n  size_t srclen;              /* (S) */\n  int currentline;            /* (l) */\n  int linedefined;            /* (S) */\n  int lastlinedefined;        /* (S) */\n  unsigned char nups;         /* (u) number of upvalues */\n  unsigned char nparams;      /* (u) number of parameters */\n  char isvararg;              /* (u) */\n  char istailcall;            /* (t) */\n  unsigned short ftransfer;   /* (r) index of first value transferred */\n  unsigned short ntransfer;   /* (r) number of transferred values */\n  char short_src[LUA_IDSIZE]; /* (S) */\n  /* private part */\n  <em>other fields</em>\n} lua_Debug;</pre>\n<p>\n A structure used to carry different pieces of\ninformation about a function or an activation record.\n <a href="#lua_getstack">\n  <code>\n   lua_getstack\n  </code>\n </a>\n fills only the private part\nof this structure, for later use.\nTo fill the other fields of\n <a href="#lua_Debug">\n  <code>\n   lua_Debug\n  </code>\n </a>\n with useful information,\nyou must call\n <a href="#lua_getinfo">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n with an appropriate parameter.\n(Specifically, to get a field,\nyou must add the letter between parentheses in the field\'s comment\nto the parameter\n <code>\n  what\n </code>\n of\n <a href="#lua_getinfo">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n .)\n</p>\n<p>\n The fields of\n <a href="#lua_Debug">\n  <code>\n   lua_Debug\n  </code>\n </a>\n have the following meaning:\n</p>\n<ul>\n <li>\n  <b>\n   <code>\n    source\n   </code>\n   :\n  </b>\n  the source of the chunk that created the function.\nIf\n  <code>\n   source\n  </code>\n  starts with a \'\n  <code>\n   @\n  </code>\n  \',\nit means that the function was defined in a file where\nthe file name follows the \'\n  <code>\n   @\n  </code>\n  \'.\nIf\n  <code>\n   source\n  </code>\n  starts with a \'\n  <code>\n   =\n  </code>\n  \',\nthe remainder of its contents describes the source in a user-dependent manner.\nOtherwise,\nthe function was defined in a string where\n  <code>\n   source\n  </code>\n  is that string.\n </li>\n <li>\n  <b>\n   <code>\n    srclen\n   </code>\n   :\n  </b>\n  The length of the string\n  <code>\n   source\n  </code>\n  .\n </li>\n <li>\n  <b>\n   <code>\n    short_src\n   </code>\n   :\n  </b>\n  a "printable" version of\n  <code>\n   source\n  </code>\n  , to be used in error messages.\n </li>\n <li>\n  <b>\n   <code>\n    linedefined\n   </code>\n   :\n  </b>\n  the line number where the definition of the function starts.\n </li>\n <li>\n  <b>\n   <code>\n    lastlinedefined\n   </code>\n   :\n  </b>\n  the line number where the definition of the function ends.\n </li>\n <li>\n  <b>\n   <code>\n    what\n   </code>\n   :\n  </b>\n  the string\n  <code>\n   "Lua"\n  </code>\n  if the function is a Lua function,\n  <code>\n   "C"\n  </code>\n  if it is a C\u00a0function,\n  <code>\n   "main"\n  </code>\n  if it is the main part of a chunk.\n </li>\n <li>\n  <b>\n   <code>\n    currentline\n   </code>\n   :\n  </b>\n  the current line where the given function is executing.\nWhen no line information is available,\n  <code>\n   currentline\n  </code>\n  is set to -1.\n </li>\n <li>\n  <b>\n   <code>\n    name\n   </code>\n   :\n  </b>\n  a reasonable name for the given function.\nBecause functions in Lua are first-class values,\nthey do not have a fixed name:\nsome functions can be the value of multiple global variables,\nwhile others can be stored only in a table field.\nThe\n  <code>\n   lua_getinfo\n  </code>\n  function checks how the function was\ncalled to find a suitable name.\nIf it cannot find a name,\nthen\n  <code>\n   name\n  </code>\n  is set to\n  <code>\n   NULL\n  </code>\n  .\n </li>\n <li>\n  <b>\n   <code>\n    namewhat\n   </code>\n   :\n  </b>\n  explains the\n  <code>\n   name\n  </code>\n  field.\nThe value of\n  <code>\n   namewhat\n  </code>\n  can be\n  <code>\n   "global"\n  </code>\n  ,\n  <code>\n   "local"\n  </code>\n  ,\n  <code>\n   "method"\n  </code>\n  ,\n  <code>\n   "field"\n  </code>\n  ,\n  <code>\n   "upvalue"\n  </code>\n  , or\n  <code>\n   ""\n  </code>\n  (the empty string),\naccording to how the function was called.\n(Lua uses the empty string when no other option seems to apply.)\n </li>\n <li>\n  <b>\n   <code>\n    istailcall\n   </code>\n   :\n  </b>\n  true if this function invocation was called by a tail call.\nIn this case, the caller of this level is not in the stack.\n </li>\n <li>\n  <b>\n   <code>\n    nups\n   </code>\n   :\n  </b>\n  the number of upvalues of the function.\n </li>\n <li>\n  <b>\n   <code>\n    nparams\n   </code>\n   :\n  </b>\n  the number of parameters of the function\n(always 0\u00a0for C\u00a0functions).\n </li>\n <li>\n  <b>\n   <code>\n    isvararg\n   </code>\n   :\n  </b>\n  true if the function is a vararg function\n(always true for C\u00a0functions).\n </li>\n <li>\n  <b>\n   <code>\n    ftransfer\n   </code>\n   :\n  </b>\n  the index in the stack of the first value being "transferred",\nthat is, parameters in a call or return values in a return.\n(The other values are in consecutive indices.)\nUsing this index, you can access and modify these values\nthrough\n  <a href="#lua_getlocal">\n   <code>\n    lua_getlocal\n   </code>\n  </a>\n  and\n  <a href="#lua_setlocal">\n   <code>\n    lua_setlocal\n   </code>\n  </a>\n  .\nThis field is only meaningful during a\ncall hook, denoting the first parameter,\nor a return hook, denoting the first value being returned.\n(For call hooks, this value is always 1.)\n </li>\n <li>\n  <b>\n   <code>\n    ntransfer\n   </code>\n   :\n  </b>\n  The number of values being transferred (see previous item).\n(For calls of Lua functions,\nthis value is always equal to\n  <code>\n   nparams\n  </code>\n  .)\n </li>\n</ul>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_gethook",
-      "body": "<pre>lua_Hook lua_gethook (lua_State *L);</pre>\n<p>\n Returns the current hook function.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_gethook",
+    body: "<pre>lua_Hook lua_gethook (lua_State *L);</pre>\n<p>\n Returns the current hook function.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_gethookcount",
-      "body": "<pre>int lua_gethookcount (lua_State *L);</pre>\n<p>\n Returns the current hook count.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_gethookcount",
+    body: "<pre>int lua_gethookcount (lua_State *L);</pre>\n<p>\n Returns the current hook count.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_gethookmask",
-      "body": "<pre>int lua_gethookmask (lua_State *L);</pre>\n<p>\n Returns the current hook mask.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_gethookmask",
+    body: "<pre>int lua_gethookmask (lua_State *L);</pre>\n<p>\n Returns the current hook mask.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getinfo",
-      "body": "<pre>int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar);</pre>\n<p>\n Gets information about a specific function or function invocation.\n</p>\n<p>\n To get information about a function invocation,\nthe parameter\n <code>\n  ar\n </code>\n must be a valid activation record that was\nfilled by a previous call to\n <a href=\"#lua_getstack\">\n  <code>\n   lua_getstack\n  </code>\n </a>\n or\ngiven as argument to a hook (see\n <a href=\"#lua_Hook\">\n  <code>\n   lua_Hook\n  </code>\n </a>\n ).\n</p>\n<p>\n To get information about a function, you push it onto the stack\nand start the\n <code>\n  what\n </code>\n string with the character '\n <code>\n  &gt;\n </code>\n '.\n(In that case,\n <code>\n  lua_getinfo\n </code>\n pops the function from the top of the stack.)\nFor instance, to know in which line a function\n <code>\n  f\n </code>\n was defined,\nyou can write the following code:\n</p>\n<pre>     lua_Debug ar;\n     lua_getglobal(L, \"f\");  /* get global 'f' */\n     lua_getinfo(L, \"&gt;S\", &amp;ar);\n     printf(\"%d\\n\", ar.linedefined);\n</pre>\n<p>\n Each character in the string\n <code>\n  what\n </code>\n selects some fields of the structure\n <code>\n  ar\n </code>\n to be filled or\na value to be pushed on the stack.\n(These characters are also documented in the declaration of\nthe structure\n <a href=\"#lua_Debug\">\n  <code>\n   lua_Debug\n  </code>\n </a>\n ,\nbetween parentheses in the comments following each field.)\n</p>\n<ul>\n <li>\n  <b>\n   '\n   <code>\n    f\n   </code>\n   ':\n  </b>\n  pushes onto the stack the function that is\nrunning at the given level;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    l\n   </code>\n   ':\n  </b>\n  fills in the field\n  <code>\n   currentline\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    n\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   name\n  </code>\n  and\n  <code>\n   namewhat\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    r\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   ftransfer\n  </code>\n  and\n  <code>\n   ntransfer\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    S\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   source\n  </code>\n  ,\n  <code>\n   short_src\n  </code>\n  ,\n  <code>\n   linedefined\n  </code>\n  ,\n  <code>\n   lastlinedefined\n  </code>\n  , and\n  <code>\n   what\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    t\n   </code>\n   ':\n  </b>\n  fills in the field\n  <code>\n   istailcall\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    u\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   nups\n  </code>\n  ,\n  <code>\n   nparams\n  </code>\n  , and\n  <code>\n   isvararg\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    L\n   </code>\n   ':\n  </b>\n  pushes onto the stack a table whose indices are\nthe lines on the function with some associated code,\nthat is, the lines where you can put a break point.\n(Lines with no code include empty lines and comments.)\nIf this option is given together with option '\n  <code>\n   f\n  </code>\n  ',\nits table is pushed after the function.\nThis is the only option that can raise a memory error.\n </li>\n</ul>\n<p>\n This function returns 0 to signal an invalid option in\n <code>\n  what\n </code>\n ;\neven then the valid options are handled correctly.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getinfo",
+    body: "<pre>int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar);</pre>\n<p>\n Gets information about a specific function or function invocation.\n</p>\n<p>\n To get information about a function invocation,\nthe parameter\n <code>\n  ar\n </code>\n must be a valid activation record that was\nfilled by a previous call to\n <a href=\"#lua_getstack\">\n  <code>\n   lua_getstack\n  </code>\n </a>\n or\ngiven as argument to a hook (see\n <a href=\"#lua_Hook\">\n  <code>\n   lua_Hook\n  </code>\n </a>\n ).\n</p>\n<p>\n To get information about a function, you push it onto the stack\nand start the\n <code>\n  what\n </code>\n string with the character '\n <code>\n  &gt;\n </code>\n '.\n(In that case,\n <code>\n  lua_getinfo\n </code>\n pops the function from the top of the stack.)\nFor instance, to know in which line a function\n <code>\n  f\n </code>\n was defined,\nyou can write the following code:\n</p>\n<pre>     lua_Debug ar;\n     lua_getglobal(L, \"f\");  /* get global 'f' */\n     lua_getinfo(L, \"&gt;S\", &amp;ar);\n     printf(\"%d\\n\", ar.linedefined);\n</pre>\n<p>\n Each character in the string\n <code>\n  what\n </code>\n selects some fields of the structure\n <code>\n  ar\n </code>\n to be filled or\na value to be pushed on the stack.\n(These characters are also documented in the declaration of\nthe structure\n <a href=\"#lua_Debug\">\n  <code>\n   lua_Debug\n  </code>\n </a>\n ,\nbetween parentheses in the comments following each field.)\n</p>\n<ul>\n <li>\n  <b>\n   '\n   <code>\n    f\n   </code>\n   ':\n  </b>\n  pushes onto the stack the function that is\nrunning at the given level;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    l\n   </code>\n   ':\n  </b>\n  fills in the field\n  <code>\n   currentline\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    n\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   name\n  </code>\n  and\n  <code>\n   namewhat\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    r\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   ftransfer\n  </code>\n  and\n  <code>\n   ntransfer\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    S\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   source\n  </code>\n  ,\n  <code>\n   short_src\n  </code>\n  ,\n  <code>\n   linedefined\n  </code>\n  ,\n  <code>\n   lastlinedefined\n  </code>\n  , and\n  <code>\n   what\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    t\n   </code>\n   ':\n  </b>\n  fills in the field\n  <code>\n   istailcall\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    u\n   </code>\n   ':\n  </b>\n  fills in the fields\n  <code>\n   nups\n  </code>\n  ,\n  <code>\n   nparams\n  </code>\n  , and\n  <code>\n   isvararg\n  </code>\n  ;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    L\n   </code>\n   ':\n  </b>\n  pushes onto the stack a table whose indices are\nthe lines on the function with some associated code,\nthat is, the lines where you can put a break point.\n(Lines with no code include empty lines and comments.)\nIf this option is given together with option '\n  <code>\n   f\n  </code>\n  ',\nits table is pushed after the function.\nThis is the only option that can raise a memory error.\n </li>\n</ul>\n<p>\n This function returns 0 to signal an invalid option in\n <code>\n  what\n </code>\n ;\neven then the valid options are handled correctly.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getlocal",
-      "body": "<pre>const char *lua_getlocal (lua_State *L, const lua_Debug *ar, int n);</pre>\n<p>\n Gets information about a local variable or a temporary value\nof a given activation record or a given function.\n</p>\n<p>\n In the first case,\nthe parameter\n <code>\n  ar\n </code>\n must be a valid activation record that was\nfilled by a previous call to\n <a href=\"#lua_getstack\">\n  <code>\n   lua_getstack\n  </code>\n </a>\n or\ngiven as argument to a hook (see\n <a href=\"#lua_Hook\">\n  <code>\n   lua_Hook\n  </code>\n </a>\n ).\nThe index\n <code>\n  n\n </code>\n selects which local variable to inspect;\nsee\n <a href=\"#pdf-debug.getlocal\">\n  <code>\n   debug.getlocal\n  </code>\n </a>\n for details about variable indices\nand names.\n</p>\n<p>\n <a href=\"#lua_getlocal\">\n  <code>\n   lua_getlocal\n  </code>\n </a>\n pushes the variable's value onto the stack\nand returns its name.\n</p>\n<p>\n In the second case,\n <code>\n  ar\n </code>\n must be\n <code>\n  NULL\n </code>\n and the function\nto be inspected must be on the top of the stack.\nIn this case, only parameters of Lua functions are visible\n(as there is no information about what variables are active)\nand no values are pushed onto the stack.\n</p>\n<p>\n Returns\n <code>\n  NULL\n </code>\n (and pushes nothing)\nwhen the index is greater than\nthe number of active local variables.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getlocal",
+    body: '<pre>const char *lua_getlocal (lua_State *L, const lua_Debug *ar, int n);</pre>\n<p>\n Gets information about a local variable or a temporary value\nof a given activation record or a given function.\n</p>\n<p>\n In the first case,\nthe parameter\n <code>\n  ar\n </code>\n must be a valid activation record that was\nfilled by a previous call to\n <a href="#lua_getstack">\n  <code>\n   lua_getstack\n  </code>\n </a>\n or\ngiven as argument to a hook (see\n <a href="#lua_Hook">\n  <code>\n   lua_Hook\n  </code>\n </a>\n ).\nThe index\n <code>\n  n\n </code>\n selects which local variable to inspect;\nsee\n <a href="#pdf-debug.getlocal">\n  <code>\n   debug.getlocal\n  </code>\n </a>\n for details about variable indices\nand names.\n</p>\n<p>\n <a href="#lua_getlocal">\n  <code>\n   lua_getlocal\n  </code>\n </a>\n pushes the variable\'s value onto the stack\nand returns its name.\n</p>\n<p>\n In the second case,\n <code>\n  ar\n </code>\n must be\n <code>\n  NULL\n </code>\n and the function\nto be inspected must be on the top of the stack.\nIn this case, only parameters of Lua functions are visible\n(as there is no information about what variables are active)\nand no values are pushed onto the stack.\n</p>\n<p>\n Returns\n <code>\n  NULL\n </code>\n (and pushes nothing)\nwhen the index is greater than\nthe number of active local variables.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getstack",
-      "body": "<pre>int lua_getstack (lua_State *L, int level, lua_Debug *ar);</pre>\n<p>\n Gets information about the interpreter runtime stack.\n</p>\n<p>\n This function fills parts of a\n <a href=\"#lua_Debug\">\n  <code>\n   lua_Debug\n  </code>\n </a>\n structure with\nan identification of the\n <em>\n  activation record\n </em>\n of the function executing at a given level.\nLevel\u00a00 is the current running function,\nwhereas level\n <em>\n  n+1\n </em>\n is the function that has called level\n <em>\n  n\n </em>\n (except for tail calls, which do not count in the stack).\nWhen called with a level greater than the stack depth,\n <a href=\"#lua_getstack\">\n  <code>\n   lua_getstack\n  </code>\n </a>\n returns 0;\notherwise it returns 1.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getstack",
+    body: '<pre>int lua_getstack (lua_State *L, int level, lua_Debug *ar);</pre>\n<p>\n Gets information about the interpreter runtime stack.\n</p>\n<p>\n This function fills parts of a\n <a href="#lua_Debug">\n  <code>\n   lua_Debug\n  </code>\n </a>\n structure with\nan identification of the\n <em>\n  activation record\n </em>\n of the function executing at a given level.\nLevel\u00a00 is the current running function,\nwhereas level\n <em>\n  n+1\n </em>\n is the function that has called level\n <em>\n  n\n </em>\n (except for tail calls, which do not count in the stack).\nWhen called with a level greater than the stack depth,\n <a href="#lua_getstack">\n  <code>\n   lua_getstack\n  </code>\n </a>\n returns 0;\notherwise it returns 1.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_getupvalue",
-      "body": "<pre>const char *lua_getupvalue (lua_State *L, int funcindex, int n);</pre>\n<p>\n Gets information about the\n <code>\n  n\n </code>\n -th upvalue\nof the closure at index\n <code>\n  funcindex\n </code>\n .\nIt pushes the upvalue's value onto the stack\nand returns its name.\nReturns\n <code>\n  NULL\n </code>\n (and pushes nothing)\nwhen the index\n <code>\n  n\n </code>\n is greater than the number of upvalues.\n</p>\n<p>\n See\n <a href=\"#pdf-debug.getupvalue\">\n  <code>\n   debug.getupvalue\n  </code>\n </a>\n for more information about upvalues.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_getupvalue",
+    body: '<pre>const char *lua_getupvalue (lua_State *L, int funcindex, int n);</pre>\n<p>\n Gets information about the\n <code>\n  n\n </code>\n -th upvalue\nof the closure at index\n <code>\n  funcindex\n </code>\n .\nIt pushes the upvalue\'s value onto the stack\nand returns its name.\nReturns\n <code>\n  NULL\n </code>\n (and pushes nothing)\nwhen the index\n <code>\n  n\n </code>\n is greater than the number of upvalues.\n</p>\n<p>\n See\n <a href="#pdf-debug.getupvalue">\n  <code>\n   debug.getupvalue\n  </code>\n </a>\n for more information about upvalues.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_Hook",
-      "body": "<pre>typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);</pre>\n<p>\n Type for debugging hook functions.\n</p>\n<p>\n Whenever a hook is called, its\n <code>\n  ar\n </code>\n argument has its field\n <code>\n  event\n </code>\n set to the specific event that triggered the hook.\nLua identifies these events with the following constants:\n <a name=\"pdf-LUA_HOOKCALL\">\n  <code>\n   LUA_HOOKCALL\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_HOOKRET\">\n  <code>\n   LUA_HOOKRET\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_HOOKTAILCALL\">\n  <code>\n   LUA_HOOKTAILCALL\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_HOOKLINE\">\n  <code>\n   LUA_HOOKLINE\n  </code>\n </a>\n ,\nand\n <a name=\"pdf-LUA_HOOKCOUNT\">\n  <code>\n   LUA_HOOKCOUNT\n  </code>\n </a>\n .\nMoreover, for line events, the field\n <code>\n  currentline\n </code>\n is also set.\nTo get the value of any other field in\n <code>\n  ar\n </code>\n ,\nthe hook must call\n <a href=\"#lua_getinfo\">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n .\n</p>\n<p>\n For call events,\n <code>\n  event\n </code>\n can be\n <code>\n  LUA_HOOKCALL\n </code>\n ,\nthe normal value, or\n <code>\n  LUA_HOOKTAILCALL\n </code>\n , for a tail call;\nin this case, there will be no corresponding return event.\n</p>\n<p>\n While Lua is running a hook, it disables other calls to hooks.\nTherefore, if a hook calls back Lua to execute a function or a chunk,\nthis execution occurs without any calls to hooks.\n</p>\n<p>\n Hook functions cannot have continuations,\nthat is, they cannot call\n <a href=\"#lua_yieldk\">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n ,\n <a href=\"#lua_pcallk\">\n  <code>\n   lua_pcallk\n  </code>\n </a>\n , or\n <a href=\"#lua_callk\">\n  <code>\n   lua_callk\n  </code>\n </a>\n with a non-null\n <code>\n  k\n </code>\n .\n</p>\n<p>\n Hook functions can yield under the following conditions:\nOnly count and line events can yield;\nto yield, a hook function must finish its execution\ncalling\n <a href=\"#lua_yield\">\n  <code>\n   lua_yield\n  </code>\n </a>\n with\n <code>\n  nresults\n </code>\n equal to zero\n(that is, with no values).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_Hook",
+    body: '<pre>typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);</pre>\n<p>\n Type for debugging hook functions.\n</p>\n<p>\n Whenever a hook is called, its\n <code>\n  ar\n </code>\n argument has its field\n <code>\n  event\n </code>\n set to the specific event that triggered the hook.\nLua identifies these events with the following constants:\n <a name="pdf-LUA_HOOKCALL">\n  <code>\n   LUA_HOOKCALL\n  </code>\n </a>\n ,\n <a name="pdf-LUA_HOOKRET">\n  <code>\n   LUA_HOOKRET\n  </code>\n </a>\n ,\n <a name="pdf-LUA_HOOKTAILCALL">\n  <code>\n   LUA_HOOKTAILCALL\n  </code>\n </a>\n ,\n <a name="pdf-LUA_HOOKLINE">\n  <code>\n   LUA_HOOKLINE\n  </code>\n </a>\n ,\nand\n <a name="pdf-LUA_HOOKCOUNT">\n  <code>\n   LUA_HOOKCOUNT\n  </code>\n </a>\n .\nMoreover, for line events, the field\n <code>\n  currentline\n </code>\n is also set.\nTo get the value of any other field in\n <code>\n  ar\n </code>\n ,\nthe hook must call\n <a href="#lua_getinfo">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n .\n</p>\n<p>\n For call events,\n <code>\n  event\n </code>\n can be\n <code>\n  LUA_HOOKCALL\n </code>\n ,\nthe normal value, or\n <code>\n  LUA_HOOKTAILCALL\n </code>\n , for a tail call;\nin this case, there will be no corresponding return event.\n</p>\n<p>\n While Lua is running a hook, it disables other calls to hooks.\nTherefore, if a hook calls back Lua to execute a function or a chunk,\nthis execution occurs without any calls to hooks.\n</p>\n<p>\n Hook functions cannot have continuations,\nthat is, they cannot call\n <a href="#lua_yieldk">\n  <code>\n   lua_yieldk\n  </code>\n </a>\n ,\n <a href="#lua_pcallk">\n  <code>\n   lua_pcallk\n  </code>\n </a>\n , or\n <a href="#lua_callk">\n  <code>\n   lua_callk\n  </code>\n </a>\n with a non-null\n <code>\n  k\n </code>\n .\n</p>\n<p>\n Hook functions can yield under the following conditions:\nOnly count and line events can yield;\nto yield, a hook function must finish its execution\ncalling\n <a href="#lua_yield">\n  <code>\n   lua_yield\n  </code>\n </a>\n with\n <code>\n  nresults\n </code>\n equal to zero\n(that is, with no values).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_sethook",
-      "body": "<pre>void lua_sethook (lua_State *L, lua_Hook f, int mask, int count);</pre>\n<p>\n Sets the debugging hook function.\n</p>\n<p>\n Argument\n <code>\n  f\n </code>\n is the hook function.\n <code>\n  mask\n </code>\n specifies on which events the hook will be called:\nit is formed by a bitwise OR of the constants\n <a name=\"pdf-LUA_MASKCALL\">\n  <code>\n   LUA_MASKCALL\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_MASKRET\">\n  <code>\n   LUA_MASKRET\n  </code>\n </a>\n ,\n <a name=\"pdf-LUA_MASKLINE\">\n  <code>\n   LUA_MASKLINE\n  </code>\n </a>\n ,\nand\n <a name=\"pdf-LUA_MASKCOUNT\">\n  <code>\n   LUA_MASKCOUNT\n  </code>\n </a>\n .\nThe\n <code>\n  count\n </code>\n argument is only meaningful when the mask\nincludes\n <code>\n  LUA_MASKCOUNT\n </code>\n .\nFor each event, the hook is called as explained below:\n</p>\n<ul>\n <li>\n  <b>\n   The call hook:\n  </b>\n  is called when the interpreter calls a function.\nThe hook is called just after Lua enters the new function.\n </li>\n <li>\n  <b>\n   The return hook:\n  </b>\n  is called when the interpreter returns from a function.\nThe hook is called just before Lua leaves the function.\n </li>\n <li>\n  <b>\n   The line hook:\n  </b>\n  is called when the interpreter is about to\nstart the execution of a new line of code,\nor when it jumps back in the code (even to the same line).\nThis event only happens while Lua is executing a Lua function.\n </li>\n <li>\n  <b>\n   The count hook:\n  </b>\n  is called after the interpreter executes every\n  <code>\n   count\n  </code>\n  instructions.\nThis event only happens while Lua is executing a Lua function.\n </li>\n</ul>\n<p>\n Hooks are disabled by setting\n <code>\n  mask\n </code>\n to zero.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_sethook",
+    body: '<pre>void lua_sethook (lua_State *L, lua_Hook f, int mask, int count);</pre>\n<p>\n Sets the debugging hook function.\n</p>\n<p>\n Argument\n <code>\n  f\n </code>\n is the hook function.\n <code>\n  mask\n </code>\n specifies on which events the hook will be called:\nit is formed by a bitwise OR of the constants\n <a name="pdf-LUA_MASKCALL">\n  <code>\n   LUA_MASKCALL\n  </code>\n </a>\n ,\n <a name="pdf-LUA_MASKRET">\n  <code>\n   LUA_MASKRET\n  </code>\n </a>\n ,\n <a name="pdf-LUA_MASKLINE">\n  <code>\n   LUA_MASKLINE\n  </code>\n </a>\n ,\nand\n <a name="pdf-LUA_MASKCOUNT">\n  <code>\n   LUA_MASKCOUNT\n  </code>\n </a>\n .\nThe\n <code>\n  count\n </code>\n argument is only meaningful when the mask\nincludes\n <code>\n  LUA_MASKCOUNT\n </code>\n .\nFor each event, the hook is called as explained below:\n</p>\n<ul>\n <li>\n  <b>\n   The call hook:\n  </b>\n  is called when the interpreter calls a function.\nThe hook is called just after Lua enters the new function.\n </li>\n <li>\n  <b>\n   The return hook:\n  </b>\n  is called when the interpreter returns from a function.\nThe hook is called just before Lua leaves the function.\n </li>\n <li>\n  <b>\n   The line hook:\n  </b>\n  is called when the interpreter is about to\nstart the execution of a new line of code,\nor when it jumps back in the code (even to the same line).\nThis event only happens while Lua is executing a Lua function.\n </li>\n <li>\n  <b>\n   The count hook:\n  </b>\n  is called after the interpreter executes every\n  <code>\n   count\n  </code>\n  instructions.\nThis event only happens while Lua is executing a Lua function.\n </li>\n</ul>\n<p>\n Hooks are disabled by setting\n <code>\n  mask\n </code>\n to zero.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setlocal",
-      "body": "<pre>const char *lua_setlocal (lua_State *L, const lua_Debug *ar, int n);</pre>\n<p>\n Sets the value of a local variable of a given activation record.\nIt assigns the value on the top of the stack\nto the variable and returns its name.\nIt also pops the value from the stack.\n</p>\n<p>\n Returns\n <code>\n  NULL\n </code>\n (and pops nothing)\nwhen the index is greater than\nthe number of active local variables.\n</p>\n<p>\n Parameters\n <code>\n  ar\n </code>\n and\n <code>\n  n\n </code>\n are as in the function\n <a href=\"#lua_getlocal\">\n  <code>\n   lua_getlocal\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setlocal",
+    body: '<pre>const char *lua_setlocal (lua_State *L, const lua_Debug *ar, int n);</pre>\n<p>\n Sets the value of a local variable of a given activation record.\nIt assigns the value on the top of the stack\nto the variable and returns its name.\nIt also pops the value from the stack.\n</p>\n<p>\n Returns\n <code>\n  NULL\n </code>\n (and pops nothing)\nwhen the index is greater than\nthe number of active local variables.\n</p>\n<p>\n Parameters\n <code>\n  ar\n </code>\n and\n <code>\n  n\n </code>\n are as in the function\n <a href="#lua_getlocal">\n  <code>\n   lua_getlocal\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_setupvalue",
-      "body": "<pre>const char *lua_setupvalue (lua_State *L, int funcindex, int n);</pre>\n<p>\n Sets the value of a closure's upvalue.\nIt assigns the value on the top of the stack\nto the upvalue and returns its name.\nIt also pops the value from the stack.\n</p>\n<p>\n Returns\n <code>\n  NULL\n </code>\n (and pops nothing)\nwhen the index\n <code>\n  n\n </code>\n is greater than the number of upvalues.\n</p>\n<p>\n Parameters\n <code>\n  funcindex\n </code>\n and\n <code>\n  n\n </code>\n are as in\nthe function\n <a href=\"#lua_getupvalue\">\n  <code>\n   lua_getupvalue\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_setupvalue",
+    body: '<pre>const char *lua_setupvalue (lua_State *L, int funcindex, int n);</pre>\n<p>\n Sets the value of a closure\'s upvalue.\nIt assigns the value on the top of the stack\nto the upvalue and returns its name.\nIt also pops the value from the stack.\n</p>\n<p>\n Returns\n <code>\n  NULL\n </code>\n (and pops nothing)\nwhen the index\n <code>\n  n\n </code>\n is greater than the number of upvalues.\n</p>\n<p>\n Parameters\n <code>\n  funcindex\n </code>\n and\n <code>\n  n\n </code>\n are as in\nthe function\n <a href="#lua_getupvalue">\n  <code>\n   lua_getupvalue\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_upvalueid",
-      "body": "<pre>void *lua_upvalueid (lua_State *L, int funcindex, int n);</pre>\n<p>\n Returns a unique identifier for the upvalue numbered\n <code>\n  n\n </code>\n from the closure at index\n <code>\n  funcindex\n </code>\n .\n</p>\n<p>\n These unique identifiers allow a program to check whether different\nclosures share upvalues.\nLua closures that share an upvalue\n(that is, that access a same external local variable)\nwill return identical ids for those upvalue indices.\n</p>\n<p>\n Parameters\n <code>\n  funcindex\n </code>\n and\n <code>\n  n\n </code>\n are as in\nthe function\n <a href=\"#lua_getupvalue\">\n  <code>\n   lua_getupvalue\n  </code>\n </a>\n ,\nbut\n <code>\n  n\n </code>\n cannot be greater than the number of upvalues.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_upvalueid",
+    body: '<pre>void *lua_upvalueid (lua_State *L, int funcindex, int n);</pre>\n<p>\n Returns a unique identifier for the upvalue numbered\n <code>\n  n\n </code>\n from the closure at index\n <code>\n  funcindex\n </code>\n .\n</p>\n<p>\n These unique identifiers allow a program to check whether different\nclosures share upvalues.\nLua closures that share an upvalue\n(that is, that access a same external local variable)\nwill return identical ids for those upvalue indices.\n</p>\n<p>\n Parameters\n <code>\n  funcindex\n </code>\n and\n <code>\n  n\n </code>\n are as in\nthe function\n <a href="#lua_getupvalue">\n  <code>\n   lua_getupvalue\n  </code>\n </a>\n ,\nbut\n <code>\n  n\n </code>\n cannot be greater than the number of upvalues.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "lua_upvaluejoin",
-      "body": "<pre>void lua_upvaluejoin (lua_State *L, int funcindex1, int n1,\n                                    int funcindex2, int n2);</pre>\n<p>\n Make the\n <code>\n  n1\n </code>\n -th upvalue of the Lua closure at index\n <code>\n  funcindex1\n </code>\n refer to the\n <code>\n  n2\n </code>\n -th upvalue of the Lua closure at index\n <code>\n  funcindex2\n </code>\n .\n</p>\n<h1>\n 5 \u2013\n <a name=\"5\">\n  The Auxiliary Library\n </a>\n</h1>\n<p>\n The\n <em>\n  auxiliary library\n </em>\n provides several convenient functions\nto interface C with Lua.\nWhile the basic API provides the primitive functions for all\ninteractions between C and Lua,\nthe auxiliary library provides higher-level functions for some\ncommon tasks.\n</p>\n<p>\n All functions and types from the auxiliary library\nare defined in header file\n <code>\n  lauxlib.h\n </code>\n and\nhave a prefix\n <code>\n  luaL_\n </code>\n .\n</p>\n<p>\n All functions in the auxiliary library are built on\ntop of the basic API,\nand so they provide nothing that cannot be done with that API.\nNevertheless, the use of the auxiliary library ensures\nmore consistency to your code.\n</p>\n<p>\n Several functions in the auxiliary library use internally some\nextra stack slots.\nWhen a function in the auxiliary library uses less than five slots,\nit does not check the stack size;\nit simply assumes that there are enough slots.\n</p>\n<p>\n Several functions in the auxiliary library are used to\ncheck C\u00a0function arguments.\nBecause the error message is formatted for arguments\n(e.g., \"\n <code>\n  bad argument #1\n </code>\n \"),\nyou should not use these functions for other stack values.\n</p>\n<p>\n Functions called\n <code>\n  luaL_check*\n </code>\n always raise an error if the check is not satisfied.\n</p>\n<h2>\n 5.1 \u2013\n <a name=\"5.1\">\n  Functions and Types\n </a>\n</h2>\n<p>\n Here we list all functions and types from the auxiliary library\nin alphabetical order.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "lua_upvaluejoin",
+    body: '<pre>void lua_upvaluejoin (lua_State *L, int funcindex1, int n1,\n                                    int funcindex2, int n2);</pre>\n<p>\n Make the\n <code>\n  n1\n </code>\n -th upvalue of the Lua closure at index\n <code>\n  funcindex1\n </code>\n refer to the\n <code>\n  n2\n </code>\n -th upvalue of the Lua closure at index\n <code>\n  funcindex2\n </code>\n .\n</p>\n<h1>\n 5 \u2013\n <a name="5">\n  The Auxiliary Library\n </a>\n</h1>\n<p>\n The\n <em>\n  auxiliary library\n </em>\n provides several convenient functions\nto interface C with Lua.\nWhile the basic API provides the primitive functions for all\ninteractions between C and Lua,\nthe auxiliary library provides higher-level functions for some\ncommon tasks.\n</p>\n<p>\n All functions and types from the auxiliary library\nare defined in header file\n <code>\n  lauxlib.h\n </code>\n and\nhave a prefix\n <code>\n  luaL_\n </code>\n .\n</p>\n<p>\n All functions in the auxiliary library are built on\ntop of the basic API,\nand so they provide nothing that cannot be done with that API.\nNevertheless, the use of the auxiliary library ensures\nmore consistency to your code.\n</p>\n<p>\n Several functions in the auxiliary library use internally some\nextra stack slots.\nWhen a function in the auxiliary library uses less than five slots,\nit does not check the stack size;\nit simply assumes that there are enough slots.\n</p>\n<p>\n Several functions in the auxiliary library are used to\ncheck C\u00a0function arguments.\nBecause the error message is formatted for arguments\n(e.g., "\n <code>\n  bad argument #1\n </code>\n "),\nyou should not use these functions for other stack values.\n</p>\n<p>\n Functions called\n <code>\n  luaL_check*\n </code>\n always raise an error if the check is not satisfied.\n</p>\n<h2>\n 5.1 \u2013\n <a name="5.1">\n  Functions and Types\n </a>\n</h2>\n<p>\n Here we list all functions and types from the auxiliary library\nin alphabetical order.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_addchar",
-      "body": "<pre>void luaL_addchar (luaL_Buffer *B, char c);</pre>\n<p>\n Adds the byte\n <code>\n  c\n </code>\n to the buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_addchar",
+    body: '<pre>void luaL_addchar (luaL_Buffer *B, char c);</pre>\n<p>\n Adds the byte\n <code>\n  c\n </code>\n to the buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_addgsub",
-      "body": "<pre>const void luaL_addgsub (luaL_Buffer *B, const char *s,\n                         const char *p, const char *r);</pre>\n<p>\n Adds a copy of the string\n <code>\n  s\n </code>\n to the buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ),\nreplacing any occurrence of the string\n <code>\n  p\n </code>\n with the string\n <code>\n  r\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_addgsub",
+    body: '<pre>const void luaL_addgsub (luaL_Buffer *B, const char *s,\n                         const char *p, const char *r);</pre>\n<p>\n Adds a copy of the string\n <code>\n  s\n </code>\n to the buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ),\nreplacing any occurrence of the string\n <code>\n  p\n </code>\n with the string\n <code>\n  r\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_addlstring",
-      "body": "<pre>void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l);</pre>\n<p>\n Adds the string pointed to by\n <code>\n  s\n </code>\n with length\n <code>\n  l\n </code>\n to\nthe buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nThe string can contain embedded zeros.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_addlstring",
+    body: '<pre>void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l);</pre>\n<p>\n Adds the string pointed to by\n <code>\n  s\n </code>\n with length\n <code>\n  l\n </code>\n to\nthe buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nThe string can contain embedded zeros.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_addsize",
-      "body": "<pre>void luaL_addsize (luaL_Buffer *B, size_t n);</pre>\n<p>\n Adds to the buffer\n <code>\n  B\n </code>\n a string of length\n <code>\n  n\n </code>\n previously copied to the\nbuffer area (see\n <a href=\"#luaL_prepbuffer\">\n  <code>\n   luaL_prepbuffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_addsize",
+    body: '<pre>void luaL_addsize (luaL_Buffer *B, size_t n);</pre>\n<p>\n Adds to the buffer\n <code>\n  B\n </code>\n a string of length\n <code>\n  n\n </code>\n previously copied to the\nbuffer area (see\n <a href="#luaL_prepbuffer">\n  <code>\n   luaL_prepbuffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_addstring",
-      "body": "<pre>void luaL_addstring (luaL_Buffer *B, const char *s);</pre>\n<p>\n Adds the zero-terminated string pointed to by\n <code>\n  s\n </code>\n to the buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_addstring",
+    body: '<pre>void luaL_addstring (luaL_Buffer *B, const char *s);</pre>\n<p>\n Adds the zero-terminated string pointed to by\n <code>\n  s\n </code>\n to the buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_addvalue",
-      "body": "<pre>void luaL_addvalue (luaL_Buffer *B);</pre>\n<p>\n Adds the value on the top of the stack\nto the buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nPops the value.\n</p>\n<p>\n This is the only function on string buffers that can (and must)\nbe called with an extra element on the stack,\nwhich is the value to be added to the buffer.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_addvalue",
+    body: '<pre>void luaL_addvalue (luaL_Buffer *B);</pre>\n<p>\n Adds the value on the top of the stack\nto the buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nPops the value.\n</p>\n<p>\n This is the only function on string buffers that can (and must)\nbe called with an extra element on the stack,\nwhich is the value to be added to the buffer.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_argcheck",
-      "body": "<pre>void luaL_argcheck (lua_State *L,\n                    int cond,\n                    int arg,\n                    const char *extramsg);</pre>\n<p>\n Checks whether\n <code>\n  cond\n </code>\n is true.\nIf it is not, raises an error with a standard message (see\n <a href=\"#luaL_argerror\">\n  <code>\n   luaL_argerror\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_argcheck",
+    body: '<pre>void luaL_argcheck (lua_State *L,\n                    int cond,\n                    int arg,\n                    const char *extramsg);</pre>\n<p>\n Checks whether\n <code>\n  cond\n </code>\n is true.\nIf it is not, raises an error with a standard message (see\n <a href="#luaL_argerror">\n  <code>\n   luaL_argerror\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_argerror",
-      "body": "<pre>int luaL_argerror (lua_State *L, int arg, const char *extramsg);</pre>\n<p>\n Raises an error reporting a problem with argument\n <code>\n  arg\n </code>\n of the C\u00a0function that called it,\nusing a standard message\nthat includes\n <code>\n  extramsg\n </code>\n as a comment:\n</p>\n<pre>     bad argument #<em>arg</em> to '<em>funcname</em>' (<em>extramsg</em>)\n</pre>\n<p>\n This function never returns.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_argerror",
+    body: "<pre>int luaL_argerror (lua_State *L, int arg, const char *extramsg);</pre>\n<p>\n Raises an error reporting a problem with argument\n <code>\n  arg\n </code>\n of the C\u00a0function that called it,\nusing a standard message\nthat includes\n <code>\n  extramsg\n </code>\n as a comment:\n</p>\n<pre>     bad argument #<em>arg</em> to '<em>funcname</em>' (<em>extramsg</em>)\n</pre>\n<p>\n This function never returns.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_argexpected",
-      "body": "<pre>void luaL_argexpected (lua_State *L,\n                       int cond,\n                       int arg,\n                       const char *tname);</pre>\n<p>\n Checks whether\n <code>\n  cond\n </code>\n is true.\nIf it is not, raises an error about the type of the argument\n <code>\n  arg\n </code>\n with a standard message (see\n <a href=\"#luaL_typeerror\">\n  <code>\n   luaL_typeerror\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_argexpected",
+    body: '<pre>void luaL_argexpected (lua_State *L,\n                       int cond,\n                       int arg,\n                       const char *tname);</pre>\n<p>\n Checks whether\n <code>\n  cond\n </code>\n is true.\nIf it is not, raises an error about the type of the argument\n <code>\n  arg\n </code>\n with a standard message (see\n <a href="#luaL_typeerror">\n  <code>\n   luaL_typeerror\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_Buffer",
-      "body": "<pre>typedef struct luaL_Buffer luaL_Buffer;</pre>\n<p>\n Type for a\n <em>\n  string buffer\n </em>\n .\n</p>\n<p>\n A string buffer allows C\u00a0code to build Lua strings piecemeal.\nIts pattern of use is as follows:\n</p>\n<ul>\n <li>\n  First declare a variable\n  <code>\n   b\n  </code>\n  of type\n  <a href=\"#luaL_Buffer\">\n   <code>\n    luaL_Buffer\n   </code>\n  </a>\n  .\n </li>\n <li>\n  Then initialize it with a call\n  <code>\n   luaL_buffinit(L, &amp;b)\n  </code>\n  .\n </li>\n <li>\n  Then add string pieces to the buffer calling any of\nthe\n  <code>\n   luaL_add*\n  </code>\n  functions.\n </li>\n <li>\n  Finish by calling\n  <code>\n   luaL_pushresult(&amp;b)\n  </code>\n  .\nThis call leaves the final string on the top of the stack.\n </li>\n</ul>\n<p>\n If you know beforehand the maximum size of the resulting string,\nyou can use the buffer like this:\n</p>\n<ul>\n <li>\n  First declare a variable\n  <code>\n   b\n  </code>\n  of type\n  <a href=\"#luaL_Buffer\">\n   <code>\n    luaL_Buffer\n   </code>\n  </a>\n  .\n </li>\n <li>\n  Then initialize it and preallocate a space of\nsize\n  <code>\n   sz\n  </code>\n  with a call\n  <code>\n   luaL_buffinitsize(L, &amp;b, sz)\n  </code>\n  .\n </li>\n <li>\n  Then produce the string into that space.\n </li>\n <li>\n  Finish by calling\n  <code>\n   luaL_pushresultsize(&amp;b, sz)\n  </code>\n  ,\nwhere\n  <code>\n   sz\n  </code>\n  is the total size of the resulting string\ncopied into that space (which may be less than or\nequal to the preallocated size).\n </li>\n</ul>\n<p>\n During its normal operation,\na string buffer uses a variable number of stack slots.\nSo, while using a buffer, you cannot assume that you know where\nthe top of the stack is.\nYou can use the stack between successive calls to buffer operations\nas long as that use is balanced;\nthat is,\nwhen you call a buffer operation,\nthe stack is at the same level\nit was immediately after the previous buffer operation.\n(The only exception to this rule is\n <a href=\"#luaL_addvalue\">\n  <code>\n   luaL_addvalue\n  </code>\n </a>\n .)\nAfter calling\n <a href=\"#luaL_pushresult\">\n  <code>\n   luaL_pushresult\n  </code>\n </a>\n ,\nthe stack is back to its level when the buffer was initialized,\nplus the final string on its top.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_Buffer",
+    body: '<pre>typedef struct luaL_Buffer luaL_Buffer;</pre>\n<p>\n Type for a\n <em>\n  string buffer\n </em>\n .\n</p>\n<p>\n A string buffer allows C\u00a0code to build Lua strings piecemeal.\nIts pattern of use is as follows:\n</p>\n<ul>\n <li>\n  First declare a variable\n  <code>\n   b\n  </code>\n  of type\n  <a href="#luaL_Buffer">\n   <code>\n    luaL_Buffer\n   </code>\n  </a>\n  .\n </li>\n <li>\n  Then initialize it with a call\n  <code>\n   luaL_buffinit(L, &amp;b)\n  </code>\n  .\n </li>\n <li>\n  Then add string pieces to the buffer calling any of\nthe\n  <code>\n   luaL_add*\n  </code>\n  functions.\n </li>\n <li>\n  Finish by calling\n  <code>\n   luaL_pushresult(&amp;b)\n  </code>\n  .\nThis call leaves the final string on the top of the stack.\n </li>\n</ul>\n<p>\n If you know beforehand the maximum size of the resulting string,\nyou can use the buffer like this:\n</p>\n<ul>\n <li>\n  First declare a variable\n  <code>\n   b\n  </code>\n  of type\n  <a href="#luaL_Buffer">\n   <code>\n    luaL_Buffer\n   </code>\n  </a>\n  .\n </li>\n <li>\n  Then initialize it and preallocate a space of\nsize\n  <code>\n   sz\n  </code>\n  with a call\n  <code>\n   luaL_buffinitsize(L, &amp;b, sz)\n  </code>\n  .\n </li>\n <li>\n  Then produce the string into that space.\n </li>\n <li>\n  Finish by calling\n  <code>\n   luaL_pushresultsize(&amp;b, sz)\n  </code>\n  ,\nwhere\n  <code>\n   sz\n  </code>\n  is the total size of the resulting string\ncopied into that space (which may be less than or\nequal to the preallocated size).\n </li>\n</ul>\n<p>\n During its normal operation,\na string buffer uses a variable number of stack slots.\nSo, while using a buffer, you cannot assume that you know where\nthe top of the stack is.\nYou can use the stack between successive calls to buffer operations\nas long as that use is balanced;\nthat is,\nwhen you call a buffer operation,\nthe stack is at the same level\nit was immediately after the previous buffer operation.\n(The only exception to this rule is\n <a href="#luaL_addvalue">\n  <code>\n   luaL_addvalue\n  </code>\n </a>\n .)\nAfter calling\n <a href="#luaL_pushresult">\n  <code>\n   luaL_pushresult\n  </code>\n </a>\n ,\nthe stack is back to its level when the buffer was initialized,\nplus the final string on its top.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_buffaddr",
-      "body": "<pre>char *luaL_buffaddr (luaL_Buffer *B);</pre>\n<p>\n Returns the address of the current content of buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nNote that any addition to the buffer may invalidate this address.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_buffaddr",
+    body: '<pre>char *luaL_buffaddr (luaL_Buffer *B);</pre>\n<p>\n Returns the address of the current content of buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nNote that any addition to the buffer may invalidate this address.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_buffinit",
-      "body": "<pre>void luaL_buffinit (lua_State *L, luaL_Buffer *B);</pre>\n<p>\n Initializes a buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nThis function does not allocate any space;\nthe buffer must be declared as a variable.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_buffinit",
+    body: '<pre>void luaL_buffinit (lua_State *L, luaL_Buffer *B);</pre>\n<p>\n Initializes a buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nThis function does not allocate any space;\nthe buffer must be declared as a variable.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_bufflen",
-      "body": "<pre>size_t luaL_bufflen (luaL_Buffer *B);</pre>\n<p>\n Returns the length of the current content of buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_bufflen",
+    body: '<pre>size_t luaL_bufflen (luaL_Buffer *B);</pre>\n<p>\n Returns the length of the current content of buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_buffinitsize",
-      "body": "<pre>char *luaL_buffinitsize (lua_State *L, luaL_Buffer *B, size_t sz);</pre>\n<p>\n Equivalent to the sequence\n <a href=\"#luaL_buffinit\">\n  <code>\n   luaL_buffinit\n  </code>\n </a>\n ,\n <a href=\"#luaL_prepbuffsize\">\n  <code>\n   luaL_prepbuffsize\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_buffinitsize",
+    body: '<pre>char *luaL_buffinitsize (lua_State *L, luaL_Buffer *B, size_t sz);</pre>\n<p>\n Equivalent to the sequence\n <a href="#luaL_buffinit">\n  <code>\n   luaL_buffinit\n  </code>\n </a>\n ,\n <a href="#luaL_prepbuffsize">\n  <code>\n   luaL_prepbuffsize\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_buffsub",
-      "body": "<pre>void luaL_buffsub (luaL_Buffer *B, int n);</pre>\n<p>\n Removes\n <code>\n  n\n </code>\n bytes from the the buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nThe buffer must have at least that many bytes.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_buffsub",
+    body: '<pre>void luaL_buffsub (luaL_Buffer *B, int n);</pre>\n<p>\n Removes\n <code>\n  n\n </code>\n bytes from the the buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nThe buffer must have at least that many bytes.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_callmeta",
-      "body": "<pre>int luaL_callmeta (lua_State *L, int obj, const char *e);</pre>\n<p>\n Calls a metamethod.\n</p>\n<p>\n If the object at index\n <code>\n  obj\n </code>\n has a metatable and this\nmetatable has a field\n <code>\n  e\n </code>\n ,\nthis function calls this field passing the object as its only argument.\nIn this case this function returns true and pushes onto the\nstack the value returned by the call.\nIf there is no metatable or no metamethod,\nthis function returns false without pushing any value on the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_callmeta",
+    body: "<pre>int luaL_callmeta (lua_State *L, int obj, const char *e);</pre>\n<p>\n Calls a metamethod.\n</p>\n<p>\n If the object at index\n <code>\n  obj\n </code>\n has a metatable and this\nmetatable has a field\n <code>\n  e\n </code>\n ,\nthis function calls this field passing the object as its only argument.\nIn this case this function returns true and pushes onto the\nstack the value returned by the call.\nIf there is no metatable or no metamethod,\nthis function returns false without pushing any value on the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkany",
-      "body": "<pre>void luaL_checkany (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function has an argument\nof any type (including\n <b>\n  nil\n </b>\n ) at position\n <code>\n  arg\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkany",
+    body: "<pre>void luaL_checkany (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function has an argument\nof any type (including\n <b>\n  nil\n </b>\n ) at position\n <code>\n  arg\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkinteger",
-      "body": "<pre>lua_Integer luaL_checkinteger (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is an integer\n(or can be converted to an integer)\nand returns this integer.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkinteger",
+    body: "<pre>lua_Integer luaL_checkinteger (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is an integer\n(or can be converted to an integer)\nand returns this integer.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checklstring",
-      "body": "<pre>const char *luaL_checklstring (lua_State *L, int arg, size_t *l);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a string\nand returns this string;\nif\n <code>\n  l\n </code>\n is not\n <code>\n  NULL\n </code>\n fills its referent\nwith the string's length.\n</p>\n<p>\n This function uses\n <a href=\"#lua_tolstring\">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n to get its result,\nso all conversions and caveats of that function apply here.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checklstring",
+    body: '<pre>const char *luaL_checklstring (lua_State *L, int arg, size_t *l);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a string\nand returns this string;\nif\n <code>\n  l\n </code>\n is not\n <code>\n  NULL\n </code>\n fills its referent\nwith the string\'s length.\n</p>\n<p>\n This function uses\n <a href="#lua_tolstring">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n to get its result,\nso all conversions and caveats of that function apply here.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checknumber",
-      "body": "<pre>lua_Number luaL_checknumber (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a number\nand returns this number converted to a\n <code>\n  lua_Number\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checknumber",
+    body: "<pre>lua_Number luaL_checknumber (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a number\nand returns this number converted to a\n <code>\n  lua_Number\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkoption",
-      "body": "<pre>int luaL_checkoption (lua_State *L,\n                      int arg,\n                      const char *def,\n                      const char *const lst[]);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a string and\nsearches for this string in the array\n <code>\n  lst\n </code>\n (which must be NULL-terminated).\nReturns the index in the array where the string was found.\nRaises an error if the argument is not a string or\nif the string cannot be found.\n</p>\n<p>\n If\n <code>\n  def\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nthe function uses\n <code>\n  def\n </code>\n as a default value when\nthere is no argument\n <code>\n  arg\n </code>\n or when this argument is\n <b>\n  nil\n </b>\n .\n</p>\n<p>\n This is a useful function for mapping strings to C\u00a0enums.\n(The usual convention in Lua libraries is\nto use strings instead of numbers to select options.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkoption",
+    body: "<pre>int luaL_checkoption (lua_State *L,\n                      int arg,\n                      const char *def,\n                      const char *const lst[]);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a string and\nsearches for this string in the array\n <code>\n  lst\n </code>\n (which must be NULL-terminated).\nReturns the index in the array where the string was found.\nRaises an error if the argument is not a string or\nif the string cannot be found.\n</p>\n<p>\n If\n <code>\n  def\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nthe function uses\n <code>\n  def\n </code>\n as a default value when\nthere is no argument\n <code>\n  arg\n </code>\n or when this argument is\n <b>\n  nil\n </b>\n .\n</p>\n<p>\n This is a useful function for mapping strings to C\u00a0enums.\n(The usual convention in Lua libraries is\nto use strings instead of numbers to select options.)\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkstack",
-      "body": "<pre>void luaL_checkstack (lua_State *L, int sz, const char *msg);</pre>\n<p>\n Grows the stack size to\n <code>\n  top + sz\n </code>\n elements,\nraising an error if the stack cannot grow to that size.\n <code>\n  msg\n </code>\n is an additional text to go into the error message\n(or\n <code>\n  NULL\n </code>\n for no additional text).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkstack",
+    body: "<pre>void luaL_checkstack (lua_State *L, int sz, const char *msg);</pre>\n<p>\n Grows the stack size to\n <code>\n  top + sz\n </code>\n elements,\nraising an error if the stack cannot grow to that size.\n <code>\n  msg\n </code>\n is an additional text to go into the error message\n(or\n <code>\n  NULL\n </code>\n for no additional text).\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkstring",
-      "body": "<pre>const char *luaL_checkstring (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a string\nand returns this string.\n</p>\n<p>\n This function uses\n <a href=\"#lua_tolstring\">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n to get its result,\nso all conversions and caveats of that function apply here.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkstring",
+    body: '<pre>const char *luaL_checkstring (lua_State *L, int arg);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a string\nand returns this string.\n</p>\n<p>\n This function uses\n <a href="#lua_tolstring">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n to get its result,\nso all conversions and caveats of that function apply here.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checktype",
-      "body": "<pre>void luaL_checktype (lua_State *L, int arg, int t);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n has type\n <code>\n  t\n </code>\n .\nSee\n <a href=\"#lua_type\">\n  <code>\n   lua_type\n  </code>\n </a>\n for the encoding of types for\n <code>\n  t\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checktype",
+    body: '<pre>void luaL_checktype (lua_State *L, int arg, int t);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n has type\n <code>\n  t\n </code>\n .\nSee\n <a href="#lua_type">\n  <code>\n   lua_type\n  </code>\n </a>\n for the encoding of types for\n <code>\n  t\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkudata",
-      "body": "<pre>void *luaL_checkudata (lua_State *L, int arg, const char *tname);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a userdata\nof the type\n <code>\n  tname\n </code>\n (see\n <a href=\"#luaL_newmetatable\">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ) and\nreturns the userdata's memory-block address (see\n <a href=\"#lua_touserdata\">\n  <code>\n   lua_touserdata\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkudata",
+    body: '<pre>void *luaL_checkudata (lua_State *L, int arg, const char *tname);</pre>\n<p>\n Checks whether the function argument\n <code>\n  arg\n </code>\n is a userdata\nof the type\n <code>\n  tname\n </code>\n (see\n <a href="#luaL_newmetatable">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ) and\nreturns the userdata\'s memory-block address (see\n <a href="#lua_touserdata">\n  <code>\n   lua_touserdata\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_checkversion",
-      "body": "<pre>void luaL_checkversion (lua_State *L);</pre>\n<p>\n Checks whether the code making the call and the Lua library being called\nare using the same version of Lua and the same numeric types.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_checkversion",
+    body: "<pre>void luaL_checkversion (lua_State *L);</pre>\n<p>\n Checks whether the code making the call and the Lua library being called\nare using the same version of Lua and the same numeric types.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_dofile",
-      "body": "<pre>int luaL_dofile (lua_State *L, const char *filename);</pre>\n<p>\n Loads and runs the given file.\nIt is defined as the following macro:\n</p>\n<pre>     (luaL_loadfile(L, filename) || lua_pcall(L, 0, LUA_MULTRET, 0))\n</pre>\n<p>\n It returns\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n if there are no errors,\nor an error code in case of errors (see\n <a href=\"#4.4.1\">\n  \u00a74.4.1\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_dofile",
+    body: '<pre>int luaL_dofile (lua_State *L, const char *filename);</pre>\n<p>\n Loads and runs the given file.\nIt is defined as the following macro:\n</p>\n<pre>     (luaL_loadfile(L, filename) || lua_pcall(L, 0, LUA_MULTRET, 0))\n</pre>\n<p>\n It returns\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n if there are no errors,\nor an error code in case of errors (see\n <a href="#4.4.1">\n  \u00a74.4.1\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_dostring",
-      "body": "<pre>int luaL_dostring (lua_State *L, const char *str);</pre>\n<p>\n Loads and runs the given string.\nIt is defined as the following macro:\n</p>\n<pre>     (luaL_loadstring(L, str) || lua_pcall(L, 0, LUA_MULTRET, 0))\n</pre>\n<p>\n It returns\n <a href=\"#pdf-LUA_OK\">\n  <code>\n   LUA_OK\n  </code>\n </a>\n if there are no errors,\nor an error code in case of errors (see\n <a href=\"#4.4.1\">\n  \u00a74.4.1\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_dostring",
+    body: '<pre>int luaL_dostring (lua_State *L, const char *str);</pre>\n<p>\n Loads and runs the given string.\nIt is defined as the following macro:\n</p>\n<pre>     (luaL_loadstring(L, str) || lua_pcall(L, 0, LUA_MULTRET, 0))\n</pre>\n<p>\n It returns\n <a href="#pdf-LUA_OK">\n  <code>\n   LUA_OK\n  </code>\n </a>\n if there are no errors,\nor an error code in case of errors (see\n <a href="#4.4.1">\n  \u00a74.4.1\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_error",
-      "body": "<pre>int luaL_error (lua_State *L, const char *fmt, ...);</pre>\n<p>\n Raises an error.\nThe error message format is given by\n <code>\n  fmt\n </code>\n plus any extra arguments,\nfollowing the same rules of\n <a href=\"#lua_pushfstring\">\n  <code>\n   lua_pushfstring\n  </code>\n </a>\n .\nIt also adds at the beginning of the message the file name and\nthe line number where the error occurred,\nif this information is available.\n</p>\n<p>\n This function never returns,\nbut it is an idiom to use it in C\u00a0functions\nas\n <code>\n  return luaL_error(\n  <em>\n   args\n  </em>\n  )\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_error",
+    body: '<pre>int luaL_error (lua_State *L, const char *fmt, ...);</pre>\n<p>\n Raises an error.\nThe error message format is given by\n <code>\n  fmt\n </code>\n plus any extra arguments,\nfollowing the same rules of\n <a href="#lua_pushfstring">\n  <code>\n   lua_pushfstring\n  </code>\n </a>\n .\nIt also adds at the beginning of the message the file name and\nthe line number where the error occurred,\nif this information is available.\n</p>\n<p>\n This function never returns,\nbut it is an idiom to use it in C\u00a0functions\nas\n <code>\n  return luaL_error(\n  <em>\n   args\n  </em>\n  )\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_execresult",
-      "body": "<pre>int luaL_execresult (lua_State *L, int stat);</pre>\n<p>\n This function produces the return values for\nprocess-related functions in the standard library\n(\n <a href=\"#pdf-os.execute\">\n  <code>\n   os.execute\n  </code>\n </a>\n and\n <a href=\"#pdf-io.close\">\n  <code>\n   io.close\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_execresult",
+    body: '<pre>int luaL_execresult (lua_State *L, int stat);</pre>\n<p>\n This function produces the return values for\nprocess-related functions in the standard library\n(\n <a href="#pdf-os.execute">\n  <code>\n   os.execute\n  </code>\n </a>\n and\n <a href="#pdf-io.close">\n  <code>\n   io.close\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_fileresult",
-      "body": "<pre>int luaL_fileresult (lua_State *L, int stat, const char *fname);</pre>\n<p>\n This function produces the return values for\nfile-related functions in the standard library\n(\n <a href=\"#pdf-io.open\">\n  <code>\n   io.open\n  </code>\n </a>\n ,\n <a href=\"#pdf-os.rename\">\n  <code>\n   os.rename\n  </code>\n </a>\n ,\n <a href=\"#pdf-file:seek\">\n  <code>\n   file:seek\n  </code>\n </a>\n , etc.).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_fileresult",
+    body: '<pre>int luaL_fileresult (lua_State *L, int stat, const char *fname);</pre>\n<p>\n This function produces the return values for\nfile-related functions in the standard library\n(\n <a href="#pdf-io.open">\n  <code>\n   io.open\n  </code>\n </a>\n ,\n <a href="#pdf-os.rename">\n  <code>\n   os.rename\n  </code>\n </a>\n ,\n <a href="#pdf-file:seek">\n  <code>\n   file:seek\n  </code>\n </a>\n , etc.).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_getmetafield",
-      "body": "<pre>int luaL_getmetafield (lua_State *L, int obj, const char *e);</pre>\n<p>\n Pushes onto the stack the field\n <code>\n  e\n </code>\n from the metatable\nof the object at index\n <code>\n  obj\n </code>\n and returns the type of the pushed value.\nIf the object does not have a metatable,\nor if the metatable does not have this field,\npushes nothing and returns\n <code>\n  LUA_TNIL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_getmetafield",
+    body: "<pre>int luaL_getmetafield (lua_State *L, int obj, const char *e);</pre>\n<p>\n Pushes onto the stack the field\n <code>\n  e\n </code>\n from the metatable\nof the object at index\n <code>\n  obj\n </code>\n and returns the type of the pushed value.\nIf the object does not have a metatable,\nor if the metatable does not have this field,\npushes nothing and returns\n <code>\n  LUA_TNIL\n </code>\n .\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_getmetatable",
-      "body": "<pre>int luaL_getmetatable (lua_State *L, const char *tname);</pre>\n<p>\n Pushes onto the stack the metatable associated with the name\n <code>\n  tname\n </code>\n in the registry (see\n <a href=\"#luaL_newmetatable\">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ),\nor\n <b>\n  nil\n </b>\n if there is no metatable associated with that name.\nReturns the type of the pushed value.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_getmetatable",
+    body: '<pre>int luaL_getmetatable (lua_State *L, const char *tname);</pre>\n<p>\n Pushes onto the stack the metatable associated with the name\n <code>\n  tname\n </code>\n in the registry (see\n <a href="#luaL_newmetatable">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ),\nor\n <b>\n  nil\n </b>\n if there is no metatable associated with that name.\nReturns the type of the pushed value.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_getsubtable",
-      "body": "<pre>int luaL_getsubtable (lua_State *L, int idx, const char *fname);</pre>\n<p>\n Ensures that the value\n <code>\n  t[fname]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at index\n <code>\n  idx\n </code>\n ,\nis a table,\nand pushes that table onto the stack.\nReturns true if it finds a previous table there\nand false if it creates a new table.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_getsubtable",
+    body: "<pre>int luaL_getsubtable (lua_State *L, int idx, const char *fname);</pre>\n<p>\n Ensures that the value\n <code>\n  t[fname]\n </code>\n ,\nwhere\n <code>\n  t\n </code>\n is the value at index\n <code>\n  idx\n </code>\n ,\nis a table,\nand pushes that table onto the stack.\nReturns true if it finds a previous table there\nand false if it creates a new table.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_gsub",
-      "body": "<pre>const char *luaL_gsub (lua_State *L,\n                       const char *s,\n                       const char *p,\n                       const char *r);</pre>\n<p>\n Creates a copy of string\n <code>\n  s\n </code>\n ,\nreplacing any occurrence of the string\n <code>\n  p\n </code>\n with the string\n <code>\n  r\n </code>\n .\nPushes the resulting string on the stack and returns it.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_gsub",
+    body: "<pre>const char *luaL_gsub (lua_State *L,\n                       const char *s,\n                       const char *p,\n                       const char *r);</pre>\n<p>\n Creates a copy of string\n <code>\n  s\n </code>\n ,\nreplacing any occurrence of the string\n <code>\n  p\n </code>\n with the string\n <code>\n  r\n </code>\n .\nPushes the resulting string on the stack and returns it.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_len",
-      "body": "<pre>lua_Integer luaL_len (lua_State *L, int index);</pre>\n<p>\n Returns the \"length\" of the value at the given index\nas a number;\nit is equivalent to the '\n <code>\n  #\n </code>\n ' operator in Lua (see\n <a href=\"#3.4.7\">\n  \u00a73.4.7\n </a>\n ).\nRaises an error if the result of the operation is not an integer.\n(This case can only happen through metamethods.)\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_len",
+    body: '<pre>lua_Integer luaL_len (lua_State *L, int index);</pre>\n<p>\n Returns the "length" of the value at the given index\nas a number;\nit is equivalent to the \'\n <code>\n  #\n </code>\n \' operator in Lua (see\n <a href="#3.4.7">\n  \u00a73.4.7\n </a>\n ).\nRaises an error if the result of the operation is not an integer.\n(This case can only happen through metamethods.)\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_loadbuffer",
-      "body": "<pre>int luaL_loadbuffer (lua_State *L,\n                     const char *buff,\n                     size_t sz,\n                     const char *name);</pre>\n<p>\n Equivalent to\n <a href=\"#luaL_loadbufferx\">\n  <code>\n   luaL_loadbufferx\n  </code>\n </a>\n with\n <code>\n  mode\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_loadbuffer",
+    body: '<pre>int luaL_loadbuffer (lua_State *L,\n                     const char *buff,\n                     size_t sz,\n                     const char *name);</pre>\n<p>\n Equivalent to\n <a href="#luaL_loadbufferx">\n  <code>\n   luaL_loadbufferx\n  </code>\n </a>\n with\n <code>\n  mode\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_loadbufferx",
-      "body": "<pre>int luaL_loadbufferx (lua_State *L,\n                      const char *buff,\n                      size_t sz,\n                      const char *name,\n                      const char *mode);</pre>\n<p>\n Loads a buffer as a Lua chunk.\nThis function uses\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n to load the chunk in the\nbuffer pointed to by\n <code>\n  buff\n </code>\n with size\n <code>\n  sz\n </code>\n .\n</p>\n<p>\n This function returns the same results as\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n <code>\n  name\n </code>\n is the chunk name,\nused for debug information and error messages.\nThe string\n <code>\n  mode\n </code>\n works as in the function\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_loadbufferx",
+    body: '<pre>int luaL_loadbufferx (lua_State *L,\n                      const char *buff,\n                      size_t sz,\n                      const char *name,\n                      const char *mode);</pre>\n<p>\n Loads a buffer as a Lua chunk.\nThis function uses\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n to load the chunk in the\nbuffer pointed to by\n <code>\n  buff\n </code>\n with size\n <code>\n  sz\n </code>\n .\n</p>\n<p>\n This function returns the same results as\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n <code>\n  name\n </code>\n is the chunk name,\nused for debug information and error messages.\nThe string\n <code>\n  mode\n </code>\n works as in the function\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_loadfile",
-      "body": "<pre>int luaL_loadfile (lua_State *L, const char *filename);</pre>\n<p>\n Equivalent to\n <a href=\"#luaL_loadfilex\">\n  <code>\n   luaL_loadfilex\n  </code>\n </a>\n with\n <code>\n  mode\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_loadfile",
+    body: '<pre>int luaL_loadfile (lua_State *L, const char *filename);</pre>\n<p>\n Equivalent to\n <a href="#luaL_loadfilex">\n  <code>\n   luaL_loadfilex\n  </code>\n </a>\n with\n <code>\n  mode\n </code>\n equal to\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_loadfilex",
-      "body": "<pre>int luaL_loadfilex (lua_State *L, const char *filename,\n                                            const char *mode);</pre>\n<p>\n Loads a file as a Lua chunk.\nThis function uses\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n to load the chunk in the file\nnamed\n <code>\n  filename\n </code>\n .\nIf\n <code>\n  filename\n </code>\n is\n <code>\n  NULL\n </code>\n ,\nthen it loads from the standard input.\nThe first line in the file is ignored if it starts with a\n <code>\n  #\n </code>\n .\n</p>\n<p>\n The string\n <code>\n  mode\n </code>\n works as in the function\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n</p>\n<p>\n This function returns the same results as\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n or\n <a href=\"#pdf-LUA_ERRFILE\">\n  <code>\n   LUA_ERRFILE\n  </code>\n </a>\n for file-related errors.\n</p>\n<p>\n As\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n , this function only loads the chunk;\nit does not run it.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_loadfilex",
+    body: '<pre>int luaL_loadfilex (lua_State *L, const char *filename,\n                                            const char *mode);</pre>\n<p>\n Loads a file as a Lua chunk.\nThis function uses\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n to load the chunk in the file\nnamed\n <code>\n  filename\n </code>\n .\nIf\n <code>\n  filename\n </code>\n is\n <code>\n  NULL\n </code>\n ,\nthen it loads from the standard input.\nThe first line in the file is ignored if it starts with a\n <code>\n  #\n </code>\n .\n</p>\n<p>\n The string\n <code>\n  mode\n </code>\n works as in the function\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n</p>\n<p>\n This function returns the same results as\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n or\n <a href="#pdf-LUA_ERRFILE">\n  <code>\n   LUA_ERRFILE\n  </code>\n </a>\n for file-related errors.\n</p>\n<p>\n As\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n , this function only loads the chunk;\nit does not run it.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_loadstring",
-      "body": "<pre>int luaL_loadstring (lua_State *L, const char *s);</pre>\n<p>\n Loads a string as a Lua chunk.\nThis function uses\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n to load the chunk in\nthe zero-terminated string\n <code>\n  s\n </code>\n .\n</p>\n<p>\n This function returns the same results as\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n</p>\n<p>\n Also as\n <a href=\"#lua_load\">\n  <code>\n   lua_load\n  </code>\n </a>\n , this function only loads the chunk;\nit does not run it.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_loadstring",
+    body: '<pre>int luaL_loadstring (lua_State *L, const char *s);</pre>\n<p>\n Loads a string as a Lua chunk.\nThis function uses\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n to load the chunk in\nthe zero-terminated string\n <code>\n  s\n </code>\n .\n</p>\n<p>\n This function returns the same results as\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n .\n</p>\n<p>\n Also as\n <a href="#lua_load">\n  <code>\n   lua_load\n  </code>\n </a>\n , this function only loads the chunk;\nit does not run it.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_newlib",
-      "body": "<pre>void luaL_newlib (lua_State *L, const luaL_Reg l[]);</pre>\n<p>\n Creates a new table and registers there\nthe functions in the list\n <code>\n  l\n </code>\n .\n</p>\n<p>\n It is implemented as the following macro:\n</p>\n<pre>     (luaL_newlibtable(L,l), luaL_setfuncs(L,l,0))\n</pre>\n<p>\n The array\n <code>\n  l\n </code>\n must be the actual array,\nnot a pointer to it.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_newlib",
+    body: "<pre>void luaL_newlib (lua_State *L, const luaL_Reg l[]);</pre>\n<p>\n Creates a new table and registers there\nthe functions in the list\n <code>\n  l\n </code>\n .\n</p>\n<p>\n It is implemented as the following macro:\n</p>\n<pre>     (luaL_newlibtable(L,l), luaL_setfuncs(L,l,0))\n</pre>\n<p>\n The array\n <code>\n  l\n </code>\n must be the actual array,\nnot a pointer to it.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_newlibtable",
-      "body": "<pre>void luaL_newlibtable (lua_State *L, const luaL_Reg l[]);</pre>\n<p>\n Creates a new table with a size optimized\nto store all entries in the array\n <code>\n  l\n </code>\n (but does not actually store them).\nIt is intended to be used in conjunction with\n <a href=\"#luaL_setfuncs\">\n  <code>\n   luaL_setfuncs\n  </code>\n </a>\n (see\n <a href=\"#luaL_newlib\">\n  <code>\n   luaL_newlib\n  </code>\n </a>\n ).\n</p>\n<p>\n It is implemented as a macro.\nThe array\n <code>\n  l\n </code>\n must be the actual array,\nnot a pointer to it.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_newlibtable",
+    body: '<pre>void luaL_newlibtable (lua_State *L, const luaL_Reg l[]);</pre>\n<p>\n Creates a new table with a size optimized\nto store all entries in the array\n <code>\n  l\n </code>\n (but does not actually store them).\nIt is intended to be used in conjunction with\n <a href="#luaL_setfuncs">\n  <code>\n   luaL_setfuncs\n  </code>\n </a>\n (see\n <a href="#luaL_newlib">\n  <code>\n   luaL_newlib\n  </code>\n </a>\n ).\n</p>\n<p>\n It is implemented as a macro.\nThe array\n <code>\n  l\n </code>\n must be the actual array,\nnot a pointer to it.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_newmetatable",
-      "body": "<pre>int luaL_newmetatable (lua_State *L, const char *tname);</pre>\n<p>\n If the registry already has the key\n <code>\n  tname\n </code>\n ,\nreturns 0.\nOtherwise,\ncreates a new table to be used as a metatable for userdata,\nadds to this new table the pair\n <code>\n  __name = tname\n </code>\n ,\nadds to the registry the pair\n <code>\n  [tname] = new table\n </code>\n ,\nand returns 1.\n</p>\n<p>\n In both cases,\nthe function pushes onto the stack the final value associated\nwith\n <code>\n  tname\n </code>\n in the registry.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_newmetatable",
+    body: "<pre>int luaL_newmetatable (lua_State *L, const char *tname);</pre>\n<p>\n If the registry already has the key\n <code>\n  tname\n </code>\n ,\nreturns 0.\nOtherwise,\ncreates a new table to be used as a metatable for userdata,\nadds to this new table the pair\n <code>\n  __name = tname\n </code>\n ,\nadds to the registry the pair\n <code>\n  [tname] = new table\n </code>\n ,\nand returns 1.\n</p>\n<p>\n In both cases,\nthe function pushes onto the stack the final value associated\nwith\n <code>\n  tname\n </code>\n in the registry.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_newstate",
-      "body": "<pre>lua_State *luaL_newstate (void);</pre>\n<p>\n Creates a new Lua state.\nIt calls\n <a href=\"#lua_newstate\">\n  <code>\n   lua_newstate\n  </code>\n </a>\n with an\nallocator based on the standard\u00a0C allocation functions\nand then sets a warning function and a panic function (see\n <a href=\"#4.4\">\n  \u00a74.4\n </a>\n )\nthat print messages to the standard error output.\n</p>\n<p>\n Returns the new state,\nor\n <code>\n  NULL\n </code>\n if there is a memory allocation error.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_newstate",
+    body: '<pre>lua_State *luaL_newstate (void);</pre>\n<p>\n Creates a new Lua state.\nIt calls\n <a href="#lua_newstate">\n  <code>\n   lua_newstate\n  </code>\n </a>\n with an\nallocator based on the standard\u00a0C allocation functions\nand then sets a warning function and a panic function (see\n <a href="#4.4">\n  \u00a74.4\n </a>\n )\nthat print messages to the standard error output.\n</p>\n<p>\n Returns the new state,\nor\n <code>\n  NULL\n </code>\n if there is a memory allocation error.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_openlibs",
-      "body": "<pre>void luaL_openlibs (lua_State *L);</pre>\n<p>\n Opens all standard Lua libraries into the given state.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_openlibs",
+    body: "<pre>void luaL_openlibs (lua_State *L);</pre>\n<p>\n Opens all standard Lua libraries into the given state.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_opt",
-      "body": "<pre>T luaL_opt (L, func, arg, dflt);</pre>\n<p>\n This macro is defined as follows:\n</p>\n<pre>     (lua_isnoneornil(L,(arg)) ? (dflt) : func(L,(arg)))\n</pre>\n<p>\n In words, if the argument\n <code>\n  arg\n </code>\n is nil or absent,\nthe macro results in the default\n <code>\n  dflt\n </code>\n .\nOtherwise, it results in the result of calling\n <code>\n  func\n </code>\n with the state\n <code>\n  L\n </code>\n and the argument index\n <code>\n  arg\n </code>\n as\narguments.\nNote that it evaluates the expression\n <code>\n  dflt\n </code>\n only if needed.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_opt",
+    body: "<pre>T luaL_opt (L, func, arg, dflt);</pre>\n<p>\n This macro is defined as follows:\n</p>\n<pre>     (lua_isnoneornil(L,(arg)) ? (dflt) : func(L,(arg)))\n</pre>\n<p>\n In words, if the argument\n <code>\n  arg\n </code>\n is nil or absent,\nthe macro results in the default\n <code>\n  dflt\n </code>\n .\nOtherwise, it results in the result of calling\n <code>\n  func\n </code>\n with the state\n <code>\n  L\n </code>\n and the argument index\n <code>\n  arg\n </code>\n as\narguments.\nNote that it evaluates the expression\n <code>\n  dflt\n </code>\n only if needed.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_optinteger",
-      "body": "<pre>lua_Integer luaL_optinteger (lua_State *L,\n                             int arg,\n                             lua_Integer d);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is an integer\n(or it is convertible to an integer),\nreturns this integer.\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_optinteger",
+    body: "<pre>lua_Integer luaL_optinteger (lua_State *L,\n                             int arg,\n                             lua_Integer d);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is an integer\n(or it is convertible to an integer),\nreturns this integer.\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_optlstring",
-      "body": "<pre>const char *luaL_optlstring (lua_State *L,\n                             int arg,\n                             const char *d,\n                             size_t *l);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is a string,\nreturns this string.\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<p>\n If\n <code>\n  l\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nfills its referent with the result's length.\nIf the result is\n <code>\n  NULL\n </code>\n (only possible when returning\n <code>\n  d\n </code>\n and\n <code>\n  d == NULL\n </code>\n ),\nits length is considered zero.\n</p>\n<p>\n This function uses\n <a href=\"#lua_tolstring\">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n to get its result,\nso all conversions and caveats of that function apply here.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_optlstring",
+    body: '<pre>const char *luaL_optlstring (lua_State *L,\n                             int arg,\n                             const char *d,\n                             size_t *l);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is a string,\nreturns this string.\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<p>\n If\n <code>\n  l\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nfills its referent with the result\'s length.\nIf the result is\n <code>\n  NULL\n </code>\n (only possible when returning\n <code>\n  d\n </code>\n and\n <code>\n  d == NULL\n </code>\n ),\nits length is considered zero.\n</p>\n<p>\n This function uses\n <a href="#lua_tolstring">\n  <code>\n   lua_tolstring\n  </code>\n </a>\n to get its result,\nso all conversions and caveats of that function apply here.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_optnumber",
-      "body": "<pre>lua_Number luaL_optnumber (lua_State *L, int arg, lua_Number d);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is a number,\nreturns this number as a\n <code>\n  lua_Number\n </code>\n .\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_optnumber",
+    body: "<pre>lua_Number luaL_optnumber (lua_State *L, int arg, lua_Number d);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is a number,\nreturns this number as a\n <code>\n  lua_Number\n </code>\n .\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_optstring",
-      "body": "<pre>const char *luaL_optstring (lua_State *L,\n                            int arg,\n                            const char *d);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is a string,\nreturns this string.\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_optstring",
+    body: "<pre>const char *luaL_optstring (lua_State *L,\n                            int arg,\n                            const char *d);</pre>\n<p>\n If the function argument\n <code>\n  arg\n </code>\n is a string,\nreturns this string.\nIf this argument is absent or is\n <b>\n  nil\n </b>\n ,\nreturns\n <code>\n  d\n </code>\n .\nOtherwise, raises an error.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_prepbuffer",
-      "body": "<pre>char *luaL_prepbuffer (luaL_Buffer *B);</pre>\n<p>\n Equivalent to\n <a href=\"#luaL_prepbuffsize\">\n  <code>\n   luaL_prepbuffsize\n  </code>\n </a>\n with the predefined size\n <a name=\"pdf-LUAL_BUFFERSIZE\">\n  <code>\n   LUAL_BUFFERSIZE\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_prepbuffer",
+    body: '<pre>char *luaL_prepbuffer (luaL_Buffer *B);</pre>\n<p>\n Equivalent to\n <a href="#luaL_prepbuffsize">\n  <code>\n   luaL_prepbuffsize\n  </code>\n </a>\n with the predefined size\n <a name="pdf-LUAL_BUFFERSIZE">\n  <code>\n   LUAL_BUFFERSIZE\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_prepbuffsize",
-      "body": "<pre>char *luaL_prepbuffsize (luaL_Buffer *B, size_t sz);</pre>\n<p>\n Returns an address to a space of size\n <code>\n  sz\n </code>\n where you can copy a string to be added to buffer\n <code>\n  B\n </code>\n (see\n <a href=\"#luaL_Buffer\">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nAfter copying the string into this space you must call\n <a href=\"#luaL_addsize\">\n  <code>\n   luaL_addsize\n  </code>\n </a>\n with the size of the string to actually add\nit to the buffer.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_prepbuffsize",
+    body: '<pre>char *luaL_prepbuffsize (luaL_Buffer *B, size_t sz);</pre>\n<p>\n Returns an address to a space of size\n <code>\n  sz\n </code>\n where you can copy a string to be added to buffer\n <code>\n  B\n </code>\n (see\n <a href="#luaL_Buffer">\n  <code>\n   luaL_Buffer\n  </code>\n </a>\n ).\nAfter copying the string into this space you must call\n <a href="#luaL_addsize">\n  <code>\n   luaL_addsize\n  </code>\n </a>\n with the size of the string to actually add\nit to the buffer.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_pushfail",
-      "body": "<pre>void luaL_pushfail (lua_State *L);</pre>\n<p>\n Pushes the\n <b>\n  fail\n </b>\n value onto the stack (see\n <a href=\"#6\">\n  \u00a76\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_pushfail",
+    body: '<pre>void luaL_pushfail (lua_State *L);</pre>\n<p>\n Pushes the\n <b>\n  fail\n </b>\n value onto the stack (see\n <a href="#6">\n  \u00a76\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_pushresult",
-      "body": "<pre>void luaL_pushresult (luaL_Buffer *B);</pre>\n<p>\n Finishes the use of buffer\n <code>\n  B\n </code>\n leaving the final string on\nthe top of the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_pushresult",
+    body: "<pre>void luaL_pushresult (luaL_Buffer *B);</pre>\n<p>\n Finishes the use of buffer\n <code>\n  B\n </code>\n leaving the final string on\nthe top of the stack.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_pushresultsize",
-      "body": "<pre>void luaL_pushresultsize (luaL_Buffer *B, size_t sz);</pre>\n<p>\n Equivalent to the sequence\n <a href=\"#luaL_addsize\">\n  <code>\n   luaL_addsize\n  </code>\n </a>\n ,\n <a href=\"#luaL_pushresult\">\n  <code>\n   luaL_pushresult\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_pushresultsize",
+    body: '<pre>void luaL_pushresultsize (luaL_Buffer *B, size_t sz);</pre>\n<p>\n Equivalent to the sequence\n <a href="#luaL_addsize">\n  <code>\n   luaL_addsize\n  </code>\n </a>\n ,\n <a href="#luaL_pushresult">\n  <code>\n   luaL_pushresult\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_ref",
-      "body": "<pre>int luaL_ref (lua_State *L, int t);</pre>\n<p>\n Creates and returns a\n <em>\n  reference\n </em>\n ,\nin the table at index\n <code>\n  t\n </code>\n ,\nfor the object on the top of the stack (and pops the object).\n</p>\n<p>\n A reference is a unique integer key.\nAs long as you do not manually add integer keys into the table\n <code>\n  t\n </code>\n ,\n <a href=\"#luaL_ref\">\n  <code>\n   luaL_ref\n  </code>\n </a>\n ensures the uniqueness of the key it returns.\nYou can retrieve an object referred by the reference\n <code>\n  r\n </code>\n by calling\n <code>\n  lua_rawgeti(L, t, r)\n </code>\n .\nThe function\n <a href=\"#luaL_unref\">\n  <code>\n   luaL_unref\n  </code>\n </a>\n frees a reference.\n</p>\n<p>\n If the object on the top of the stack is\n <b>\n  nil\n </b>\n ,\n <a href=\"#luaL_ref\">\n  <code>\n   luaL_ref\n  </code>\n </a>\n returns the constant\n <a name=\"pdf-LUA_REFNIL\">\n  <code>\n   LUA_REFNIL\n  </code>\n </a>\n .\nThe constant\n <a name=\"pdf-LUA_NOREF\">\n  <code>\n   LUA_NOREF\n  </code>\n </a>\n is guaranteed to be different\nfrom any reference returned by\n <a href=\"#luaL_ref\">\n  <code>\n   luaL_ref\n  </code>\n </a>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_ref",
+    body: '<pre>int luaL_ref (lua_State *L, int t);</pre>\n<p>\n Creates and returns a\n <em>\n  reference\n </em>\n ,\nin the table at index\n <code>\n  t\n </code>\n ,\nfor the object on the top of the stack (and pops the object).\n</p>\n<p>\n A reference is a unique integer key.\nAs long as you do not manually add integer keys into the table\n <code>\n  t\n </code>\n ,\n <a href="#luaL_ref">\n  <code>\n   luaL_ref\n  </code>\n </a>\n ensures the uniqueness of the key it returns.\nYou can retrieve an object referred by the reference\n <code>\n  r\n </code>\n by calling\n <code>\n  lua_rawgeti(L, t, r)\n </code>\n .\nThe function\n <a href="#luaL_unref">\n  <code>\n   luaL_unref\n  </code>\n </a>\n frees a reference.\n</p>\n<p>\n If the object on the top of the stack is\n <b>\n  nil\n </b>\n ,\n <a href="#luaL_ref">\n  <code>\n   luaL_ref\n  </code>\n </a>\n returns the constant\n <a name="pdf-LUA_REFNIL">\n  <code>\n   LUA_REFNIL\n  </code>\n </a>\n .\nThe constant\n <a name="pdf-LUA_NOREF">\n  <code>\n   LUA_NOREF\n  </code>\n </a>\n is guaranteed to be different\nfrom any reference returned by\n <a href="#luaL_ref">\n  <code>\n   luaL_ref\n  </code>\n </a>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_Reg",
-      "body": "<pre>typedef struct luaL_Reg {\n  const char *name;\n  lua_CFunction func;\n} luaL_Reg;</pre>\n<p>\n Type for arrays of functions to be registered by\n <a href=\"#luaL_setfuncs\">\n  <code>\n   luaL_setfuncs\n  </code>\n </a>\n .\n <code>\n  name\n </code>\n is the function name and\n <code>\n  func\n </code>\n is a pointer to\nthe function.\nAny array of\n <a href=\"#luaL_Reg\">\n  <code>\n   luaL_Reg\n  </code>\n </a>\n must end with a sentinel entry\nin which both\n <code>\n  name\n </code>\n and\n <code>\n  func\n </code>\n are\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_Reg",
+    body: '<pre>typedef struct luaL_Reg {\n  const char *name;\n  lua_CFunction func;\n} luaL_Reg;</pre>\n<p>\n Type for arrays of functions to be registered by\n <a href="#luaL_setfuncs">\n  <code>\n   luaL_setfuncs\n  </code>\n </a>\n .\n <code>\n  name\n </code>\n is the function name and\n <code>\n  func\n </code>\n is a pointer to\nthe function.\nAny array of\n <a href="#luaL_Reg">\n  <code>\n   luaL_Reg\n  </code>\n </a>\n must end with a sentinel entry\nin which both\n <code>\n  name\n </code>\n and\n <code>\n  func\n </code>\n are\n <code>\n  NULL\n </code>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_requiref",
-      "body": "<pre>void luaL_requiref (lua_State *L, const char *modname,\n                    lua_CFunction openf, int glb);</pre>\n<p>\n If\n <code>\n  package.loaded[modname]\n </code>\n is not true,\ncalls the function\n <code>\n  openf\n </code>\n with the string\n <code>\n  modname\n </code>\n as an argument\nand sets the call result to\n <code>\n  package.loaded[modname]\n </code>\n ,\nas if that function has been called through\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n .\n</p>\n<p>\n If\n <code>\n  glb\n </code>\n is true,\nalso stores the module into the global\n <code>\n  modname\n </code>\n .\n</p>\n<p>\n Leaves a copy of the module on the stack.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_requiref",
+    body: '<pre>void luaL_requiref (lua_State *L, const char *modname,\n                    lua_CFunction openf, int glb);</pre>\n<p>\n If\n <code>\n  package.loaded[modname]\n </code>\n is not true,\ncalls the function\n <code>\n  openf\n </code>\n with the string\n <code>\n  modname\n </code>\n as an argument\nand sets the call result to\n <code>\n  package.loaded[modname]\n </code>\n ,\nas if that function has been called through\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n .\n</p>\n<p>\n If\n <code>\n  glb\n </code>\n is true,\nalso stores the module into the global\n <code>\n  modname\n </code>\n .\n</p>\n<p>\n Leaves a copy of the module on the stack.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_setfuncs",
-      "body": "<pre>void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);</pre>\n<p>\n Registers all functions in the array\n <code>\n  l\n </code>\n (see\n <a href=\"#luaL_Reg\">\n  <code>\n   luaL_Reg\n  </code>\n </a>\n ) into the table on the top of the stack\n(below optional upvalues, see next).\n</p>\n<p>\n When\n <code>\n  nup\n </code>\n is not zero,\nall functions are created with\n <code>\n  nup\n </code>\n upvalues,\ninitialized with copies of the\n <code>\n  nup\n </code>\n values\npreviously pushed on the stack\non top of the library table.\nThese values are popped from the stack after the registration.\n</p>\n<p>\n A function with a\n <code>\n  NULL\n </code>\n value represents a placeholder,\nwhich is filled with\n <b>\n  false\n </b>\n .\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_setfuncs",
+    body: '<pre>void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);</pre>\n<p>\n Registers all functions in the array\n <code>\n  l\n </code>\n (see\n <a href="#luaL_Reg">\n  <code>\n   luaL_Reg\n  </code>\n </a>\n ) into the table on the top of the stack\n(below optional upvalues, see next).\n</p>\n<p>\n When\n <code>\n  nup\n </code>\n is not zero,\nall functions are created with\n <code>\n  nup\n </code>\n upvalues,\ninitialized with copies of the\n <code>\n  nup\n </code>\n values\npreviously pushed on the stack\non top of the library table.\nThese values are popped from the stack after the registration.\n</p>\n<p>\n A function with a\n <code>\n  NULL\n </code>\n value represents a placeholder,\nwhich is filled with\n <b>\n  false\n </b>\n .\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_setmetatable",
-      "body": "<pre>void luaL_setmetatable (lua_State *L, const char *tname);</pre>\n<p>\n Sets the metatable of the object on the top of the stack\nas the metatable associated with name\n <code>\n  tname\n </code>\n in the registry (see\n <a href=\"#luaL_newmetatable\">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ).\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_setmetatable",
+    body: '<pre>void luaL_setmetatable (lua_State *L, const char *tname);</pre>\n<p>\n Sets the metatable of the object on the top of the stack\nas the metatable associated with name\n <code>\n  tname\n </code>\n in the registry (see\n <a href="#luaL_newmetatable">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ).\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_Stream",
-      "body": "<pre>typedef struct luaL_Stream {\n  FILE *f;\n  lua_CFunction closef;\n} luaL_Stream;</pre>\n<p>\n The standard representation for file handles\nused by the standard I/O library.\n</p>\n<p>\n A file handle is implemented as a full userdata,\nwith a metatable called\n <code>\n  LUA_FILEHANDLE\n </code>\n (where\n <code>\n  LUA_FILEHANDLE\n </code>\n is a macro with the actual metatable's name).\nThe metatable is created by the I/O library\n(see\n <a href=\"#luaL_newmetatable\">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ).\n</p>\n<p>\n This userdata must start with the structure\n <code>\n  luaL_Stream\n </code>\n ;\nit can contain other data after this initial structure.\nThe field\n <code>\n  f\n </code>\n points to the corresponding C stream\n(or it can be\n <code>\n  NULL\n </code>\n to indicate an incompletely created handle).\nThe field\n <code>\n  closef\n </code>\n points to a Lua function\nthat will be called to close the stream\nwhen the handle is closed or collected;\nthis function receives the file handle as its sole argument and\nmust return either a true value, in case of success,\nor a false value plus an error message, in case of error.\nOnce Lua calls this field,\nit changes the field value to\n <code>\n  NULL\n </code>\n to signal that the handle is closed.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_Stream",
+    body: '<pre>typedef struct luaL_Stream {\n  FILE *f;\n  lua_CFunction closef;\n} luaL_Stream;</pre>\n<p>\n The standard representation for file handles\nused by the standard I/O library.\n</p>\n<p>\n A file handle is implemented as a full userdata,\nwith a metatable called\n <code>\n  LUA_FILEHANDLE\n </code>\n (where\n <code>\n  LUA_FILEHANDLE\n </code>\n is a macro with the actual metatable\'s name).\nThe metatable is created by the I/O library\n(see\n <a href="#luaL_newmetatable">\n  <code>\n   luaL_newmetatable\n  </code>\n </a>\n ).\n</p>\n<p>\n This userdata must start with the structure\n <code>\n  luaL_Stream\n </code>\n ;\nit can contain other data after this initial structure.\nThe field\n <code>\n  f\n </code>\n points to the corresponding C stream\n(or it can be\n <code>\n  NULL\n </code>\n to indicate an incompletely created handle).\nThe field\n <code>\n  closef\n </code>\n points to a Lua function\nthat will be called to close the stream\nwhen the handle is closed or collected;\nthis function receives the file handle as its sole argument and\nmust return either a true value, in case of success,\nor a false value plus an error message, in case of error.\nOnce Lua calls this field,\nit changes the field value to\n <code>\n  NULL\n </code>\n to signal that the handle is closed.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_testudata",
-      "body": "<pre>void *luaL_testudata (lua_State *L, int arg, const char *tname);</pre>\n<p>\n This function works like\n <a href=\"#luaL_checkudata\">\n  <code>\n   luaL_checkudata\n  </code>\n </a>\n ,\nexcept that, when the test fails,\nit returns\n <code>\n  NULL\n </code>\n instead of raising an error.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_testudata",
+    body: '<pre>void *luaL_testudata (lua_State *L, int arg, const char *tname);</pre>\n<p>\n This function works like\n <a href="#luaL_checkudata">\n  <code>\n   luaL_checkudata\n  </code>\n </a>\n ,\nexcept that, when the test fails,\nit returns\n <code>\n  NULL\n </code>\n instead of raising an error.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_tolstring",
-      "body": "<pre>const char *luaL_tolstring (lua_State *L, int idx, size_t *len);</pre>\n<p>\n Converts any Lua value at the given index to a C\u00a0string\nin a reasonable format.\nThe resulting string is pushed onto the stack and also\nreturned by the function (see\n <a href=\"#4.1.3\">\n  \u00a74.1.3\n </a>\n ).\nIf\n <code>\n  len\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nthe function also sets\n <code>\n  *len\n </code>\n with the string length.\n</p>\n<p>\n If the value has a metatable with a\n <code>\n  __tostring\n </code>\n field,\nthen\n <code>\n  luaL_tolstring\n </code>\n calls the corresponding metamethod\nwith the value as argument,\nand uses the result of the call as its result.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_tolstring",
+    body: '<pre>const char *luaL_tolstring (lua_State *L, int idx, size_t *len);</pre>\n<p>\n Converts any Lua value at the given index to a C\u00a0string\nin a reasonable format.\nThe resulting string is pushed onto the stack and also\nreturned by the function (see\n <a href="#4.1.3">\n  \u00a74.1.3\n </a>\n ).\nIf\n <code>\n  len\n </code>\n is not\n <code>\n  NULL\n </code>\n ,\nthe function also sets\n <code>\n  *len\n </code>\n with the string length.\n</p>\n<p>\n If the value has a metatable with a\n <code>\n  __tostring\n </code>\n field,\nthen\n <code>\n  luaL_tolstring\n </code>\n calls the corresponding metamethod\nwith the value as argument,\nand uses the result of the call as its result.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_traceback",
-      "body": "<pre>void luaL_traceback (lua_State *L, lua_State *L1, const char *msg,\n                     int level);</pre>\n<p>\n Creates and pushes a traceback of the stack\n <code>\n  L1\n </code>\n .\nIf\n <code>\n  msg\n </code>\n is not\n <code>\n  NULL\n </code>\n , it is appended\nat the beginning of the traceback.\nThe\n <code>\n  level\n </code>\n parameter tells at which level\nto start the traceback.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_traceback",
+    body: "<pre>void luaL_traceback (lua_State *L, lua_State *L1, const char *msg,\n                     int level);</pre>\n<p>\n Creates and pushes a traceback of the stack\n <code>\n  L1\n </code>\n .\nIf\n <code>\n  msg\n </code>\n is not\n <code>\n  NULL\n </code>\n , it is appended\nat the beginning of the traceback.\nThe\n <code>\n  level\n </code>\n parameter tells at which level\nto start the traceback.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_typeerror",
-      "body": "<pre>const char *luaL_typeerror (lua_State *L,\n                                      int arg,\n                                      const char *tname);</pre>\n<p>\n Raises a type error for the argument\n <code>\n  arg\n </code>\n of the C\u00a0function that called it,\nusing a standard message;\n <code>\n  tname\n </code>\n is a \"name\" for the expected type.\nThis function never returns.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_typeerror",
+    body: '<pre>const char *luaL_typeerror (lua_State *L,\n                                      int arg,\n                                      const char *tname);</pre>\n<p>\n Raises a type error for the argument\n <code>\n  arg\n </code>\n of the C\u00a0function that called it,\nusing a standard message;\n <code>\n  tname\n </code>\n is a "name" for the expected type.\nThis function never returns.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_typename",
-      "body": "<pre>const char *luaL_typename (lua_State *L, int index);</pre>\n<p>\n Returns the name of the type of the value at the given index.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_typename",
+    body: "<pre>const char *luaL_typename (lua_State *L, int index);</pre>\n<p>\n Returns the name of the type of the value at the given index.\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_unref",
-      "body": "<pre>void luaL_unref (lua_State *L, int t, int ref);</pre>\n<p>\n Releases the reference\n <code>\n  ref\n </code>\n from the table at index\n <code>\n  t\n </code>\n (see\n <a href=\"#luaL_ref\">\n  <code>\n   luaL_ref\n  </code>\n </a>\n ).\nThe entry is removed from the table,\nso that the referred object can be collected.\nThe reference\n <code>\n  ref\n </code>\n is also freed to be used again.\n</p>\n<p>\n If\n <code>\n  ref\n </code>\n is\n <a href=\"#pdf-LUA_NOREF\">\n  <code>\n   LUA_NOREF\n  </code>\n </a>\n or\n <a href=\"#pdf-LUA_REFNIL\">\n  <code>\n   LUA_REFNIL\n  </code>\n </a>\n ,\n <a href=\"#luaL_unref\">\n  <code>\n   luaL_unref\n  </code>\n </a>\n does nothing.\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_unref",
+    body: '<pre>void luaL_unref (lua_State *L, int t, int ref);</pre>\n<p>\n Releases the reference\n <code>\n  ref\n </code>\n from the table at index\n <code>\n  t\n </code>\n (see\n <a href="#luaL_ref">\n  <code>\n   luaL_ref\n  </code>\n </a>\n ).\nThe entry is removed from the table,\nso that the referred object can be collected.\nThe reference\n <code>\n  ref\n </code>\n is also freed to be used again.\n</p>\n<p>\n If\n <code>\n  ref\n </code>\n is\n <a href="#pdf-LUA_NOREF">\n  <code>\n   LUA_NOREF\n  </code>\n </a>\n or\n <a href="#pdf-LUA_REFNIL">\n  <code>\n   LUA_REFNIL\n  </code>\n </a>\n ,\n <a href="#luaL_unref">\n  <code>\n   luaL_unref\n  </code>\n </a>\n does nothing.\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "luaL_where",
-      "body": "<pre>void luaL_where (lua_State *L, int lvl);</pre>\n<p>\n Pushes onto the stack a string identifying the current position\nof the control at level\n <code>\n  lvl\n </code>\n in the call stack.\nTypically this string has the following format:\n</p>\n<pre>     <em>chunkname</em>:<em>currentline</em>:\n</pre>\n<p>\n Level\u00a00 is the running function,\nlevel\u00a01 is the function that called the running function,\netc.\n</p>\n<p>\n This function is used to build a prefix for error messages.\n</p>\n<h1>\n 6 \u2013\n <a name=\"6\">\n  The Standard Libraries\n </a>\n</h1>\n<p>\n The standard Lua libraries provide useful functions\nthat are implemented in\u00a0C through the C\u00a0API.\nSome of these functions provide essential services to the language\n(e.g.,\n <a href=\"#pdf-type\">\n  <code>\n   type\n  </code>\n </a>\n and\n <a href=\"#pdf-getmetatable\">\n  <code>\n   getmetatable\n  </code>\n </a>\n );\nothers provide access to outside services (e.g., I/O);\nand others could be implemented in Lua itself,\nbut that for different reasons\ndeserve an implementation in C (e.g.,\n <a href=\"#pdf-table.sort\">\n  <code>\n   table.sort\n  </code>\n </a>\n ).\n</p>\n<p>\n All libraries are implemented through the official C\u00a0API\nand are provided as separate C\u00a0modules.\nUnless otherwise noted,\nthese library functions do not adjust its number of arguments\nto its expected parameters.\nFor instance, a function documented as\n <code>\n  foo(arg)\n </code>\n should not be called without an argument.\n</p>\n<p>\n The notation\n <b>\n  fail\n </b>\n means a false value representing\nsome kind of failure.\n(Currently,\n <b>\n  fail\n </b>\n is equal to\n <b>\n  nil\n </b>\n ,\nbut that may change in future versions.\nThe recommendation is to always test the success of these functions\nwith\n <code>\n  (not status)\n </code>\n , instead of\n <code>\n  (status == nil)\n </code>\n .)\n</p>\n<p>\n Currently, Lua has the following standard libraries:\n</p>\n<ul>\n <li>\n  basic library (\n  <a href=\"#6.1\">\n   \u00a76.1\n  </a>\n  );\n </li>\n <li>\n  coroutine library (\n  <a href=\"#6.2\">\n   \u00a76.2\n  </a>\n  );\n </li>\n <li>\n  package library (\n  <a href=\"#6.3\">\n   \u00a76.3\n  </a>\n  );\n </li>\n <li>\n  string manipulation (\n  <a href=\"#6.4\">\n   \u00a76.4\n  </a>\n  );\n </li>\n <li>\n  basic UTF-8 support (\n  <a href=\"#6.5\">\n   \u00a76.5\n  </a>\n  );\n </li>\n <li>\n  table manipulation (\n  <a href=\"#6.6\">\n   \u00a76.6\n  </a>\n  );\n </li>\n <li>\n  mathematical functions (\n  <a href=\"#6.7\">\n   \u00a76.7\n  </a>\n  ) (sin, log, etc.);\n </li>\n <li>\n  input and output (\n  <a href=\"#6.8\">\n   \u00a76.8\n  </a>\n  );\n </li>\n <li>\n  operating system facilities (\n  <a href=\"#6.9\">\n   \u00a76.9\n  </a>\n  );\n </li>\n <li>\n  debug facilities (\n  <a href=\"#6.10\">\n   \u00a76.10\n  </a>\n  ).\n </li>\n</ul>\n<p>\n Except for the basic and the package libraries,\neach library provides all its functions as fields of a global table\nor as methods of its objects.\n</p>\n<p>\n To have access to these libraries,\nthe C\u00a0host program should call the\n <a href=\"#luaL_openlibs\">\n  <code>\n   luaL_openlibs\n  </code>\n </a>\n function,\nwhich opens all standard libraries.\nAlternatively,\nthe host program can open them individually by using\n <a href=\"#luaL_requiref\">\n  <code>\n   luaL_requiref\n  </code>\n </a>\n to call\n <a name=\"pdf-luaopen_base\">\n  <code>\n   luaopen_base\n  </code>\n </a>\n (for the basic library),\n <a name=\"pdf-luaopen_package\">\n  <code>\n   luaopen_package\n  </code>\n </a>\n (for the package library),\n <a name=\"pdf-luaopen_coroutine\">\n  <code>\n   luaopen_coroutine\n  </code>\n </a>\n (for the coroutine library),\n <a name=\"pdf-luaopen_string\">\n  <code>\n   luaopen_string\n  </code>\n </a>\n (for the string library),\n <a name=\"pdf-luaopen_utf8\">\n  <code>\n   luaopen_utf8\n  </code>\n </a>\n (for the UTF-8 library),\n <a name=\"pdf-luaopen_table\">\n  <code>\n   luaopen_table\n  </code>\n </a>\n (for the table library),\n <a name=\"pdf-luaopen_math\">\n  <code>\n   luaopen_math\n  </code>\n </a>\n (for the mathematical library),\n <a name=\"pdf-luaopen_io\">\n  <code>\n   luaopen_io\n  </code>\n </a>\n (for the I/O library),\n <a name=\"pdf-luaopen_os\">\n  <code>\n   luaopen_os\n  </code>\n </a>\n (for the operating system library),\nand\n <a name=\"pdf-luaopen_debug\">\n  <code>\n   luaopen_debug\n  </code>\n </a>\n (for the debug library).\nThese functions are declared in\n <a name=\"pdf-lualib.h\">\n  <code>\n   lualib.h\n  </code>\n </a>\n .\n</p>\n<h2>\n 6.1 \u2013\n <a name=\"6.1\">\n  Basic Functions\n </a>\n</h2>\n<p>\n The basic library provides core functions to Lua.\nIf you do not include this library in your application,\nyou should check carefully whether you need to provide\nimplementations for some of its facilities.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "luaL_where",
+    body: '<pre>void luaL_where (lua_State *L, int lvl);</pre>\n<p>\n Pushes onto the stack a string identifying the current position\nof the control at level\n <code>\n  lvl\n </code>\n in the call stack.\nTypically this string has the following format:\n</p>\n<pre>     <em>chunkname</em>:<em>currentline</em>:\n</pre>\n<p>\n Level\u00a00 is the running function,\nlevel\u00a01 is the function that called the running function,\netc.\n</p>\n<p>\n This function is used to build a prefix for error messages.\n</p>\n<h1>\n 6 \u2013\n <a name="6">\n  The Standard Libraries\n </a>\n</h1>\n<p>\n The standard Lua libraries provide useful functions\nthat are implemented in\u00a0C through the C\u00a0API.\nSome of these functions provide essential services to the language\n(e.g.,\n <a href="#pdf-type">\n  <code>\n   type\n  </code>\n </a>\n and\n <a href="#pdf-getmetatable">\n  <code>\n   getmetatable\n  </code>\n </a>\n );\nothers provide access to outside services (e.g., I/O);\nand others could be implemented in Lua itself,\nbut that for different reasons\ndeserve an implementation in C (e.g.,\n <a href="#pdf-table.sort">\n  <code>\n   table.sort\n  </code>\n </a>\n ).\n</p>\n<p>\n All libraries are implemented through the official C\u00a0API\nand are provided as separate C\u00a0modules.\nUnless otherwise noted,\nthese library functions do not adjust its number of arguments\nto its expected parameters.\nFor instance, a function documented as\n <code>\n  foo(arg)\n </code>\n should not be called without an argument.\n</p>\n<p>\n The notation\n <b>\n  fail\n </b>\n means a false value representing\nsome kind of failure.\n(Currently,\n <b>\n  fail\n </b>\n is equal to\n <b>\n  nil\n </b>\n ,\nbut that may change in future versions.\nThe recommendation is to always test the success of these functions\nwith\n <code>\n  (not status)\n </code>\n , instead of\n <code>\n  (status == nil)\n </code>\n .)\n</p>\n<p>\n Currently, Lua has the following standard libraries:\n</p>\n<ul>\n <li>\n  basic library (\n  <a href="#6.1">\n   \u00a76.1\n  </a>\n  );\n </li>\n <li>\n  coroutine library (\n  <a href="#6.2">\n   \u00a76.2\n  </a>\n  );\n </li>\n <li>\n  package library (\n  <a href="#6.3">\n   \u00a76.3\n  </a>\n  );\n </li>\n <li>\n  string manipulation (\n  <a href="#6.4">\n   \u00a76.4\n  </a>\n  );\n </li>\n <li>\n  basic UTF-8 support (\n  <a href="#6.5">\n   \u00a76.5\n  </a>\n  );\n </li>\n <li>\n  table manipulation (\n  <a href="#6.6">\n   \u00a76.6\n  </a>\n  );\n </li>\n <li>\n  mathematical functions (\n  <a href="#6.7">\n   \u00a76.7\n  </a>\n  ) (sin, log, etc.);\n </li>\n <li>\n  input and output (\n  <a href="#6.8">\n   \u00a76.8\n  </a>\n  );\n </li>\n <li>\n  operating system facilities (\n  <a href="#6.9">\n   \u00a76.9\n  </a>\n  );\n </li>\n <li>\n  debug facilities (\n  <a href="#6.10">\n   \u00a76.10\n  </a>\n  ).\n </li>\n</ul>\n<p>\n Except for the basic and the package libraries,\neach library provides all its functions as fields of a global table\nor as methods of its objects.\n</p>\n<p>\n To have access to these libraries,\nthe C\u00a0host program should call the\n <a href="#luaL_openlibs">\n  <code>\n   luaL_openlibs\n  </code>\n </a>\n function,\nwhich opens all standard libraries.\nAlternatively,\nthe host program can open them individually by using\n <a href="#luaL_requiref">\n  <code>\n   luaL_requiref\n  </code>\n </a>\n to call\n <a name="pdf-luaopen_base">\n  <code>\n   luaopen_base\n  </code>\n </a>\n (for the basic library),\n <a name="pdf-luaopen_package">\n  <code>\n   luaopen_package\n  </code>\n </a>\n (for the package library),\n <a name="pdf-luaopen_coroutine">\n  <code>\n   luaopen_coroutine\n  </code>\n </a>\n (for the coroutine library),\n <a name="pdf-luaopen_string">\n  <code>\n   luaopen_string\n  </code>\n </a>\n (for the string library),\n <a name="pdf-luaopen_utf8">\n  <code>\n   luaopen_utf8\n  </code>\n </a>\n (for the UTF-8 library),\n <a name="pdf-luaopen_table">\n  <code>\n   luaopen_table\n  </code>\n </a>\n (for the table library),\n <a name="pdf-luaopen_math">\n  <code>\n   luaopen_math\n  </code>\n </a>\n (for the mathematical library),\n <a name="pdf-luaopen_io">\n  <code>\n   luaopen_io\n  </code>\n </a>\n (for the I/O library),\n <a name="pdf-luaopen_os">\n  <code>\n   luaopen_os\n  </code>\n </a>\n (for the operating system library),\nand\n <a name="pdf-luaopen_debug">\n  <code>\n   luaopen_debug\n  </code>\n </a>\n (for the debug library).\nThese functions are declared in\n <a name="pdf-lualib.h">\n  <code>\n   lualib.h\n  </code>\n </a>\n .\n</p>\n<h2>\n 6.1 \u2013\n <a name="6.1">\n  Basic Functions\n </a>\n</h2>\n<p>\n The basic library provides core functions to Lua.\nIf you do not include this library in your application,\nyou should check carefully whether you need to provide\nimplementations for some of its facilities.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "assert (v [, message])",
-      "body": "<p>\n Raises an error if\nthe value of its argument\n <code>\n  v\n </code>\n is false (i.e.,\n <b>\n  nil\n </b>\n or\n <b>\n  false\n </b>\n );\notherwise, returns all its arguments.\nIn case of error,\n <code>\n  message\n </code>\n is the error object;\nwhen absent, it defaults to \"\n <code>\n  assertion failed!\n </code>\n \"\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "assert (v [, message])",
+    body: '<p>\n Raises an error if\nthe value of its argument\n <code>\n  v\n </code>\n is false (i.e.,\n <b>\n  nil\n </b>\n or\n <b>\n  false\n </b>\n );\notherwise, returns all its arguments.\nIn case of error,\n <code>\n  message\n </code>\n is the error object;\nwhen absent, it defaults to "\n <code>\n  assertion failed!\n </code>\n "\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "collectgarbage ([opt [, arg]])",
-      "body": "<p>\n This function is a generic interface to the garbage collector.\nIt performs different functions according to its first argument,\n <code>\n  opt\n </code>\n :\n</p>\n<ul>\n <li>\n  <b>\n   \"\n   <code>\n    collect\n   </code>\n   \":\n  </b>\n  Performs a full garbage-collection cycle.\nThis is the default option.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    stop\n   </code>\n   \":\n  </b>\n  Stops automatic execution of the garbage collector.\nThe collector will run only when explicitly invoked,\nuntil a call to restart it.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    restart\n   </code>\n   \":\n  </b>\n  Restarts automatic execution of the garbage collector.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    count\n   </code>\n   \":\n  </b>\n  Returns the total memory in use by Lua in Kbytes.\nThe value has a fractional part,\nso that it multiplied by 1024\ngives the exact number of bytes in use by Lua.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    step\n   </code>\n   \":\n  </b>\n  Performs a garbage-collection step.\nThe step \"size\" is controlled by\n  <code>\n   arg\n  </code>\n  .\nWith a zero value,\nthe collector will perform one basic (indivisible) step.\nFor non-zero values,\nthe collector will perform as if that amount of memory\n(in Kbytes) had been allocated by Lua.\nReturns\n  <b>\n   true\n  </b>\n  if the step finished a collection cycle.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    isrunning\n   </code>\n   \":\n  </b>\n  Returns a boolean that tells whether the collector is running\n(i.e., not stopped).\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    incremental\n   </code>\n   \":\n  </b>\n  Change the collector mode to incremental.\nThis option can be followed by three numbers:\nthe garbage-collector pause,\nthe step multiplier,\nand the step size (see\n  <a href=\"#2.5.1\">\n   \u00a72.5.1\n  </a>\n  ).\nA zero means to not change that value.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    generational\n   </code>\n   \":\n  </b>\n  Change the collector mode to generational.\nThis option can be followed by two numbers:\nthe garbage-collector minor multiplier\nand the major multiplier (see\n  <a href=\"#2.5.2\">\n   \u00a72.5.2\n  </a>\n  ).\nA zero means to not change that value.\n </li>\n</ul>\n<p>\n See\n <a href=\"#2.5\">\n  \u00a72.5\n </a>\n for more details about garbage collection\nand some of these options.\n</p>\n<p>\n This function should not be called by a finalizer.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "collectgarbage ([opt [, arg]])",
+    body: '<p>\n This function is a generic interface to the garbage collector.\nIt performs different functions according to its first argument,\n <code>\n  opt\n </code>\n :\n</p>\n<ul>\n <li>\n  <b>\n   "\n   <code>\n    collect\n   </code>\n   ":\n  </b>\n  Performs a full garbage-collection cycle.\nThis is the default option.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    stop\n   </code>\n   ":\n  </b>\n  Stops automatic execution of the garbage collector.\nThe collector will run only when explicitly invoked,\nuntil a call to restart it.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    restart\n   </code>\n   ":\n  </b>\n  Restarts automatic execution of the garbage collector.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    count\n   </code>\n   ":\n  </b>\n  Returns the total memory in use by Lua in Kbytes.\nThe value has a fractional part,\nso that it multiplied by 1024\ngives the exact number of bytes in use by Lua.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    step\n   </code>\n   ":\n  </b>\n  Performs a garbage-collection step.\nThe step "size" is controlled by\n  <code>\n   arg\n  </code>\n  .\nWith a zero value,\nthe collector will perform one basic (indivisible) step.\nFor non-zero values,\nthe collector will perform as if that amount of memory\n(in Kbytes) had been allocated by Lua.\nReturns\n  <b>\n   true\n  </b>\n  if the step finished a collection cycle.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    isrunning\n   </code>\n   ":\n  </b>\n  Returns a boolean that tells whether the collector is running\n(i.e., not stopped).\n </li>\n <li>\n  <b>\n   "\n   <code>\n    incremental\n   </code>\n   ":\n  </b>\n  Change the collector mode to incremental.\nThis option can be followed by three numbers:\nthe garbage-collector pause,\nthe step multiplier,\nand the step size (see\n  <a href="#2.5.1">\n   \u00a72.5.1\n  </a>\n  ).\nA zero means to not change that value.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    generational\n   </code>\n   ":\n  </b>\n  Change the collector mode to generational.\nThis option can be followed by two numbers:\nthe garbage-collector minor multiplier\nand the major multiplier (see\n  <a href="#2.5.2">\n   \u00a72.5.2\n  </a>\n  ).\nA zero means to not change that value.\n </li>\n</ul>\n<p>\n See\n <a href="#2.5">\n  \u00a72.5\n </a>\n for more details about garbage collection\nand some of these options.\n</p>\n<p>\n This function should not be called by a finalizer.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "dofile ([filename])",
-      "body": "<code>\n dofile\n</code>\n<code>\n stdin\n</code>\n<code>\n dofile\n</code>\n<code>\n dofile\n</code>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "dofile ([filename])",
+    body: "<code>\n dofile\n</code>\n<code>\n stdin\n</code>\n<code>\n dofile\n</code>\n<code>\n dofile\n</code>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "error (message [, level])",
-      "body": "<a href=\"#2.3\">\n \u00a72.3\n</a>\n<code>\n message\n</code>\n<p>\n Usually,\n <code>\n  error\n </code>\n adds some information about the error position\nat the beginning of the message, if the message is a string.\nThe\n <code>\n  level\n </code>\n argument specifies how to get the error position.\nWith level\u00a01 (the default), the error position is where the\n <code>\n  error\n </code>\n function was called.\nLevel\u00a02 points the error to where the function\nthat called\n <code>\n  error\n </code>\n was called; and so on.\nPassing a level\u00a00 avoids the addition of error position information\nto the message.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "error (message [, level])",
+    body: '<a href="#2.3">\n \u00a72.3\n</a>\n<code>\n message\n</code>\n<p>\n Usually,\n <code>\n  error\n </code>\n adds some information about the error position\nat the beginning of the message, if the message is a string.\nThe\n <code>\n  level\n </code>\n argument specifies how to get the error position.\nWith level\u00a01 (the default), the error position is where the\n <code>\n  error\n </code>\n function was called.\nLevel\u00a02 points the error to where the function\nthat called\n <code>\n  error\n </code>\n was called; and so on.\nPassing a level\u00a00 avoids the addition of error position information\nto the message.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "_G",
-      "body": "<a href=\"#2.2\">\n \u00a72.2\n</a>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "_G",
+    body: '<a href="#2.2">\n \u00a72.2\n</a>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "getmetatable (object)",
-      "body": "<p>\n If\n <code>\n  object\n </code>\n does not have a metatable, returns\n <b>\n  nil\n </b>\n .\nOtherwise,\nif the object's metatable has a\n <code>\n  __metatable\n </code>\n field,\nreturns the associated value.\nOtherwise, returns the metatable of the given object.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "getmetatable (object)",
+    body: "<p>\n If\n <code>\n  object\n </code>\n does not have a metatable, returns\n <b>\n  nil\n </b>\n .\nOtherwise,\nif the object's metatable has a\n <code>\n  __metatable\n </code>\n field,\nreturns the associated value.\nOtherwise, returns the metatable of the given object.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "ipairs (t)",
-      "body": "<p>\n Returns three values (an iterator function, the table\n <code>\n  t\n </code>\n , and 0)\nso that the construction\n</p>\n<pre>     for i,v in ipairs(t) do <em>body</em> end\n</pre>\n<p>\n will iterate over the key\u2013value pairs\n(\n <code>\n  1,t[1]\n </code>\n ), (\n <code>\n  2,t[2]\n </code>\n ), ...,\nup to the first absent index.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "ipairs (t)",
+    body: "<p>\n Returns three values (an iterator function, the table\n <code>\n  t\n </code>\n , and 0)\nso that the construction\n</p>\n<pre>     for i,v in ipairs(t) do <em>body</em> end\n</pre>\n<p>\n will iterate over the key\u2013value pairs\n(\n <code>\n  1,t[1]\n </code>\n ), (\n <code>\n  2,t[2]\n </code>\n ), ...,\nup to the first absent index.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "load (chunk [, chunkname [, mode [, env]]])",
-      "body": "<p>\n Loads a chunk.\n</p>\n<p>\n If\n <code>\n  chunk\n </code>\n is a string, the chunk is this string.\nIf\n <code>\n  chunk\n </code>\n is a function,\n <code>\n  load\n </code>\n calls it repeatedly to get the chunk pieces.\nEach call to\n <code>\n  chunk\n </code>\n must return a string that concatenates\nwith previous results.\nA return of an empty string,\n <b>\n  nil\n </b>\n , or no value signals the end of the chunk.\n</p>\n<p>\n If there are no syntactic errors,\n <code>\n  load\n </code>\n returns the compiled chunk as a function;\notherwise, it returns\n <b>\n  fail\n </b>\n plus the error message.\n</p>\n<p>\n When you load a main chunk,\nthe resulting function will always have exactly one upvalue,\nthe\n <code>\n  _ENV\n </code>\n variable (see\n <a href=\"#2.2\">\n  \u00a72.2\n </a>\n ).\nHowever,\nwhen you load a binary chunk created from a function (see\n <a href=\"#pdf-string.dump\">\n  <code>\n   string.dump\n  </code>\n </a>\n ),\nthe resulting function can have an arbitrary number of upvalues,\nand there is no guarantee that its first upvalue will be\nthe\n <code>\n  _ENV\n </code>\n variable.\n(A non-main function may not even have an\n <code>\n  _ENV\n </code>\n upvalue.)\n</p>\n<p>\n Regardless, if the resulting function has any upvalues,\nits first upvalue is set to the value of\n <code>\n  env\n </code>\n ,\nif that parameter is given,\nor to the value of the global environment.\nOther upvalues are initialized with\n <b>\n  nil\n </b>\n .\nAll upvalues are fresh, that is,\nthey are not shared with any other function.\n</p>\n<p>\n <code>\n  chunkname\n </code>\n is used as the name of the chunk for error messages\nand debug information (see\n <a href=\"#4.7\">\n  \u00a74.7\n </a>\n ).\nWhen absent,\nit defaults to\n <code>\n  chunk\n </code>\n , if\n <code>\n  chunk\n </code>\n is a string,\nor to \"\n <code>\n  =(load)\n </code>\n \" otherwise.\n</p>\n<p>\n The string\n <code>\n  mode\n </code>\n controls whether the chunk can be text or binary\n(that is, a precompiled chunk).\nIt may be the string \"\n <code>\n  b\n </code>\n \" (only binary chunks),\n\"\n <code>\n  t\n </code>\n \" (only text chunks),\nor \"\n <code>\n  bt\n </code>\n \" (both binary and text).\nThe default is \"\n <code>\n  bt\n </code>\n \".\n</p>\n<p>\n It is safe to load malformed binary chunks;\n <code>\n  load\n </code>\n signals an appropriate error.\nHowever,\nLua does not check the consistency of the code inside binary chunks;\nrunning maliciously crafted bytecode can crash the interpreter.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "load (chunk [, chunkname [, mode [, env]]])",
+    body: '<p>\n Loads a chunk.\n</p>\n<p>\n If\n <code>\n  chunk\n </code>\n is a string, the chunk is this string.\nIf\n <code>\n  chunk\n </code>\n is a function,\n <code>\n  load\n </code>\n calls it repeatedly to get the chunk pieces.\nEach call to\n <code>\n  chunk\n </code>\n must return a string that concatenates\nwith previous results.\nA return of an empty string,\n <b>\n  nil\n </b>\n , or no value signals the end of the chunk.\n</p>\n<p>\n If there are no syntactic errors,\n <code>\n  load\n </code>\n returns the compiled chunk as a function;\notherwise, it returns\n <b>\n  fail\n </b>\n plus the error message.\n</p>\n<p>\n When you load a main chunk,\nthe resulting function will always have exactly one upvalue,\nthe\n <code>\n  _ENV\n </code>\n variable (see\n <a href="#2.2">\n  \u00a72.2\n </a>\n ).\nHowever,\nwhen you load a binary chunk created from a function (see\n <a href="#pdf-string.dump">\n  <code>\n   string.dump\n  </code>\n </a>\n ),\nthe resulting function can have an arbitrary number of upvalues,\nand there is no guarantee that its first upvalue will be\nthe\n <code>\n  _ENV\n </code>\n variable.\n(A non-main function may not even have an\n <code>\n  _ENV\n </code>\n upvalue.)\n</p>\n<p>\n Regardless, if the resulting function has any upvalues,\nits first upvalue is set to the value of\n <code>\n  env\n </code>\n ,\nif that parameter is given,\nor to the value of the global environment.\nOther upvalues are initialized with\n <b>\n  nil\n </b>\n .\nAll upvalues are fresh, that is,\nthey are not shared with any other function.\n</p>\n<p>\n <code>\n  chunkname\n </code>\n is used as the name of the chunk for error messages\nand debug information (see\n <a href="#4.7">\n  \u00a74.7\n </a>\n ).\nWhen absent,\nit defaults to\n <code>\n  chunk\n </code>\n , if\n <code>\n  chunk\n </code>\n is a string,\nor to "\n <code>\n  =(load)\n </code>\n " otherwise.\n</p>\n<p>\n The string\n <code>\n  mode\n </code>\n controls whether the chunk can be text or binary\n(that is, a precompiled chunk).\nIt may be the string "\n <code>\n  b\n </code>\n " (only binary chunks),\n"\n <code>\n  t\n </code>\n " (only text chunks),\nor "\n <code>\n  bt\n </code>\n " (both binary and text).\nThe default is "\n <code>\n  bt\n </code>\n ".\n</p>\n<p>\n It is safe to load malformed binary chunks;\n <code>\n  load\n </code>\n signals an appropriate error.\nHowever,\nLua does not check the consistency of the code inside binary chunks;\nrunning maliciously crafted bytecode can crash the interpreter.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "loadfile ([filename [, mode [, env]]])",
-      "body": "<p>\n Similar to\n <a href=\"#pdf-load\">\n  <code>\n   load\n  </code>\n </a>\n ,\nbut gets the chunk from file\n <code>\n  filename\n </code>\n or from the standard input,\nif no file name is given.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "loadfile ([filename [, mode [, env]]])",
+    body: '<p>\n Similar to\n <a href="#pdf-load">\n  <code>\n   load\n  </code>\n </a>\n ,\nbut gets the chunk from file\n <code>\n  filename\n </code>\n or from the standard input,\nif no file name is given.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "next (table [, index])",
-      "body": "<p>\n Allows a program to traverse all fields of a table.\nIts first argument is a table and its second argument\nis an index in this table.\nA call to\n <code>\n  next\n </code>\n returns the next index of the table\nand its associated value.\nWhen called with\n <b>\n  nil\n </b>\n as its second argument,\n <code>\n  next\n </code>\n returns an initial index\nand its associated value.\nWhen called with the last index,\nor with\n <b>\n  nil\n </b>\n in an empty table,\n <code>\n  next\n </code>\n returns\n <b>\n  nil\n </b>\n .\nIf the second argument is absent, then it is interpreted as\n <b>\n  nil\n </b>\n .\nIn particular,\nyou can use\n <code>\n  next(t)\n </code>\n to check whether a table is empty.\n</p>\n<p>\n The order in which the indices are enumerated is not specified,\n <em>\n  even for numeric indices\n </em>\n .\n(To traverse a table in numerical order,\nuse a numerical\n <b>\n  for\n </b>\n .)\n</p>\n<p>\n You should not assign any value to a non-existent field in a table\nduring its traversal.\nYou may however modify existing fields.\nIn particular, you may set existing fields to nil.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "next (table [, index])",
+    body: "<p>\n Allows a program to traverse all fields of a table.\nIts first argument is a table and its second argument\nis an index in this table.\nA call to\n <code>\n  next\n </code>\n returns the next index of the table\nand its associated value.\nWhen called with\n <b>\n  nil\n </b>\n as its second argument,\n <code>\n  next\n </code>\n returns an initial index\nand its associated value.\nWhen called with the last index,\nor with\n <b>\n  nil\n </b>\n in an empty table,\n <code>\n  next\n </code>\n returns\n <b>\n  nil\n </b>\n .\nIf the second argument is absent, then it is interpreted as\n <b>\n  nil\n </b>\n .\nIn particular,\nyou can use\n <code>\n  next(t)\n </code>\n to check whether a table is empty.\n</p>\n<p>\n The order in which the indices are enumerated is not specified,\n <em>\n  even for numeric indices\n </em>\n .\n(To traverse a table in numerical order,\nuse a numerical\n <b>\n  for\n </b>\n .)\n</p>\n<p>\n You should not assign any value to a non-existent field in a table\nduring its traversal.\nYou may however modify existing fields.\nIn particular, you may set existing fields to nil.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "pairs (t)",
-      "body": "<p>\n If\n <code>\n  t\n </code>\n has a metamethod\n <code>\n  __pairs\n </code>\n ,\ncalls it with\n <code>\n  t\n </code>\n as argument and returns the first three\nresults from the call.\n</p>\n<p>\n Otherwise,\nreturns three values: the\n <a href=\"#pdf-next\">\n  <code>\n   next\n  </code>\n </a>\n function, the table\n <code>\n  t\n </code>\n , and\n <b>\n  nil\n </b>\n ,\nso that the construction\n</p>\n<pre>     for k,v in pairs(t) do <em>body</em> end\n</pre>\n<p>\n will iterate over all key\u2013value pairs of table\n <code>\n  t\n </code>\n .\n</p>\n<p>\n See function\n <a href=\"#pdf-next\">\n  <code>\n   next\n  </code>\n </a>\n for the caveats of modifying\nthe table during its traversal.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "pairs (t)",
+    body: '<p>\n If\n <code>\n  t\n </code>\n has a metamethod\n <code>\n  __pairs\n </code>\n ,\ncalls it with\n <code>\n  t\n </code>\n as argument and returns the first three\nresults from the call.\n</p>\n<p>\n Otherwise,\nreturns three values: the\n <a href="#pdf-next">\n  <code>\n   next\n  </code>\n </a>\n function, the table\n <code>\n  t\n </code>\n , and\n <b>\n  nil\n </b>\n ,\nso that the construction\n</p>\n<pre>     for k,v in pairs(t) do <em>body</em> end\n</pre>\n<p>\n will iterate over all key\u2013value pairs of table\n <code>\n  t\n </code>\n .\n</p>\n<p>\n See function\n <a href="#pdf-next">\n  <code>\n   next\n  </code>\n </a>\n for the caveats of modifying\nthe table during its traversal.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "pcall (f [, arg1, \u00b7\u00b7\u00b7])",
-      "body": "<p>\n Calls the function\n <code>\n  f\n </code>\n with\nthe given arguments in\n <em>\n  protected mode\n </em>\n .\nThis means that any error inside\n <code>\n  f\n </code>\n is not propagated;\ninstead,\n <code>\n  pcall\n </code>\n catches the error\nand returns a status code.\nIts first result is the status code (a boolean),\nwhich is\n <b>\n  true\n </b>\n if the call succeeds without errors.\nIn such case,\n <code>\n  pcall\n </code>\n also returns all results from the call,\nafter this first result.\nIn case of any error,\n <code>\n  pcall\n </code>\n returns\n <b>\n  false\n </b>\n plus the error object.\nNote that errors caught by\n <code>\n  pcall\n </code>\n do not call a message handler.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "pcall (f [, arg1, \u00b7\u00b7\u00b7])",
+    body: "<p>\n Calls the function\n <code>\n  f\n </code>\n with\nthe given arguments in\n <em>\n  protected mode\n </em>\n .\nThis means that any error inside\n <code>\n  f\n </code>\n is not propagated;\ninstead,\n <code>\n  pcall\n </code>\n catches the error\nand returns a status code.\nIts first result is the status code (a boolean),\nwhich is\n <b>\n  true\n </b>\n if the call succeeds without errors.\nIn such case,\n <code>\n  pcall\n </code>\n also returns all results from the call,\nafter this first result.\nIn case of any error,\n <code>\n  pcall\n </code>\n returns\n <b>\n  false\n </b>\n plus the error object.\nNote that errors caught by\n <code>\n  pcall\n </code>\n do not call a message handler.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "print (\u00b7\u00b7\u00b7)",
-      "body": "<code>\n stdout\n</code>\n<a href=\"#pdf-tostring\">\n <code>\n  tostring\n </code>\n</a>\n<p>\n The function\n <code>\n  print\n </code>\n is not intended for formatted output,\nbut only as a quick way to show a value,\nfor instance for debugging.\nFor complete control over the output,\nuse\n <a href=\"#pdf-string.format\">\n  <code>\n   string.format\n  </code>\n </a>\n and\n <a href=\"#pdf-io.write\">\n  <code>\n   io.write\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "print (\u00b7\u00b7\u00b7)",
+    body: '<code>\n stdout\n</code>\n<a href="#pdf-tostring">\n <code>\n  tostring\n </code>\n</a>\n<p>\n The function\n <code>\n  print\n </code>\n is not intended for formatted output,\nbut only as a quick way to show a value,\nfor instance for debugging.\nFor complete control over the output,\nuse\n <a href="#pdf-string.format">\n  <code>\n   string.format\n  </code>\n </a>\n and\n <a href="#pdf-io.write">\n  <code>\n   io.write\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "rawequal (v1, v2)",
-      "body": "<code>\n v1\n</code>\n<code>\n v2\n</code>\n<code>\n __eq\n</code>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "rawequal (v1, v2)",
+    body: "<code>\n v1\n</code>\n<code>\n v2\n</code>\n<code>\n __eq\n</code>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "rawget (table, index)",
-      "body": "<code>\n table[index]\n</code>\n<code>\n __index\n</code>\n<code>\n table\n</code>\n<code>\n index\n</code>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "rawget (table, index)",
+    body: "<code>\n table[index]\n</code>\n<code>\n __index\n</code>\n<code>\n table\n</code>\n<code>\n index\n</code>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "rawlen (v)",
-      "body": "<code>\n v\n</code>\n<code>\n __len\n</code>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "rawlen (v)",
+    body: "<code>\n v\n</code>\n<code>\n __len\n</code>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "rawset (table, index, value)",
-      "body": "<code>\n table[index]\n</code>\n<code>\n value\n</code>\n<code>\n __newindex\n</code>\n<code>\n table\n</code>\n<code>\n index\n</code>\n<b>\n nil\n</b>\n<code>\n value\n</code>\n<p>\n This function returns\n <code>\n  table\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "rawset (table, index, value)",
+    body: "<code>\n table[index]\n</code>\n<code>\n value\n</code>\n<code>\n __newindex\n</code>\n<code>\n table\n</code>\n<code>\n index\n</code>\n<b>\n nil\n</b>\n<code>\n value\n</code>\n<p>\n This function returns\n <code>\n  table\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "select (index, \u00b7\u00b7\u00b7)",
-      "body": "<p>\n If\n <code>\n  index\n </code>\n is a number,\nreturns all arguments after argument number\n <code>\n  index\n </code>\n ;\na negative number indexes from the end (-1 is the last argument).\nOtherwise,\n <code>\n  index\n </code>\n must be the string\n <code>\n  \"#\"\n </code>\n ,\nand\n <code>\n  select\n </code>\n returns the total number of extra arguments it received.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "select (index, \u00b7\u00b7\u00b7)",
+    body: '<p>\n If\n <code>\n  index\n </code>\n is a number,\nreturns all arguments after argument number\n <code>\n  index\n </code>\n ;\na negative number indexes from the end (-1 is the last argument).\nOtherwise,\n <code>\n  index\n </code>\n must be the string\n <code>\n  "#"\n </code>\n ,\nand\n <code>\n  select\n </code>\n returns the total number of extra arguments it received.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "setmetatable (table, metatable)",
-      "body": "<p>\n Sets the metatable for the given table.\nIf\n <code>\n  metatable\n </code>\n is\n <b>\n  nil\n </b>\n ,\nremoves the metatable of the given table.\nIf the original metatable has a\n <code>\n  __metatable\n </code>\n field,\nraises an error.\n</p>\n<p>\n This function returns\n <code>\n  table\n </code>\n .\n</p>\n<p>\n To change the metatable of other types from Lua code,\nyou must use the debug library (\n <a href=\"#6.10\">\n  \u00a76.10\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "setmetatable (table, metatable)",
+    body: '<p>\n Sets the metatable for the given table.\nIf\n <code>\n  metatable\n </code>\n is\n <b>\n  nil\n </b>\n ,\nremoves the metatable of the given table.\nIf the original metatable has a\n <code>\n  __metatable\n </code>\n field,\nraises an error.\n</p>\n<p>\n This function returns\n <code>\n  table\n </code>\n .\n</p>\n<p>\n To change the metatable of other types from Lua code,\nyou must use the debug library (\n <a href="#6.10">\n  \u00a76.10\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "tonumber (e [, base])",
-      "body": "<p>\n When called with no\n <code>\n  base\n </code>\n ,\n <code>\n  tonumber\n </code>\n tries to convert its argument to a number.\nIf the argument is already a number or\na string convertible to a number,\nthen\n <code>\n  tonumber\n </code>\n returns this number;\notherwise, it returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n The conversion of strings can result in integers or floats,\naccording to the lexical conventions of Lua (see\n <a href=\"#3.1\">\n  \u00a73.1\n </a>\n ).\nThe string may have leading and trailing spaces and a sign.\n</p>\n<p>\n When called with\n <code>\n  base\n </code>\n ,\nthen\n <code>\n  e\n </code>\n must be a string to be interpreted as\nan integer numeral in that base.\nThe base may be any integer between 2 and 36, inclusive.\nIn bases above\u00a010, the letter '\n <code>\n  A\n </code>\n ' (in either upper or lower case)\nrepresents\u00a010, '\n <code>\n  B\n </code>\n ' represents\u00a011, and so forth,\nwith '\n <code>\n  Z\n </code>\n ' representing 35.\nIf the string\n <code>\n  e\n </code>\n is not a valid numeral in the given base,\nthe function returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "tonumber (e [, base])",
+    body: "<p>\n When called with no\n <code>\n  base\n </code>\n ,\n <code>\n  tonumber\n </code>\n tries to convert its argument to a number.\nIf the argument is already a number or\na string convertible to a number,\nthen\n <code>\n  tonumber\n </code>\n returns this number;\notherwise, it returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n The conversion of strings can result in integers or floats,\naccording to the lexical conventions of Lua (see\n <a href=\"#3.1\">\n  \u00a73.1\n </a>\n ).\nThe string may have leading and trailing spaces and a sign.\n</p>\n<p>\n When called with\n <code>\n  base\n </code>\n ,\nthen\n <code>\n  e\n </code>\n must be a string to be interpreted as\nan integer numeral in that base.\nThe base may be any integer between 2 and 36, inclusive.\nIn bases above\u00a010, the letter '\n <code>\n  A\n </code>\n ' (in either upper or lower case)\nrepresents\u00a010, '\n <code>\n  B\n </code>\n ' represents\u00a011, and so forth,\nwith '\n <code>\n  Z\n </code>\n ' representing 35.\nIf the string\n <code>\n  e\n </code>\n is not a valid numeral in the given base,\nthe function returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "tostring (v)",
-      "body": "<p>\n Receives a value of any type and\nconverts it to a string in a human-readable format.\n</p>\n<p>\n If the metatable of\n <code>\n  v\n </code>\n has a\n <code>\n  __tostring\n </code>\n field,\nthen\n <code>\n  tostring\n </code>\n calls the corresponding value\nwith\n <code>\n  v\n </code>\n as argument,\nand uses the result of the call as its result.\nOtherwise, if the metatable of\n <code>\n  v\n </code>\n has a\n <code>\n  __name\n </code>\n field\nwith a string value,\n <code>\n  tostring\n </code>\n may use that string in its final result.\n</p>\n<p>\n For complete control of how numbers are converted,\nuse\n <a href=\"#pdf-string.format\">\n  <code>\n   string.format\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "tostring (v)",
+    body: '<p>\n Receives a value of any type and\nconverts it to a string in a human-readable format.\n</p>\n<p>\n If the metatable of\n <code>\n  v\n </code>\n has a\n <code>\n  __tostring\n </code>\n field,\nthen\n <code>\n  tostring\n </code>\n calls the corresponding value\nwith\n <code>\n  v\n </code>\n as argument,\nand uses the result of the call as its result.\nOtherwise, if the metatable of\n <code>\n  v\n </code>\n has a\n <code>\n  __name\n </code>\n field\nwith a string value,\n <code>\n  tostring\n </code>\n may use that string in its final result.\n</p>\n<p>\n For complete control of how numbers are converted,\nuse\n <a href="#pdf-string.format">\n  <code>\n   string.format\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "type (v)",
-      "body": "<p>\n Returns the type of its only argument, coded as a string.\nThe possible results of this function are\n\"\n <code>\n  nil\n </code>\n \" (a string, not the value\n <b>\n  nil\n </b>\n ),\n\"\n <code>\n  number\n </code>\n \",\n\"\n <code>\n  string\n </code>\n \",\n\"\n <code>\n  boolean\n </code>\n \",\n\"\n <code>\n  table\n </code>\n \",\n\"\n <code>\n  function\n </code>\n \",\n\"\n <code>\n  thread\n </code>\n \",\nand \"\n <code>\n  userdata\n </code>\n \".\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "type (v)",
+    body: '<p>\n Returns the type of its only argument, coded as a string.\nThe possible results of this function are\n"\n <code>\n  nil\n </code>\n " (a string, not the value\n <b>\n  nil\n </b>\n ),\n"\n <code>\n  number\n </code>\n ",\n"\n <code>\n  string\n </code>\n ",\n"\n <code>\n  boolean\n </code>\n ",\n"\n <code>\n  table\n </code>\n ",\n"\n <code>\n  function\n </code>\n ",\n"\n <code>\n  thread\n </code>\n ",\nand "\n <code>\n  userdata\n </code>\n ".\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "_VERSION",
-      "body": "<p>\n A global variable (not a function) that\nholds a string containing the running Lua version.\nThe current value of this variable is \"\n <code>\n  Lua 5.4\n </code>\n \".\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "_VERSION",
+    body: '<p>\n A global variable (not a function) that\nholds a string containing the running Lua version.\nThe current value of this variable is "\n <code>\n  Lua 5.4\n </code>\n ".\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "warn (msg1, \u00b7\u00b7\u00b7)",
-      "body": "<p>\n Emits a warning with a message composed by the concatenation\nof all its arguments (which should be strings).\n</p>\n<p>\n By convention,\na one-piece message starting with '\n <code>\n  @\n </code>\n '\nis intended to be a\n <em>\n  control message\n </em>\n ,\nwhich is a message to the warning system itself.\nIn particular, the standard warning function in Lua\nrecognizes the control messages \"\n <code>\n  @off\n </code>\n \",\nto stop the emission of warnings,\nand \"\n <code>\n  @on\n </code>\n \", to (re)start the emission;\nit ignores unknown control messages.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "warn (msg1, \u00b7\u00b7\u00b7)",
+    body: '<p>\n Emits a warning with a message composed by the concatenation\nof all its arguments (which should be strings).\n</p>\n<p>\n By convention,\na one-piece message starting with \'\n <code>\n  @\n </code>\n \'\nis intended to be a\n <em>\n  control message\n </em>\n ,\nwhich is a message to the warning system itself.\nIn particular, the standard warning function in Lua\nrecognizes the control messages "\n <code>\n  @off\n </code>\n ",\nto stop the emission of warnings,\nand "\n <code>\n  @on\n </code>\n ", to (re)start the emission;\nit ignores unknown control messages.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "xpcall (f, msgh [, arg1, \u00b7\u00b7\u00b7])",
-      "body": "<p>\n This function is similar to\n <a href=\"#pdf-pcall\">\n  <code>\n   pcall\n  </code>\n </a>\n ,\nexcept that it sets a new message handler\n <code>\n  msgh\n </code>\n .\n</p>\n<h2>\n 6.2 \u2013\n <a name=\"6.2\">\n  Coroutine Manipulation\n </a>\n</h2>\n<p>\n This library comprises the operations to manipulate coroutines,\nwhich come inside the table\n <a name=\"pdf-coroutine\">\n  <code>\n   coroutine\n  </code>\n </a>\n .\nSee\n <a href=\"#2.6\">\n  \u00a72.6\n </a>\n for a general description of coroutines.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "xpcall (f, msgh [, arg1, \u00b7\u00b7\u00b7])",
+    body: '<p>\n This function is similar to\n <a href="#pdf-pcall">\n  <code>\n   pcall\n  </code>\n </a>\n ,\nexcept that it sets a new message handler\n <code>\n  msgh\n </code>\n .\n</p>\n<h2>\n 6.2 \u2013\n <a name="6.2">\n  Coroutine Manipulation\n </a>\n</h2>\n<p>\n This library comprises the operations to manipulate coroutines,\nwhich come inside the table\n <a name="pdf-coroutine">\n  <code>\n   coroutine\n  </code>\n </a>\n .\nSee\n <a href="#2.6">\n  \u00a72.6\n </a>\n for a general description of coroutines.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.close (co)",
-      "body": "<p>\n Closes coroutine\n <code>\n  co\n </code>\n ,\nthat is,\ncloses all its pending to-be-closed variables\nand puts the coroutine in a dead state.\nThe given coroutine must be dead or suspended.\nIn case of error\n(either the original error that stopped the coroutine or\nerrors in closing methods),\nreturns\n <b>\n  false\n </b>\n plus the error object;\notherwise returns\n <b>\n  true\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.close (co)",
+    body: "<p>\n Closes coroutine\n <code>\n  co\n </code>\n ,\nthat is,\ncloses all its pending to-be-closed variables\nand puts the coroutine in a dead state.\nThe given coroutine must be dead or suspended.\nIn case of error\n(either the original error that stopped the coroutine or\nerrors in closing methods),\nreturns\n <b>\n  false\n </b>\n plus the error object;\notherwise returns\n <b>\n  true\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.create (f)",
-      "body": "<p>\n Creates a new coroutine, with body\n <code>\n  f\n </code>\n .\n <code>\n  f\n </code>\n must be a function.\nReturns this new coroutine,\nan object with type\n <code>\n  \"thread\"\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.create (f)",
+    body: '<p>\n Creates a new coroutine, with body\n <code>\n  f\n </code>\n .\n <code>\n  f\n </code>\n must be a function.\nReturns this new coroutine,\nan object with type\n <code>\n  "thread"\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.isyieldable ([co])",
-      "body": "<p>\n Returns\n <b>\n  true\n </b>\n when the coroutine\n <code>\n  co\n </code>\n can yield.\nThe default for\n <code>\n  co\n </code>\n is the running coroutine.\n</p>\n<p>\n A coroutine is yieldable if it is not the main thread and\nit is not inside a non-yieldable C\u00a0function.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.isyieldable ([co])",
+    body: "<p>\n Returns\n <b>\n  true\n </b>\n when the coroutine\n <code>\n  co\n </code>\n can yield.\nThe default for\n <code>\n  co\n </code>\n is the running coroutine.\n</p>\n<p>\n A coroutine is yieldable if it is not the main thread and\nit is not inside a non-yieldable C\u00a0function.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.resume (co [, val1, \u00b7\u00b7\u00b7])",
-      "body": "<p>\n Starts or continues the execution of coroutine\n <code>\n  co\n </code>\n .\nThe first time you resume a coroutine,\nit starts running its body.\nThe values\n <code>\n  val1\n </code>\n , ... are passed\nas the arguments to the body function.\nIf the coroutine has yielded,\n <code>\n  resume\n </code>\n restarts it;\nthe values\n <code>\n  val1\n </code>\n , ... are passed\nas the results from the yield.\n</p>\n<p>\n If the coroutine runs without any errors,\n <code>\n  resume\n </code>\n returns\n <b>\n  true\n </b>\n plus any values passed to\n <code>\n  yield\n </code>\n (when the coroutine yields) or any values returned by the body function\n(when the coroutine terminates).\nIf there is any error,\n <code>\n  resume\n </code>\n returns\n <b>\n  false\n </b>\n plus the error message.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.resume (co [, val1, \u00b7\u00b7\u00b7])",
+    body: "<p>\n Starts or continues the execution of coroutine\n <code>\n  co\n </code>\n .\nThe first time you resume a coroutine,\nit starts running its body.\nThe values\n <code>\n  val1\n </code>\n , ... are passed\nas the arguments to the body function.\nIf the coroutine has yielded,\n <code>\n  resume\n </code>\n restarts it;\nthe values\n <code>\n  val1\n </code>\n , ... are passed\nas the results from the yield.\n</p>\n<p>\n If the coroutine runs without any errors,\n <code>\n  resume\n </code>\n returns\n <b>\n  true\n </b>\n plus any values passed to\n <code>\n  yield\n </code>\n (when the coroutine yields) or any values returned by the body function\n(when the coroutine terminates).\nIf there is any error,\n <code>\n  resume\n </code>\n returns\n <b>\n  false\n </b>\n plus the error message.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.running ()",
-      "body": "<p>\n Returns the running coroutine plus a boolean,\n <b>\n  true\n </b>\n when the running coroutine is the main one.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.running ()",
+    body: "<p>\n Returns the running coroutine plus a boolean,\n <b>\n  true\n </b>\n when the running coroutine is the main one.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.status (co)",
-      "body": "<p>\n Returns the status of the coroutine\n <code>\n  co\n </code>\n , as a string:\n <code>\n  \"running\"\n </code>\n ,\nif the coroutine is running\n(that is, it is the one that called\n <code>\n  status\n </code>\n );\n <code>\n  \"suspended\"\n </code>\n , if the coroutine is suspended in a call to\n <code>\n  yield\n </code>\n ,\nor if it has not started running yet;\n <code>\n  \"normal\"\n </code>\n if the coroutine is active but not running\n(that is, it has resumed another coroutine);\nand\n <code>\n  \"dead\"\n </code>\n if the coroutine has finished its body function,\nor if it has stopped with an error.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.status (co)",
+    body: '<p>\n Returns the status of the coroutine\n <code>\n  co\n </code>\n , as a string:\n <code>\n  "running"\n </code>\n ,\nif the coroutine is running\n(that is, it is the one that called\n <code>\n  status\n </code>\n );\n <code>\n  "suspended"\n </code>\n , if the coroutine is suspended in a call to\n <code>\n  yield\n </code>\n ,\nor if it has not started running yet;\n <code>\n  "normal"\n </code>\n if the coroutine is active but not running\n(that is, it has resumed another coroutine);\nand\n <code>\n  "dead"\n </code>\n if the coroutine has finished its body function,\nor if it has stopped with an error.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.wrap (f)",
-      "body": "<p>\n Creates a new coroutine, with body\n <code>\n  f\n </code>\n ;\n <code>\n  f\n </code>\n must be a function.\nReturns a function that resumes the coroutine each time it is called.\nAny arguments passed to this function behave as the\nextra arguments to\n <code>\n  resume\n </code>\n .\nThe function returns the same values returned by\n <code>\n  resume\n </code>\n ,\nexcept the first boolean.\nIn case of error,\nthe function closes the coroutine and propagates the error.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.wrap (f)",
+    body: "<p>\n Creates a new coroutine, with body\n <code>\n  f\n </code>\n ;\n <code>\n  f\n </code>\n must be a function.\nReturns a function that resumes the coroutine each time it is called.\nAny arguments passed to this function behave as the\nextra arguments to\n <code>\n  resume\n </code>\n .\nThe function returns the same values returned by\n <code>\n  resume\n </code>\n ,\nexcept the first boolean.\nIn case of error,\nthe function closes the coroutine and propagates the error.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "coroutine.yield (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Suspends the execution of the calling coroutine.\nAny arguments to\n <code>\n  yield\n </code>\n are passed as extra results to\n <code>\n  resume\n </code>\n .\n</p>\n<h2>\n 6.3 \u2013\n <a name=\"6.3\">\n  Modules\n </a>\n</h2>\n<p>\n The package library provides basic\nfacilities for loading modules in Lua.\nIt exports one function directly in the global environment:\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n .\nEverything else is exported in the table\n <a name=\"pdf-package\">\n  <code>\n   package\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "coroutine.yield (\u00b7\u00b7\u00b7)",
+    body: '<p>\n Suspends the execution of the calling coroutine.\nAny arguments to\n <code>\n  yield\n </code>\n are passed as extra results to\n <code>\n  resume\n </code>\n .\n</p>\n<h2>\n 6.3 \u2013\n <a name="6.3">\n  Modules\n </a>\n</h2>\n<p>\n The package library provides basic\nfacilities for loading modules in Lua.\nIt exports one function directly in the global environment:\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n .\nEverything else is exported in the table\n <a name="pdf-package">\n  <code>\n   package\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "require (modname)",
-      "body": "<p>\n Loads the given module.\nThe function starts by looking into the\n <a href=\"#pdf-package.loaded\">\n  <code>\n   package.loaded\n  </code>\n </a>\n table\nto determine whether\n <code>\n  modname\n </code>\n is already loaded.\nIf it is, then\n <code>\n  require\n </code>\n returns the value stored\nat\n <code>\n  package.loaded[modname]\n </code>\n .\n(The absence of a second result in this case\nsignals that this call did not have to load the module.)\nOtherwise, it tries to find a\n <em>\n  loader\n </em>\n for the module.\n</p>\n<p>\n To find a loader,\n <code>\n  require\n </code>\n is guided by the table\n <a href=\"#pdf-package.searchers\">\n  <code>\n   package.searchers\n  </code>\n </a>\n .\nEach item in this table is a search function,\nthat searches for the module in a particular way.\nBy changing this table,\nwe can change how\n <code>\n  require\n </code>\n looks for a module.\nThe following explanation is based on the default configuration\nfor\n <a href=\"#pdf-package.searchers\">\n  <code>\n   package.searchers\n  </code>\n </a>\n .\n</p>\n<p>\n First\n <code>\n  require\n </code>\n queries\n <code>\n  package.preload[modname]\n </code>\n .\nIf it has a value,\nthis value (which must be a function) is the loader.\nOtherwise\n <code>\n  require\n </code>\n searches for a Lua loader using the\npath stored in\n <a href=\"#pdf-package.path\">\n  <code>\n   package.path\n  </code>\n </a>\n .\nIf that also fails, it searches for a C\u00a0loader using the\npath stored in\n <a href=\"#pdf-package.cpath\">\n  <code>\n   package.cpath\n  </code>\n </a>\n .\nIf that also fails,\nit tries an\n <em>\n  all-in-one\n </em>\n loader (see\n <a href=\"#pdf-package.searchers\">\n  <code>\n   package.searchers\n  </code>\n </a>\n ).\n</p>\n<p>\n Once a loader is found,\n <code>\n  require\n </code>\n calls the loader with two arguments:\n <code>\n  modname\n </code>\n and an extra value,\na\n <em>\n  loader data\n </em>\n ,\nalso returned by the searcher.\nThe loader data can be any value useful to the module;\nfor the default searchers,\nit indicates where the loader was found.\n(For instance, if the loader came from a file,\nthis extra value is the file path.)\nIf the loader returns any non-nil value,\n <code>\n  require\n </code>\n assigns the returned value to\n <code>\n  package.loaded[modname]\n </code>\n .\nIf the loader does not return a non-nil value and\nhas not assigned any value to\n <code>\n  package.loaded[modname]\n </code>\n ,\nthen\n <code>\n  require\n </code>\n assigns\n <b>\n  true\n </b>\n to this entry.\nIn any case,\n <code>\n  require\n </code>\n returns the\nfinal value of\n <code>\n  package.loaded[modname]\n </code>\n .\nBesides that value,\n <code>\n  require\n </code>\n also returns as a second result\nthe loader data returned by the searcher,\nwhich indicates how\n <code>\n  require\n </code>\n found the module.\n</p>\n<p>\n If there is any error loading or running the module,\nor if it cannot find any loader for the module,\nthen\n <code>\n  require\n </code>\n raises an error.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "require (modname)",
+    body: '<p>\n Loads the given module.\nThe function starts by looking into the\n <a href="#pdf-package.loaded">\n  <code>\n   package.loaded\n  </code>\n </a>\n table\nto determine whether\n <code>\n  modname\n </code>\n is already loaded.\nIf it is, then\n <code>\n  require\n </code>\n returns the value stored\nat\n <code>\n  package.loaded[modname]\n </code>\n .\n(The absence of a second result in this case\nsignals that this call did not have to load the module.)\nOtherwise, it tries to find a\n <em>\n  loader\n </em>\n for the module.\n</p>\n<p>\n To find a loader,\n <code>\n  require\n </code>\n is guided by the table\n <a href="#pdf-package.searchers">\n  <code>\n   package.searchers\n  </code>\n </a>\n .\nEach item in this table is a search function,\nthat searches for the module in a particular way.\nBy changing this table,\nwe can change how\n <code>\n  require\n </code>\n looks for a module.\nThe following explanation is based on the default configuration\nfor\n <a href="#pdf-package.searchers">\n  <code>\n   package.searchers\n  </code>\n </a>\n .\n</p>\n<p>\n First\n <code>\n  require\n </code>\n queries\n <code>\n  package.preload[modname]\n </code>\n .\nIf it has a value,\nthis value (which must be a function) is the loader.\nOtherwise\n <code>\n  require\n </code>\n searches for a Lua loader using the\npath stored in\n <a href="#pdf-package.path">\n  <code>\n   package.path\n  </code>\n </a>\n .\nIf that also fails, it searches for a C\u00a0loader using the\npath stored in\n <a href="#pdf-package.cpath">\n  <code>\n   package.cpath\n  </code>\n </a>\n .\nIf that also fails,\nit tries an\n <em>\n  all-in-one\n </em>\n loader (see\n <a href="#pdf-package.searchers">\n  <code>\n   package.searchers\n  </code>\n </a>\n ).\n</p>\n<p>\n Once a loader is found,\n <code>\n  require\n </code>\n calls the loader with two arguments:\n <code>\n  modname\n </code>\n and an extra value,\na\n <em>\n  loader data\n </em>\n ,\nalso returned by the searcher.\nThe loader data can be any value useful to the module;\nfor the default searchers,\nit indicates where the loader was found.\n(For instance, if the loader came from a file,\nthis extra value is the file path.)\nIf the loader returns any non-nil value,\n <code>\n  require\n </code>\n assigns the returned value to\n <code>\n  package.loaded[modname]\n </code>\n .\nIf the loader does not return a non-nil value and\nhas not assigned any value to\n <code>\n  package.loaded[modname]\n </code>\n ,\nthen\n <code>\n  require\n </code>\n assigns\n <b>\n  true\n </b>\n to this entry.\nIn any case,\n <code>\n  require\n </code>\n returns the\nfinal value of\n <code>\n  package.loaded[modname]\n </code>\n .\nBesides that value,\n <code>\n  require\n </code>\n also returns as a second result\nthe loader data returned by the searcher,\nwhich indicates how\n <code>\n  require\n </code>\n found the module.\n</p>\n<p>\n If there is any error loading or running the module,\nor if it cannot find any loader for the module,\nthen\n <code>\n  require\n </code>\n raises an error.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.config",
-      "body": "<p>\n A string describing some compile-time configurations for packages.\nThis string is a sequence of lines:\n</p>\n<ul>\n <li>\n  The first line is the directory separator string.\nDefault is '\n  <code>\n   \\\n  </code>\n  ' for Windows and '\n  <code>\n   /\n  </code>\n  ' for all other systems.\n </li>\n <li>\n  The second line is the character that separates templates in a path.\nDefault is '\n  <code>\n   ;\n  </code>\n  '.\n </li>\n <li>\n  The third line is the string that marks the\nsubstitution points in a template.\nDefault is '\n  <code>\n   ?\n  </code>\n  '.\n </li>\n <li>\n  The fourth line is a string that, in a path in Windows,\nis replaced by the executable's directory.\nDefault is '\n  <code>\n   !\n  </code>\n  '.\n </li>\n <li>\n  The fifth line is a mark to ignore all text after it\nwhen building the\n  <code>\n   luaopen_\n  </code>\n  function name.\nDefault is '\n  <code>\n   -\n  </code>\n  '.\n </li>\n</ul>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.config",
+    body: "<p>\n A string describing some compile-time configurations for packages.\nThis string is a sequence of lines:\n</p>\n<ul>\n <li>\n  The first line is the directory separator string.\nDefault is '\n  <code>\n   \\\n  </code>\n  ' for Windows and '\n  <code>\n   /\n  </code>\n  ' for all other systems.\n </li>\n <li>\n  The second line is the character that separates templates in a path.\nDefault is '\n  <code>\n   ;\n  </code>\n  '.\n </li>\n <li>\n  The third line is the string that marks the\nsubstitution points in a template.\nDefault is '\n  <code>\n   ?\n  </code>\n  '.\n </li>\n <li>\n  The fourth line is a string that, in a path in Windows,\nis replaced by the executable's directory.\nDefault is '\n  <code>\n   !\n  </code>\n  '.\n </li>\n <li>\n  The fifth line is a mark to ignore all text after it\nwhen building the\n  <code>\n   luaopen_\n  </code>\n  function name.\nDefault is '\n  <code>\n   -\n  </code>\n  '.\n </li>\n</ul>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.cpath",
-      "body": "<p>\n A string with the path used by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n to search for a C\u00a0loader.\n</p>\n<p>\n Lua initializes the C\u00a0path\n <a href=\"#pdf-package.cpath\">\n  <code>\n   package.cpath\n  </code>\n </a>\n in the same way\nit initializes the Lua path\n <a href=\"#pdf-package.path\">\n  <code>\n   package.path\n  </code>\n </a>\n ,\nusing the environment variable\n <a name=\"pdf-LUA_CPATH_5_4\">\n  <code>\n   LUA_CPATH_5_4\n  </code>\n </a>\n ,\nor the environment variable\n <a name=\"pdf-LUA_CPATH\">\n  <code>\n   LUA_CPATH\n  </code>\n </a>\n ,\nor a default path defined in\n <code>\n  luaconf.h\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.cpath",
+    body: '<p>\n A string with the path used by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n to search for a C\u00a0loader.\n</p>\n<p>\n Lua initializes the C\u00a0path\n <a href="#pdf-package.cpath">\n  <code>\n   package.cpath\n  </code>\n </a>\n in the same way\nit initializes the Lua path\n <a href="#pdf-package.path">\n  <code>\n   package.path\n  </code>\n </a>\n ,\nusing the environment variable\n <a name="pdf-LUA_CPATH_5_4">\n  <code>\n   LUA_CPATH_5_4\n  </code>\n </a>\n ,\nor the environment variable\n <a name="pdf-LUA_CPATH">\n  <code>\n   LUA_CPATH\n  </code>\n </a>\n ,\nor a default path defined in\n <code>\n  luaconf.h\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.loaded",
-      "body": "<p>\n A table used by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n to control which\nmodules are already loaded.\nWhen you require a module\n <code>\n  modname\n </code>\n and\n <code>\n  package.loaded[modname]\n </code>\n is not false,\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n simply returns the value stored there.\n</p>\n<p>\n This variable is only a reference to the real table;\nassignments to this variable do not change the\ntable used by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.loaded",
+    body: '<p>\n A table used by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n to control which\nmodules are already loaded.\nWhen you require a module\n <code>\n  modname\n </code>\n and\n <code>\n  package.loaded[modname]\n </code>\n is not false,\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n simply returns the value stored there.\n</p>\n<p>\n This variable is only a reference to the real table;\nassignments to this variable do not change the\ntable used by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.loadlib (libname, funcname)",
-      "body": "<p>\n Dynamically links the host program with the C\u00a0library\n <code>\n  libname\n </code>\n .\n</p>\n<p>\n If\n <code>\n  funcname\n </code>\n is \"\n <code>\n  *\n </code>\n \",\nthen it only links with the library,\nmaking the symbols exported by the library\navailable to other dynamically linked libraries.\nOtherwise,\nit looks for a function\n <code>\n  funcname\n </code>\n inside the library\nand returns this function as a C\u00a0function.\nSo,\n <code>\n  funcname\n </code>\n must follow the\n <a href=\"#lua_CFunction\">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n prototype\n(see\n <a href=\"#lua_CFunction\">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n ).\n</p>\n<p>\n This is a low-level function.\nIt completely bypasses the package and module system.\nUnlike\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n ,\nit does not perform any path searching and\ndoes not automatically adds extensions.\n <code>\n  libname\n </code>\n must be the complete file name of the C\u00a0library,\nincluding if necessary a path and an extension.\n <code>\n  funcname\n </code>\n must be the exact name exported by the C\u00a0library\n(which may depend on the C\u00a0compiler and linker used).\n</p>\n<p>\n This function is not supported by Standard\u00a0C.\nAs such, it is only available on some platforms\n(Windows, Linux, Mac OS X, Solaris, BSD,\nplus other Unix systems that support the\n <code>\n  dlfcn\n </code>\n standard).\n</p>\n<p>\n This function is inherently insecure,\nas it allows Lua to call any function in any readable dynamic\nlibrary in the system.\n(Lua calls any function assuming the function\nhas a proper prototype and respects a proper protocol\n(see\n <a href=\"#lua_CFunction\">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n ).\nTherefore,\ncalling an arbitrary function in an arbitrary dynamic library\nmore often than not results in an access violation.)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.loadlib (libname, funcname)",
+    body: '<p>\n Dynamically links the host program with the C\u00a0library\n <code>\n  libname\n </code>\n .\n</p>\n<p>\n If\n <code>\n  funcname\n </code>\n is "\n <code>\n  *\n </code>\n ",\nthen it only links with the library,\nmaking the symbols exported by the library\navailable to other dynamically linked libraries.\nOtherwise,\nit looks for a function\n <code>\n  funcname\n </code>\n inside the library\nand returns this function as a C\u00a0function.\nSo,\n <code>\n  funcname\n </code>\n must follow the\n <a href="#lua_CFunction">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n prototype\n(see\n <a href="#lua_CFunction">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n ).\n</p>\n<p>\n This is a low-level function.\nIt completely bypasses the package and module system.\nUnlike\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n ,\nit does not perform any path searching and\ndoes not automatically adds extensions.\n <code>\n  libname\n </code>\n must be the complete file name of the C\u00a0library,\nincluding if necessary a path and an extension.\n <code>\n  funcname\n </code>\n must be the exact name exported by the C\u00a0library\n(which may depend on the C\u00a0compiler and linker used).\n</p>\n<p>\n This function is not supported by Standard\u00a0C.\nAs such, it is only available on some platforms\n(Windows, Linux, Mac OS X, Solaris, BSD,\nplus other Unix systems that support the\n <code>\n  dlfcn\n </code>\n standard).\n</p>\n<p>\n This function is inherently insecure,\nas it allows Lua to call any function in any readable dynamic\nlibrary in the system.\n(Lua calls any function assuming the function\nhas a proper prototype and respects a proper protocol\n(see\n <a href="#lua_CFunction">\n  <code>\n   lua_CFunction\n  </code>\n </a>\n ).\nTherefore,\ncalling an arbitrary function in an arbitrary dynamic library\nmore often than not results in an access violation.)\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.path",
-      "body": "<p>\n A string with the path used by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n to search for a Lua loader.\n</p>\n<p>\n At start-up, Lua initializes this variable with\nthe value of the environment variable\n <a name=\"pdf-LUA_PATH_5_4\">\n  <code>\n   LUA_PATH_5_4\n  </code>\n </a>\n or\nthe environment variable\n <a name=\"pdf-LUA_PATH\">\n  <code>\n   LUA_PATH\n  </code>\n </a>\n or\nwith a default path defined in\n <code>\n  luaconf.h\n </code>\n ,\nif those environment variables are not defined.\nA \"\n <code>\n  ;;\n </code>\n \" in the value of the environment variable\nis replaced by the default path.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.path",
+    body: '<p>\n A string with the path used by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n to search for a Lua loader.\n</p>\n<p>\n At start-up, Lua initializes this variable with\nthe value of the environment variable\n <a name="pdf-LUA_PATH_5_4">\n  <code>\n   LUA_PATH_5_4\n  </code>\n </a>\n or\nthe environment variable\n <a name="pdf-LUA_PATH">\n  <code>\n   LUA_PATH\n  </code>\n </a>\n or\nwith a default path defined in\n <code>\n  luaconf.h\n </code>\n ,\nif those environment variables are not defined.\nA "\n <code>\n  ;;\n </code>\n " in the value of the environment variable\nis replaced by the default path.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.preload",
-      "body": "<p>\n A table to store loaders for specific modules\n(see\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n ).\n</p>\n<p>\n This variable is only a reference to the real table;\nassignments to this variable do not change the\ntable used by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.preload",
+    body: '<p>\n A table to store loaders for specific modules\n(see\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n ).\n</p>\n<p>\n This variable is only a reference to the real table;\nassignments to this variable do not change the\ntable used by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.searchers",
-      "body": "<p>\n A table used by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n to control how to find modules.\n</p>\n<p>\n Each entry in this table is a\n <em>\n  searcher function\n </em>\n .\nWhen looking for a module,\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n calls each of these searchers in ascending order,\nwith the module name (the argument given to\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n ) as its\nsole argument.\nIf the searcher finds the module,\nit returns another function, the module\n <em>\n  loader\n </em>\n ,\nplus an extra value, a\n <em>\n  loader data\n </em>\n ,\nthat will be passed to that loader and\nreturned as a second result by\n <a href=\"#pdf-require\">\n  <code>\n   require\n  </code>\n </a>\n .\nIf it cannot find the module,\nit returns a string explaining why\n(or\n <b>\n  nil\n </b>\n if it has nothing to say).\n</p>\n<p>\n Lua initializes this table with four searcher functions.\n</p>\n<p>\n The first searcher simply looks for a loader in the\n <a href=\"#pdf-package.preload\">\n  <code>\n   package.preload\n  </code>\n </a>\n table.\n</p>\n<p>\n The second searcher looks for a loader as a Lua library,\nusing the path stored at\n <a href=\"#pdf-package.path\">\n  <code>\n   package.path\n  </code>\n </a>\n .\nThe search is done as described in function\n <a href=\"#pdf-package.searchpath\">\n  <code>\n   package.searchpath\n  </code>\n </a>\n .\n</p>\n<p>\n The third searcher looks for a loader as a C\u00a0library,\nusing the path given by the variable\n <a href=\"#pdf-package.cpath\">\n  <code>\n   package.cpath\n  </code>\n </a>\n .\nAgain,\nthe search is done as described in function\n <a href=\"#pdf-package.searchpath\">\n  <code>\n   package.searchpath\n  </code>\n </a>\n .\nFor instance,\nif the C\u00a0path is the string\n</p>\n<pre>     \"./?.so;./?.dll;/usr/local/?/init.so\"\n</pre>\n<p>\n the searcher for module\n <code>\n  foo\n </code>\n will try to open the files\n <code>\n  ./foo.so\n </code>\n ,\n <code>\n  ./foo.dll\n </code>\n ,\nand\n <code>\n  /usr/local/foo/init.so\n </code>\n , in that order.\nOnce it finds a C\u00a0library,\nthis searcher first uses a dynamic link facility to link the\napplication with the library.\nThen it tries to find a C\u00a0function inside the library to\nbe used as the loader.\nThe name of this C\u00a0function is the string \"\n <code>\n  luaopen_\n </code>\n \"\nconcatenated with a copy of the module name where each dot\nis replaced by an underscore.\nMoreover, if the module name has a hyphen,\nits suffix after (and including) the first hyphen is removed.\nFor instance, if the module name is\n <code>\n  a.b.c-v2.1\n </code>\n ,\nthe function name will be\n <code>\n  luaopen_a_b_c\n </code>\n .\n</p>\n<p>\n The fourth searcher tries an\n <em>\n  all-in-one loader\n </em>\n .\nIt searches the C\u00a0path for a library for\nthe root name of the given module.\nFor instance, when requiring\n <code>\n  a.b.c\n </code>\n ,\nit will search for a C\u00a0library for\n <code>\n  a\n </code>\n .\nIf found, it looks into it for an open function for\nthe submodule;\nin our example, that would be\n <code>\n  luaopen_a_b_c\n </code>\n .\nWith this facility, a package can pack several C\u00a0submodules\ninto one single library,\nwith each submodule keeping its original open function.\n</p>\n<p>\n All searchers except the first one (preload) return as the extra value\nthe file path where the module was found,\nas returned by\n <a href=\"#pdf-package.searchpath\">\n  <code>\n   package.searchpath\n  </code>\n </a>\n .\nThe first searcher always returns the string \"\n <code>\n  :preload:\n </code>\n \".\n</p>\n<p>\n Searchers should raise no errors and have no side effects in Lua.\n(They may have side effects in C,\nfor instance by linking the application with a library.)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.searchers",
+    body: '<p>\n A table used by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n to control how to find modules.\n</p>\n<p>\n Each entry in this table is a\n <em>\n  searcher function\n </em>\n .\nWhen looking for a module,\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n calls each of these searchers in ascending order,\nwith the module name (the argument given to\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n ) as its\nsole argument.\nIf the searcher finds the module,\nit returns another function, the module\n <em>\n  loader\n </em>\n ,\nplus an extra value, a\n <em>\n  loader data\n </em>\n ,\nthat will be passed to that loader and\nreturned as a second result by\n <a href="#pdf-require">\n  <code>\n   require\n  </code>\n </a>\n .\nIf it cannot find the module,\nit returns a string explaining why\n(or\n <b>\n  nil\n </b>\n if it has nothing to say).\n</p>\n<p>\n Lua initializes this table with four searcher functions.\n</p>\n<p>\n The first searcher simply looks for a loader in the\n <a href="#pdf-package.preload">\n  <code>\n   package.preload\n  </code>\n </a>\n table.\n</p>\n<p>\n The second searcher looks for a loader as a Lua library,\nusing the path stored at\n <a href="#pdf-package.path">\n  <code>\n   package.path\n  </code>\n </a>\n .\nThe search is done as described in function\n <a href="#pdf-package.searchpath">\n  <code>\n   package.searchpath\n  </code>\n </a>\n .\n</p>\n<p>\n The third searcher looks for a loader as a C\u00a0library,\nusing the path given by the variable\n <a href="#pdf-package.cpath">\n  <code>\n   package.cpath\n  </code>\n </a>\n .\nAgain,\nthe search is done as described in function\n <a href="#pdf-package.searchpath">\n  <code>\n   package.searchpath\n  </code>\n </a>\n .\nFor instance,\nif the C\u00a0path is the string\n</p>\n<pre>     "./?.so;./?.dll;/usr/local/?/init.so"\n</pre>\n<p>\n the searcher for module\n <code>\n  foo\n </code>\n will try to open the files\n <code>\n  ./foo.so\n </code>\n ,\n <code>\n  ./foo.dll\n </code>\n ,\nand\n <code>\n  /usr/local/foo/init.so\n </code>\n , in that order.\nOnce it finds a C\u00a0library,\nthis searcher first uses a dynamic link facility to link the\napplication with the library.\nThen it tries to find a C\u00a0function inside the library to\nbe used as the loader.\nThe name of this C\u00a0function is the string "\n <code>\n  luaopen_\n </code>\n "\nconcatenated with a copy of the module name where each dot\nis replaced by an underscore.\nMoreover, if the module name has a hyphen,\nits suffix after (and including) the first hyphen is removed.\nFor instance, if the module name is\n <code>\n  a.b.c-v2.1\n </code>\n ,\nthe function name will be\n <code>\n  luaopen_a_b_c\n </code>\n .\n</p>\n<p>\n The fourth searcher tries an\n <em>\n  all-in-one loader\n </em>\n .\nIt searches the C\u00a0path for a library for\nthe root name of the given module.\nFor instance, when requiring\n <code>\n  a.b.c\n </code>\n ,\nit will search for a C\u00a0library for\n <code>\n  a\n </code>\n .\nIf found, it looks into it for an open function for\nthe submodule;\nin our example, that would be\n <code>\n  luaopen_a_b_c\n </code>\n .\nWith this facility, a package can pack several C\u00a0submodules\ninto one single library,\nwith each submodule keeping its original open function.\n</p>\n<p>\n All searchers except the first one (preload) return as the extra value\nthe file path where the module was found,\nas returned by\n <a href="#pdf-package.searchpath">\n  <code>\n   package.searchpath\n  </code>\n </a>\n .\nThe first searcher always returns the string "\n <code>\n  :preload:\n </code>\n ".\n</p>\n<p>\n Searchers should raise no errors and have no side effects in Lua.\n(They may have side effects in C,\nfor instance by linking the application with a library.)\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "package.searchpath (name, path [, sep [, rep]])",
-      "body": "<p>\n Searches for the given\n <code>\n  name\n </code>\n in the given\n <code>\n  path\n </code>\n .\n</p>\n<p>\n A path is a string containing a sequence of\n <em>\n  templates\n </em>\n separated by semicolons.\nFor each template,\nthe function replaces each interrogation mark (if any)\nin the template with a copy of\n <code>\n  name\n </code>\n wherein all occurrences of\n <code>\n  sep\n </code>\n (a dot, by default)\nwere replaced by\n <code>\n  rep\n </code>\n (the system's directory separator, by default),\nand then tries to open the resulting file name.\n</p>\n<p>\n For instance, if the path is the string\n</p>\n<pre>     \"./?.lua;./?.lc;/usr/local/?/init.lua\"\n</pre>\n<p>\n the search for the name\n <code>\n  foo.a\n </code>\n will try to open the files\n <code>\n  ./foo/a.lua\n </code>\n ,\n <code>\n  ./foo/a.lc\n </code>\n , and\n <code>\n  /usr/local/foo/a/init.lua\n </code>\n , in that order.\n</p>\n<p>\n Returns the resulting name of the first file that it can\nopen in read mode (after closing the file),\nor\n <b>\n  fail\n </b>\n plus an error message if none succeeds.\n(This error message lists all file names it tried to open.)\n</p>\n<h2>\n 6.4 \u2013\n <a name=\"6.4\">\n  String Manipulation\n </a>\n</h2>\n<p>\n This library provides generic functions for string manipulation,\nsuch as finding and extracting substrings, and pattern matching.\nWhen indexing a string in Lua, the first character is at position\u00a01\n(not at\u00a00, as in C).\nIndices are allowed to be negative and are interpreted as indexing backwards,\nfrom the end of the string.\nThus, the last character is at position -1, and so on.\n</p>\n<p>\n The string library provides all its functions inside the table\n <a name=\"pdf-string\">\n  <code>\n   string\n  </code>\n </a>\n .\nIt also sets a metatable for strings\nwhere the\n <code>\n  __index\n </code>\n field points to the\n <code>\n  string\n </code>\n table.\nTherefore, you can use the string functions in object-oriented style.\nFor instance,\n <code>\n  string.byte(s,i)\n </code>\n can be written as\n <code>\n  s:byte(i)\n </code>\n .\n</p>\n<p>\n The string library assumes one-byte character encodings.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "package.searchpath (name, path [, sep [, rep]])",
+    body: '<p>\n Searches for the given\n <code>\n  name\n </code>\n in the given\n <code>\n  path\n </code>\n .\n</p>\n<p>\n A path is a string containing a sequence of\n <em>\n  templates\n </em>\n separated by semicolons.\nFor each template,\nthe function replaces each interrogation mark (if any)\nin the template with a copy of\n <code>\n  name\n </code>\n wherein all occurrences of\n <code>\n  sep\n </code>\n (a dot, by default)\nwere replaced by\n <code>\n  rep\n </code>\n (the system\'s directory separator, by default),\nand then tries to open the resulting file name.\n</p>\n<p>\n For instance, if the path is the string\n</p>\n<pre>     "./?.lua;./?.lc;/usr/local/?/init.lua"\n</pre>\n<p>\n the search for the name\n <code>\n  foo.a\n </code>\n will try to open the files\n <code>\n  ./foo/a.lua\n </code>\n ,\n <code>\n  ./foo/a.lc\n </code>\n , and\n <code>\n  /usr/local/foo/a/init.lua\n </code>\n , in that order.\n</p>\n<p>\n Returns the resulting name of the first file that it can\nopen in read mode (after closing the file),\nor\n <b>\n  fail\n </b>\n plus an error message if none succeeds.\n(This error message lists all file names it tried to open.)\n</p>\n<h2>\n 6.4 \u2013\n <a name="6.4">\n  String Manipulation\n </a>\n</h2>\n<p>\n This library provides generic functions for string manipulation,\nsuch as finding and extracting substrings, and pattern matching.\nWhen indexing a string in Lua, the first character is at position\u00a01\n(not at\u00a00, as in C).\nIndices are allowed to be negative and are interpreted as indexing backwards,\nfrom the end of the string.\nThus, the last character is at position -1, and so on.\n</p>\n<p>\n The string library provides all its functions inside the table\n <a name="pdf-string">\n  <code>\n   string\n  </code>\n </a>\n .\nIt also sets a metatable for strings\nwhere the\n <code>\n  __index\n </code>\n field points to the\n <code>\n  string\n </code>\n table.\nTherefore, you can use the string functions in object-oriented style.\nFor instance,\n <code>\n  string.byte(s,i)\n </code>\n can be written as\n <code>\n  s:byte(i)\n </code>\n .\n</p>\n<p>\n The string library assumes one-byte character encodings.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.byte (s [, i [, j]])",
-      "body": "<code>\n s[i]\n</code>\n<code>\n s[i+1]\n</code>\n<code>\n s[j]\n</code>\n<code>\n i\n</code>\n<code>\n j\n</code>\n<code>\n i\n</code>\n<a href=\"#pdf-string.sub\">\n <code>\n  string.sub\n </code>\n</a>\n<p>\n Numeric codes are not necessarily portable across platforms.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.byte (s [, i [, j]])",
+    body: '<code>\n s[i]\n</code>\n<code>\n s[i+1]\n</code>\n<code>\n s[j]\n</code>\n<code>\n i\n</code>\n<code>\n j\n</code>\n<code>\n i\n</code>\n<a href="#pdf-string.sub">\n <code>\n  string.sub\n </code>\n</a>\n<p>\n Numeric codes are not necessarily portable across platforms.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.char (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Numeric codes are not necessarily portable across platforms.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.char (\u00b7\u00b7\u00b7)",
+    body: "<p>\n Numeric codes are not necessarily portable across platforms.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.dump (function [, strip])",
-      "body": "<p>\n Returns a string containing a binary representation\n(a\n <em>\n  binary chunk\n </em>\n )\nof the given function,\nso that a later\n <a href=\"#pdf-load\">\n  <code>\n   load\n  </code>\n </a>\n on this string returns\na copy of the function (but with new upvalues).\nIf\n <code>\n  strip\n </code>\n is a true value,\nthe binary representation may not include all debug information\nabout the function,\nto save space.\n</p>\n<p>\n Functions with upvalues have only their number of upvalues saved.\nWhen (re)loaded,\nthose upvalues receive fresh instances.\n(See the\n <a href=\"#pdf-load\">\n  <code>\n   load\n  </code>\n </a>\n function for details about\nhow these upvalues are initialized.\nYou can use the debug library to serialize\nand reload the upvalues of a function\nin a way adequate to your needs.)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.dump (function [, strip])",
+    body: '<p>\n Returns a string containing a binary representation\n(a\n <em>\n  binary chunk\n </em>\n )\nof the given function,\nso that a later\n <a href="#pdf-load">\n  <code>\n   load\n  </code>\n </a>\n on this string returns\na copy of the function (but with new upvalues).\nIf\n <code>\n  strip\n </code>\n is a true value,\nthe binary representation may not include all debug information\nabout the function,\nto save space.\n</p>\n<p>\n Functions with upvalues have only their number of upvalues saved.\nWhen (re)loaded,\nthose upvalues receive fresh instances.\n(See the\n <a href="#pdf-load">\n  <code>\n   load\n  </code>\n </a>\n function for details about\nhow these upvalues are initialized.\nYou can use the debug library to serialize\nand reload the upvalues of a function\nin a way adequate to your needs.)\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.find (s, pattern [, init [, plain]])",
-      "body": "<p>\n Looks for the first match of\n <code>\n  pattern\n </code>\n (see\n <a href=\"#6.4.1\">\n  \u00a76.4.1\n </a>\n ) in the string\n <code>\n  s\n </code>\n .\nIf it finds a match, then\n <code>\n  find\n </code>\n returns the indices of\n <code>\n  s\n </code>\n where this occurrence starts and ends;\notherwise, it returns\n <b>\n  fail\n </b>\n .\nA third, optional numeric argument\n <code>\n  init\n </code>\n specifies\nwhere to start the search;\nits default value is\u00a01 and can be negative.\nA\n <b>\n  true\n </b>\n as a fourth, optional argument\n <code>\n  plain\n </code>\n turns off the pattern matching facilities,\nso the function does a plain \"find substring\" operation,\nwith no characters in\n <code>\n  pattern\n </code>\n being considered magic.\n</p>\n<p>\n If the pattern has captures,\nthen in a successful match\nthe captured values are also returned,\nafter the two indices.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.find (s, pattern [, init [, plain]])",
+    body: '<p>\n Looks for the first match of\n <code>\n  pattern\n </code>\n (see\n <a href="#6.4.1">\n  \u00a76.4.1\n </a>\n ) in the string\n <code>\n  s\n </code>\n .\nIf it finds a match, then\n <code>\n  find\n </code>\n returns the indices of\n <code>\n  s\n </code>\n where this occurrence starts and ends;\notherwise, it returns\n <b>\n  fail\n </b>\n .\nA third, optional numeric argument\n <code>\n  init\n </code>\n specifies\nwhere to start the search;\nits default value is\u00a01 and can be negative.\nA\n <b>\n  true\n </b>\n as a fourth, optional argument\n <code>\n  plain\n </code>\n turns off the pattern matching facilities,\nso the function does a plain "find substring" operation,\nwith no characters in\n <code>\n  pattern\n </code>\n being considered magic.\n</p>\n<p>\n If the pattern has captures,\nthen in a successful match\nthe captured values are also returned,\nafter the two indices.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.format (formatstring, \u00b7\u00b7\u00b7)",
-      "body": "<p>\n Returns a formatted version of its variable number of arguments\nfollowing the description given in its first argument,\nwhich must be a string.\nThe format string follows the same rules as the ISO\u00a0C function\n <code>\n  sprintf\n </code>\n .\nThe only differences are that the conversion specifiers and modifiers\n <code>\n  F\n </code>\n ,\n <code>\n  n\n </code>\n ,\n <code>\n  *\n </code>\n ,\n <code>\n  h\n </code>\n ,\n <code>\n  L\n </code>\n , and\n <code>\n  l\n </code>\n are not supported\nand that there is an extra specifier,\n <code>\n  q\n </code>\n .\nBoth width and precision, when present,\nare limited to two digits.\n</p>\n<p>\n The specifier\n <code>\n  q\n </code>\n formats booleans, nil, numbers, and strings\nin a way that the result is a valid constant in Lua source code.\nBooleans and nil are written in the obvious way\n(\n <code>\n  true\n </code>\n ,\n <code>\n  false\n </code>\n ,\n <code>\n  nil\n </code>\n ).\nFloats are written in hexadecimal,\nto preserve full precision.\nA string is written between double quotes,\nusing escape sequences when necessary to ensure that\nit can safely be read back by the Lua interpreter.\nFor instance, the call\n</p>\n<pre>     string.format('%q', 'a string with \"quotes\" and \\n new line')\n</pre>\n<p>\n may produce the string:\n</p>\n<pre>     \"a string with \\\"quotes\\\" and \\\n      new line\"\n</pre>\n<p>\n This specifier does not support modifiers (flags, width, precision).\n</p>\n<p>\n The conversion specifiers\n <code>\n  A\n </code>\n ,\n <code>\n  a\n </code>\n ,\n <code>\n  E\n </code>\n ,\n <code>\n  e\n </code>\n ,\n <code>\n  f\n </code>\n ,\n <code>\n  G\n </code>\n , and\n <code>\n  g\n </code>\n all expect a number as argument.\nThe specifiers\n <code>\n  c\n </code>\n ,\n <code>\n  d\n </code>\n ,\n <code>\n  i\n </code>\n ,\n <code>\n  o\n </code>\n ,\n <code>\n  u\n </code>\n ,\n <code>\n  X\n </code>\n , and\n <code>\n  x\n </code>\n expect an integer.\nWhen Lua is compiled with a C89 compiler,\nthe specifiers\n <code>\n  A\n </code>\n and\n <code>\n  a\n </code>\n (hexadecimal floats)\ndo not support modifiers.\n</p>\n<p>\n The specifier\n <code>\n  s\n </code>\n expects a string;\nif its argument is not a string,\nit is converted to one following the same rules of\n <a href=\"#pdf-tostring\">\n  <code>\n   tostring\n  </code>\n </a>\n .\nIf the specifier has any modifier,\nthe corresponding string argument should not contain embedded zeros.\n</p>\n<p>\n The specifier\n <code>\n  p\n </code>\n formats the pointer\nreturned by\n <a href=\"#lua_topointer\">\n  <code>\n   lua_topointer\n  </code>\n </a>\n .\nThat gives a unique string identifier for tables, userdata,\nthreads, strings, and functions.\nFor other values (numbers, nil, booleans),\nthis specifier results in a string representing\nthe pointer\n <code>\n  NULL\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.format (formatstring, \u00b7\u00b7\u00b7)",
+    body: '<p>\n Returns a formatted version of its variable number of arguments\nfollowing the description given in its first argument,\nwhich must be a string.\nThe format string follows the same rules as the ISO\u00a0C function\n <code>\n  sprintf\n </code>\n .\nThe only differences are that the conversion specifiers and modifiers\n <code>\n  F\n </code>\n ,\n <code>\n  n\n </code>\n ,\n <code>\n  *\n </code>\n ,\n <code>\n  h\n </code>\n ,\n <code>\n  L\n </code>\n , and\n <code>\n  l\n </code>\n are not supported\nand that there is an extra specifier,\n <code>\n  q\n </code>\n .\nBoth width and precision, when present,\nare limited to two digits.\n</p>\n<p>\n The specifier\n <code>\n  q\n </code>\n formats booleans, nil, numbers, and strings\nin a way that the result is a valid constant in Lua source code.\nBooleans and nil are written in the obvious way\n(\n <code>\n  true\n </code>\n ,\n <code>\n  false\n </code>\n ,\n <code>\n  nil\n </code>\n ).\nFloats are written in hexadecimal,\nto preserve full precision.\nA string is written between double quotes,\nusing escape sequences when necessary to ensure that\nit can safely be read back by the Lua interpreter.\nFor instance, the call\n</p>\n<pre>     string.format(\'%q\', \'a string with "quotes" and \\n new line\')\n</pre>\n<p>\n may produce the string:\n</p>\n<pre>     "a string with \\"quotes\\" and \\\n      new line"\n</pre>\n<p>\n This specifier does not support modifiers (flags, width, precision).\n</p>\n<p>\n The conversion specifiers\n <code>\n  A\n </code>\n ,\n <code>\n  a\n </code>\n ,\n <code>\n  E\n </code>\n ,\n <code>\n  e\n </code>\n ,\n <code>\n  f\n </code>\n ,\n <code>\n  G\n </code>\n , and\n <code>\n  g\n </code>\n all expect a number as argument.\nThe specifiers\n <code>\n  c\n </code>\n ,\n <code>\n  d\n </code>\n ,\n <code>\n  i\n </code>\n ,\n <code>\n  o\n </code>\n ,\n <code>\n  u\n </code>\n ,\n <code>\n  X\n </code>\n , and\n <code>\n  x\n </code>\n expect an integer.\nWhen Lua is compiled with a C89 compiler,\nthe specifiers\n <code>\n  A\n </code>\n and\n <code>\n  a\n </code>\n (hexadecimal floats)\ndo not support modifiers.\n</p>\n<p>\n The specifier\n <code>\n  s\n </code>\n expects a string;\nif its argument is not a string,\nit is converted to one following the same rules of\n <a href="#pdf-tostring">\n  <code>\n   tostring\n  </code>\n </a>\n .\nIf the specifier has any modifier,\nthe corresponding string argument should not contain embedded zeros.\n</p>\n<p>\n The specifier\n <code>\n  p\n </code>\n formats the pointer\nreturned by\n <a href="#lua_topointer">\n  <code>\n   lua_topointer\n  </code>\n </a>\n .\nThat gives a unique string identifier for tables, userdata,\nthreads, strings, and functions.\nFor other values (numbers, nil, booleans),\nthis specifier results in a string representing\nthe pointer\n <code>\n  NULL\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.gmatch (s, pattern [, init])",
-      "body": "<code>\n pattern\n</code>\n<a href=\"#6.4.1\">\n \u00a76.4.1\n</a>\n<code>\n s\n</code>\n<code>\n pattern\n</code>\n<code>\n init\n</code>\n<p>\n As an example, the following loop\nwill iterate over all the words from string\n <code>\n  s\n </code>\n ,\nprinting one per line:\n</p>\n<pre>     s = \"hello world from Lua\"\n     for w in string.gmatch(s, \"%a+\") do\n       print(w)\n     end\n</pre>\n<p>\n The next example collects all pairs\n <code>\n  key=value\n </code>\n from the\ngiven string into a table:\n</p>\n<pre>     t = {}\n     s = \"from=world, to=Lua\"\n     for k, v in string.gmatch(s, \"(%w+)=(%w+)\") do\n       t[k] = v\n     end\n</pre>\n<p>\n For this function, a caret '\n <code>\n  ^\n </code>\n ' at the start of a pattern does not\nwork as an anchor, as this would prevent the iteration.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.gmatch (s, pattern [, init])",
+    body: '<code>\n pattern\n</code>\n<a href="#6.4.1">\n \u00a76.4.1\n</a>\n<code>\n s\n</code>\n<code>\n pattern\n</code>\n<code>\n init\n</code>\n<p>\n As an example, the following loop\nwill iterate over all the words from string\n <code>\n  s\n </code>\n ,\nprinting one per line:\n</p>\n<pre>     s = "hello world from Lua"\n     for w in string.gmatch(s, "%a+") do\n       print(w)\n     end\n</pre>\n<p>\n The next example collects all pairs\n <code>\n  key=value\n </code>\n from the\ngiven string into a table:\n</p>\n<pre>     t = {}\n     s = "from=world, to=Lua"\n     for k, v in string.gmatch(s, "(%w+)=(%w+)") do\n       t[k] = v\n     end\n</pre>\n<p>\n For this function, a caret \'\n <code>\n  ^\n </code>\n \' at the start of a pattern does not\nwork as an anchor, as this would prevent the iteration.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.gsub (s, pattern, repl [, n])",
-      "body": "<code>\n s\n</code>\n<code>\n n\n</code>\n<code>\n pattern\n</code>\n<a href=\"#6.4.1\">\n \u00a76.4.1\n</a>\n<code>\n repl\n</code>\n<code>\n gsub\n</code>\n<code>\n gsub\n</code>\n<em>\n Global SUBstitution\n</em>\n<p>\n If\n <code>\n  repl\n </code>\n is a string, then its value is used for replacement.\nThe character\n <code>\n  %\n </code>\n works as an escape character:\nany sequence in\n <code>\n  repl\n </code>\n of the form\n <code>\n  %\n  <em>\n   d\n  </em>\n </code>\n ,\nwith\n <em>\n  d\n </em>\n between 1 and 9,\nstands for the value of the\n <em>\n  d\n </em>\n -th captured substring;\nthe sequence\n <code>\n  %0\n </code>\n stands for the whole match;\nthe sequence\n <code>\n  %%\n </code>\n stands for a single\n <code>\n  %\n </code>\n .\n</p>\n<p>\n If\n <code>\n  repl\n </code>\n is a table, then the table is queried for every match,\nusing the first capture as the key.\n</p>\n<p>\n If\n <code>\n  repl\n </code>\n is a function, then this function is called every time a\nmatch occurs, with all captured substrings passed as arguments,\nin order.\n</p>\n<p>\n In any case,\nif the pattern specifies no captures,\nthen it behaves as if the whole pattern was inside a capture.\n</p>\n<p>\n If the value returned by the table query or by the function call\nis a string or a number,\nthen it is used as the replacement string;\notherwise, if it is\n <b>\n  false\n </b>\n or\n <b>\n  nil\n </b>\n ,\nthen there is no replacement\n(that is, the original match is kept in the string).\n</p>\n<p>\n Here are some examples:\n</p>\n<pre>     x = string.gsub(\"hello world\", \"(%w+)\", \"%1 %1\")\n     --&gt; x=\"hello hello world world\"\n     \n     x = string.gsub(\"hello world\", \"%w+\", \"%0 %0\", 1)\n     --&gt; x=\"hello hello world\"\n     \n     x = string.gsub(\"hello world from Lua\", \"(%w+)%s*(%w+)\", \"%2 %1\")\n     --&gt; x=\"world hello Lua from\"\n     \n     x = string.gsub(\"home = $HOME, user = $USER\", \"%$(%w+)\", os.getenv)\n     --&gt; x=\"home = /home/roberto, user = roberto\"\n     \n     x = string.gsub(\"4+5 = $return 4+5$\", \"%$(.-)%$\", function (s)\n           return load(s)()\n         end)\n     --&gt; x=\"4+5 = 9\"\n     \n     local t = {name=\"lua\", version=\"5.4\"}\n     x = string.gsub(\"$name-$version.tar.gz\", \"%$(%w+)\", t)\n     --&gt; x=\"lua-5.4.tar.gz\"\n</pre>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.gsub (s, pattern, repl [, n])",
+    body: '<code>\n s\n</code>\n<code>\n n\n</code>\n<code>\n pattern\n</code>\n<a href="#6.4.1">\n \u00a76.4.1\n</a>\n<code>\n repl\n</code>\n<code>\n gsub\n</code>\n<code>\n gsub\n</code>\n<em>\n Global SUBstitution\n</em>\n<p>\n If\n <code>\n  repl\n </code>\n is a string, then its value is used for replacement.\nThe character\n <code>\n  %\n </code>\n works as an escape character:\nany sequence in\n <code>\n  repl\n </code>\n of the form\n <code>\n  %\n  <em>\n   d\n  </em>\n </code>\n ,\nwith\n <em>\n  d\n </em>\n between 1 and 9,\nstands for the value of the\n <em>\n  d\n </em>\n -th captured substring;\nthe sequence\n <code>\n  %0\n </code>\n stands for the whole match;\nthe sequence\n <code>\n  %%\n </code>\n stands for a single\n <code>\n  %\n </code>\n .\n</p>\n<p>\n If\n <code>\n  repl\n </code>\n is a table, then the table is queried for every match,\nusing the first capture as the key.\n</p>\n<p>\n If\n <code>\n  repl\n </code>\n is a function, then this function is called every time a\nmatch occurs, with all captured substrings passed as arguments,\nin order.\n</p>\n<p>\n In any case,\nif the pattern specifies no captures,\nthen it behaves as if the whole pattern was inside a capture.\n</p>\n<p>\n If the value returned by the table query or by the function call\nis a string or a number,\nthen it is used as the replacement string;\notherwise, if it is\n <b>\n  false\n </b>\n or\n <b>\n  nil\n </b>\n ,\nthen there is no replacement\n(that is, the original match is kept in the string).\n</p>\n<p>\n Here are some examples:\n</p>\n<pre>     x = string.gsub("hello world", "(%w+)", "%1 %1")\n     --&gt; x="hello hello world world"\n     \n     x = string.gsub("hello world", "%w+", "%0 %0", 1)\n     --&gt; x="hello hello world"\n     \n     x = string.gsub("hello world from Lua", "(%w+)%s*(%w+)", "%2 %1")\n     --&gt; x="world hello Lua from"\n     \n     x = string.gsub("home = $HOME, user = $USER", "%$(%w+)", os.getenv)\n     --&gt; x="home = /home/roberto, user = roberto"\n     \n     x = string.gsub("4+5 = $return 4+5$", "%$(.-)%$", function (s)\n           return load(s)()\n         end)\n     --&gt; x="4+5 = 9"\n     \n     local t = {name="lua", version="5.4"}\n     x = string.gsub("$name-$version.tar.gz", "%$(%w+)", t)\n     --&gt; x="lua-5.4.tar.gz"\n</pre>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.len (s)",
-      "body": "<p>\n Receives a string and returns its length.\nThe empty string\n <code>\n  \"\"\n </code>\n has length 0.\nEmbedded zeros are counted,\nso\n <code>\n  \"a\\000bc\\000\"\n </code>\n has length 5.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.len (s)",
+    body: '<p>\n Receives a string and returns its length.\nThe empty string\n <code>\n  ""\n </code>\n has length 0.\nEmbedded zeros are counted,\nso\n <code>\n  "a\\000bc\\000"\n </code>\n has length 5.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.lower (s)",
-      "body": "<p>\n Receives a string and returns a copy of this string with all\nuppercase letters changed to lowercase.\nAll other characters are left unchanged.\nThe definition of what an uppercase letter is depends on the current locale.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.lower (s)",
+    body: "<p>\n Receives a string and returns a copy of this string with all\nuppercase letters changed to lowercase.\nAll other characters are left unchanged.\nThe definition of what an uppercase letter is depends on the current locale.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.match (s, pattern [, init])",
-      "body": "<p>\n Looks for the first\n <em>\n  match\n </em>\n of\nthe\n <code>\n  pattern\n </code>\n (see\n <a href=\"#6.4.1\">\n  \u00a76.4.1\n </a>\n ) in the string\n <code>\n  s\n </code>\n .\nIf it finds one, then\n <code>\n  match\n </code>\n returns\nthe captures from the pattern;\notherwise it returns\n <b>\n  fail\n </b>\n .\nIf\n <code>\n  pattern\n </code>\n specifies no captures,\nthen the whole match is returned.\nA third, optional numeric argument\n <code>\n  init\n </code>\n specifies\nwhere to start the search;\nits default value is\u00a01 and can be negative.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.match (s, pattern [, init])",
+    body: '<p>\n Looks for the first\n <em>\n  match\n </em>\n of\nthe\n <code>\n  pattern\n </code>\n (see\n <a href="#6.4.1">\n  \u00a76.4.1\n </a>\n ) in the string\n <code>\n  s\n </code>\n .\nIf it finds one, then\n <code>\n  match\n </code>\n returns\nthe captures from the pattern;\notherwise it returns\n <b>\n  fail\n </b>\n .\nIf\n <code>\n  pattern\n </code>\n specifies no captures,\nthen the whole match is returned.\nA third, optional numeric argument\n <code>\n  init\n </code>\n specifies\nwhere to start the search;\nits default value is\u00a01 and can be negative.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.pack (fmt, v1, v2, \u00b7\u00b7\u00b7)",
-      "body": "<p>\n Returns a binary string containing the values\n <code>\n  v1\n </code>\n ,\n <code>\n  v2\n </code>\n , etc.\nserialized in binary form (packed)\naccording to the format string\n <code>\n  fmt\n </code>\n (see\n <a href=\"#6.4.2\">\n  \u00a76.4.2\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.pack (fmt, v1, v2, \u00b7\u00b7\u00b7)",
+    body: '<p>\n Returns a binary string containing the values\n <code>\n  v1\n </code>\n ,\n <code>\n  v2\n </code>\n , etc.\nserialized in binary form (packed)\naccording to the format string\n <code>\n  fmt\n </code>\n (see\n <a href="#6.4.2">\n  \u00a76.4.2\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.packsize (fmt)",
-      "body": "<p>\n Returns the size of a string resulting from\n <a href=\"#pdf-string.pack\">\n  <code>\n   string.pack\n  </code>\n </a>\n with the given format.\nThe format string cannot have the variable-length options\n'\n <code>\n  s\n </code>\n ' or '\n <code>\n  z\n </code>\n ' (see\n <a href=\"#6.4.2\">\n  \u00a76.4.2\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.packsize (fmt)",
+    body: "<p>\n Returns the size of a string resulting from\n <a href=\"#pdf-string.pack\">\n  <code>\n   string.pack\n  </code>\n </a>\n with the given format.\nThe format string cannot have the variable-length options\n'\n <code>\n  s\n </code>\n ' or '\n <code>\n  z\n </code>\n ' (see\n <a href=\"#6.4.2\">\n  \u00a76.4.2\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.rep (s, n [, sep])",
-      "body": "<p>\n Returns a string that is the concatenation of\n <code>\n  n\n </code>\n copies of\nthe string\n <code>\n  s\n </code>\n separated by the string\n <code>\n  sep\n </code>\n .\nThe default value for\n <code>\n  sep\n </code>\n is the empty string\n(that is, no separator).\nReturns the empty string if\n <code>\n  n\n </code>\n is not positive.\n</p>\n<p>\n (Note that it is very easy to exhaust the memory of your machine\nwith a single call to this function.)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.rep (s, n [, sep])",
+    body: "<p>\n Returns a string that is the concatenation of\n <code>\n  n\n </code>\n copies of\nthe string\n <code>\n  s\n </code>\n separated by the string\n <code>\n  sep\n </code>\n .\nThe default value for\n <code>\n  sep\n </code>\n is the empty string\n(that is, no separator).\nReturns the empty string if\n <code>\n  n\n </code>\n is not positive.\n</p>\n<p>\n (Note that it is very easy to exhaust the memory of your machine\nwith a single call to this function.)\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.reverse (s)",
-      "body": "<p>\n Returns a string that is the string\n <code>\n  s\n </code>\n reversed.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.reverse (s)",
+    body: "<p>\n Returns a string that is the string\n <code>\n  s\n </code>\n reversed.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.sub (s, i [, j])",
-      "body": "<p>\n Returns the substring of\n <code>\n  s\n </code>\n that\nstarts at\n <code>\n  i\n </code>\n and continues until\n <code>\n  j\n </code>\n ;\n <code>\n  i\n </code>\n and\n <code>\n  j\n </code>\n can be negative.\nIf\n <code>\n  j\n </code>\n is absent, then it is assumed to be equal to -1\n(which is the same as the string length).\nIn particular,\nthe call\n <code>\n  string.sub(s,1,j)\n </code>\n returns a prefix of\n <code>\n  s\n </code>\n with length\n <code>\n  j\n </code>\n ,\nand\n <code>\n  string.sub(s, -i)\n </code>\n (for a positive\n <code>\n  i\n </code>\n )\nreturns a suffix of\n <code>\n  s\n </code>\n with length\n <code>\n  i\n </code>\n .\n</p>\n<p>\n If, after the translation of negative indices,\n <code>\n  i\n </code>\n is less than 1,\nit is corrected to 1.\nIf\n <code>\n  j\n </code>\n is greater than the string length,\nit is corrected to that length.\nIf, after these corrections,\n <code>\n  i\n </code>\n is greater than\n <code>\n  j\n </code>\n ,\nthe function returns the empty string.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.sub (s, i [, j])",
+    body: "<p>\n Returns the substring of\n <code>\n  s\n </code>\n that\nstarts at\n <code>\n  i\n </code>\n and continues until\n <code>\n  j\n </code>\n ;\n <code>\n  i\n </code>\n and\n <code>\n  j\n </code>\n can be negative.\nIf\n <code>\n  j\n </code>\n is absent, then it is assumed to be equal to -1\n(which is the same as the string length).\nIn particular,\nthe call\n <code>\n  string.sub(s,1,j)\n </code>\n returns a prefix of\n <code>\n  s\n </code>\n with length\n <code>\n  j\n </code>\n ,\nand\n <code>\n  string.sub(s, -i)\n </code>\n (for a positive\n <code>\n  i\n </code>\n )\nreturns a suffix of\n <code>\n  s\n </code>\n with length\n <code>\n  i\n </code>\n .\n</p>\n<p>\n If, after the translation of negative indices,\n <code>\n  i\n </code>\n is less than 1,\nit is corrected to 1.\nIf\n <code>\n  j\n </code>\n is greater than the string length,\nit is corrected to that length.\nIf, after these corrections,\n <code>\n  i\n </code>\n is greater than\n <code>\n  j\n </code>\n ,\nthe function returns the empty string.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.unpack (fmt, s [, pos])",
-      "body": "<p>\n Returns the values packed in string\n <code>\n  s\n </code>\n (see\n <a href=\"#pdf-string.pack\">\n  <code>\n   string.pack\n  </code>\n </a>\n )\naccording to the format string\n <code>\n  fmt\n </code>\n (see\n <a href=\"#6.4.2\">\n  \u00a76.4.2\n </a>\n ).\nAn optional\n <code>\n  pos\n </code>\n marks where\nto start reading in\n <code>\n  s\n </code>\n (default is 1).\nAfter the read values,\nthis function also returns the index of the first unread byte in\n <code>\n  s\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "string.unpack (fmt, s [, pos])",
+    body: '<p>\n Returns the values packed in string\n <code>\n  s\n </code>\n (see\n <a href="#pdf-string.pack">\n  <code>\n   string.pack\n  </code>\n </a>\n )\naccording to the format string\n <code>\n  fmt\n </code>\n (see\n <a href="#6.4.2">\n  \u00a76.4.2\n </a>\n ).\nAn optional\n <code>\n  pos\n </code>\n marks where\nto start reading in\n <code>\n  s\n </code>\n (default is 1).\nAfter the read values,\nthis function also returns the index of the first unread byte in\n <code>\n  s\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "string.upper (s)",
-      "body": "<p>\n Receives a string and returns a copy of this string with all\nlowercase letters changed to uppercase.\nAll other characters are left unchanged.\nThe definition of what a lowercase letter is depends on the current locale.\n</p>\n"
+    group: "function",
+    type: [],
+    name: "string.upper (s)",
+    body: "<p>\n Receives a string and returns a copy of this string with all\nlowercase letters changed to uppercase.\nAll other characters are left unchanged.\nThe definition of what a lowercase letter is depends on the current locale.\n</p>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "utf8.char (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Receives zero or more integers,\nconverts each one to its corresponding UTF-8 byte sequence\nand returns a string with the concatenation of all these sequences.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "utf8.char (\u00b7\u00b7\u00b7)",
+    body: "<p>\n Receives zero or more integers,\nconverts each one to its corresponding UTF-8 byte sequence\nand returns a string with the concatenation of all these sequences.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "utf8.charpattern",
-      "body": "<p>\n The pattern (a string, not a function) \"\n <code>\n  [\\0-\\x7F\\xC2-\\xFD][\\x80-\\xBF]*\n </code>\n \"\n(see\n <a href=\"#6.4.1\">\n  \u00a76.4.1\n </a>\n ),\nwhich matches exactly one UTF-8 byte sequence,\nassuming that the subject is a valid UTF-8 string.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "utf8.charpattern",
+    body: '<p>\n The pattern (a string, not a function) "\n <code>\n  [\\0-\\x7F\\xC2-\\xFD][\\x80-\\xBF]*\n </code>\n "\n(see\n <a href="#6.4.1">\n  \u00a76.4.1\n </a>\n ),\nwhich matches exactly one UTF-8 byte sequence,\nassuming that the subject is a valid UTF-8 string.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "utf8.codes (s [, lax])",
-      "body": "<p>\n Returns values so that the construction\n</p>\n<pre>     for p, c in utf8.codes(s) do <em>body</em> end\n</pre>\n<p>\n will iterate over all UTF-8 characters in string\n <code>\n  s\n </code>\n ,\nwith\n <code>\n  p\n </code>\n being the position (in bytes) and\n <code>\n  c\n </code>\n the code point\nof each character.\nIt raises an error if it meets any invalid byte sequence.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "utf8.codes (s [, lax])",
+    body: "<p>\n Returns values so that the construction\n</p>\n<pre>     for p, c in utf8.codes(s) do <em>body</em> end\n</pre>\n<p>\n will iterate over all UTF-8 characters in string\n <code>\n  s\n </code>\n ,\nwith\n <code>\n  p\n </code>\n being the position (in bytes) and\n <code>\n  c\n </code>\n the code point\nof each character.\nIt raises an error if it meets any invalid byte sequence.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "utf8.codepoint (s [, i [, j [, lax]]])",
-      "body": "<p>\n Returns the code points (as integers) from all characters in\n <code>\n  s\n </code>\n that start between byte position\n <code>\n  i\n </code>\n and\n <code>\n  j\n </code>\n (both included).\nThe default for\n <code>\n  i\n </code>\n is 1 and for\n <code>\n  j\n </code>\n is\n <code>\n  i\n </code>\n .\nIt raises an error if it meets any invalid byte sequence.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "utf8.codepoint (s [, i [, j [, lax]]])",
+    body: "<p>\n Returns the code points (as integers) from all characters in\n <code>\n  s\n </code>\n that start between byte position\n <code>\n  i\n </code>\n and\n <code>\n  j\n </code>\n (both included).\nThe default for\n <code>\n  i\n </code>\n is 1 and for\n <code>\n  j\n </code>\n is\n <code>\n  i\n </code>\n .\nIt raises an error if it meets any invalid byte sequence.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "utf8.len (s [, i [, j [, lax]]])",
-      "body": "<p>\n Returns the number of UTF-8 characters in string\n <code>\n  s\n </code>\n that start between positions\n <code>\n  i\n </code>\n and\n <code>\n  j\n </code>\n (both inclusive).\nThe default for\n <code>\n  i\n </code>\n is 1 and for\n <code>\n  j\n </code>\n is -1.\nIf it finds any invalid byte sequence,\nreturns\n <b>\n  fail\n </b>\n plus the position of the first invalid byte.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "utf8.len (s [, i [, j [, lax]]])",
+    body: "<p>\n Returns the number of UTF-8 characters in string\n <code>\n  s\n </code>\n that start between positions\n <code>\n  i\n </code>\n and\n <code>\n  j\n </code>\n (both inclusive).\nThe default for\n <code>\n  i\n </code>\n is 1 and for\n <code>\n  j\n </code>\n is -1.\nIf it finds any invalid byte sequence,\nreturns\n <b>\n  fail\n </b>\n plus the position of the first invalid byte.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "utf8.offset (s, n [, i])",
-      "body": "<p>\n Returns the position (in bytes) where the encoding of the\n <code>\n  n\n </code>\n -th character of\n <code>\n  s\n </code>\n (counting from position\n <code>\n  i\n </code>\n ) starts.\nA negative\n <code>\n  n\n </code>\n gets characters before position\n <code>\n  i\n </code>\n .\nThe default for\n <code>\n  i\n </code>\n is 1 when\n <code>\n  n\n </code>\n is non-negative\nand\n <code>\n  #s + 1\n </code>\n otherwise,\nso that\n <code>\n  utf8.offset(s, -n)\n </code>\n gets the offset of the\n <code>\n  n\n </code>\n -th character from the end of the string.\nIf the specified character is neither in the subject\nnor right after its end,\nthe function returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n As a special case,\nwhen\n <code>\n  n\n </code>\n is 0 the function returns the start of the encoding\nof the character that contains the\n <code>\n  i\n </code>\n -th byte of\n <code>\n  s\n </code>\n .\n</p>\n<p>\n This function assumes that\n <code>\n  s\n </code>\n is a valid UTF-8 string.\n</p>\n<h2>\n 6.6 \u2013\n <a name=\"6.6\">\n  Table Manipulation\n </a>\n</h2>\n<p>\n This library provides generic functions for table manipulation.\nIt provides all its functions inside the table\n <a name=\"pdf-table\">\n  <code>\n   table\n  </code>\n </a>\n .\n</p>\n<p>\n Remember that, whenever an operation needs the length of a table,\nall caveats about the length operator apply (see\n <a href=\"#3.4.7\">\n  \u00a73.4.7\n </a>\n ).\nAll functions ignore non-numeric keys\nin the tables given as arguments.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "utf8.offset (s, n [, i])",
+    body: '<p>\n Returns the position (in bytes) where the encoding of the\n <code>\n  n\n </code>\n -th character of\n <code>\n  s\n </code>\n (counting from position\n <code>\n  i\n </code>\n ) starts.\nA negative\n <code>\n  n\n </code>\n gets characters before position\n <code>\n  i\n </code>\n .\nThe default for\n <code>\n  i\n </code>\n is 1 when\n <code>\n  n\n </code>\n is non-negative\nand\n <code>\n  #s + 1\n </code>\n otherwise,\nso that\n <code>\n  utf8.offset(s, -n)\n </code>\n gets the offset of the\n <code>\n  n\n </code>\n -th character from the end of the string.\nIf the specified character is neither in the subject\nnor right after its end,\nthe function returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n As a special case,\nwhen\n <code>\n  n\n </code>\n is 0 the function returns the start of the encoding\nof the character that contains the\n <code>\n  i\n </code>\n -th byte of\n <code>\n  s\n </code>\n .\n</p>\n<p>\n This function assumes that\n <code>\n  s\n </code>\n is a valid UTF-8 string.\n</p>\n<h2>\n 6.6 \u2013\n <a name="6.6">\n  Table Manipulation\n </a>\n</h2>\n<p>\n This library provides generic functions for table manipulation.\nIt provides all its functions inside the table\n <a name="pdf-table">\n  <code>\n   table\n  </code>\n </a>\n .\n</p>\n<p>\n Remember that, whenever an operation needs the length of a table,\nall caveats about the length operator apply (see\n <a href="#3.4.7">\n  \u00a73.4.7\n </a>\n ).\nAll functions ignore non-numeric keys\nin the tables given as arguments.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.concat (list [, sep [, i [, j]]])",
-      "body": "<p>\n Given a list where all elements are strings or numbers,\nreturns the string\n <code>\n  list[i]..sep..list[i+1] \u00b7\u00b7\u00b7 sep..list[j]\n </code>\n .\nThe default value for\n <code>\n  sep\n </code>\n is the empty string,\nthe default for\n <code>\n  i\n </code>\n is 1,\nand the default for\n <code>\n  j\n </code>\n is\n <code>\n  #list\n </code>\n .\nIf\n <code>\n  i\n </code>\n is greater than\n <code>\n  j\n </code>\n , returns the empty string.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.concat (list [, sep [, i [, j]]])",
+    body: "<p>\n Given a list where all elements are strings or numbers,\nreturns the string\n <code>\n  list[i]..sep..list[i+1] \u00b7\u00b7\u00b7 sep..list[j]\n </code>\n .\nThe default value for\n <code>\n  sep\n </code>\n is the empty string,\nthe default for\n <code>\n  i\n </code>\n is 1,\nand the default for\n <code>\n  j\n </code>\n is\n <code>\n  #list\n </code>\n .\nIf\n <code>\n  i\n </code>\n is greater than\n <code>\n  j\n </code>\n , returns the empty string.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.insert (list, [pos,] value)",
-      "body": "<p>\n Inserts element\n <code>\n  value\n </code>\n at position\n <code>\n  pos\n </code>\n in\n <code>\n  list\n </code>\n ,\nshifting up the elements\n <code>\n  list[pos], list[pos+1], \u00b7\u00b7\u00b7, list[#list]\n </code>\n .\nThe default value for\n <code>\n  pos\n </code>\n is\n <code>\n  #list+1\n </code>\n ,\nso that a call\n <code>\n  table.insert(t,x)\n </code>\n inserts\n <code>\n  x\n </code>\n at the end\nof the list\n <code>\n  t\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.insert (list, [pos,] value)",
+    body: "<p>\n Inserts element\n <code>\n  value\n </code>\n at position\n <code>\n  pos\n </code>\n in\n <code>\n  list\n </code>\n ,\nshifting up the elements\n <code>\n  list[pos], list[pos+1], \u00b7\u00b7\u00b7, list[#list]\n </code>\n .\nThe default value for\n <code>\n  pos\n </code>\n is\n <code>\n  #list+1\n </code>\n ,\nso that a call\n <code>\n  table.insert(t,x)\n </code>\n inserts\n <code>\n  x\n </code>\n at the end\nof the list\n <code>\n  t\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.move (a1, f, e, t [,a2])",
-      "body": "<p>\n Moves elements from the table\n <code>\n  a1\n </code>\n to the table\n <code>\n  a2\n </code>\n ,\nperforming the equivalent to the following\nmultiple assignment:\n <code>\n  a2[t],\u00b7\u00b7\u00b7 = a1[f],\u00b7\u00b7\u00b7,a1[e]\n </code>\n .\nThe default for\n <code>\n  a2\n </code>\n is\n <code>\n  a1\n </code>\n .\nThe destination range can overlap with the source range.\nThe number of elements to be moved must fit in a Lua integer.\n</p>\n<p>\n Returns the destination table\n <code>\n  a2\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.move (a1, f, e, t [,a2])",
+    body: "<p>\n Moves elements from the table\n <code>\n  a1\n </code>\n to the table\n <code>\n  a2\n </code>\n ,\nperforming the equivalent to the following\nmultiple assignment:\n <code>\n  a2[t],\u00b7\u00b7\u00b7 = a1[f],\u00b7\u00b7\u00b7,a1[e]\n </code>\n .\nThe default for\n <code>\n  a2\n </code>\n is\n <code>\n  a1\n </code>\n .\nThe destination range can overlap with the source range.\nThe number of elements to be moved must fit in a Lua integer.\n</p>\n<p>\n Returns the destination table\n <code>\n  a2\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.pack (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Returns a new table with all arguments stored into keys 1, 2, etc.\nand with a field \"\n <code>\n  n\n </code>\n \" with the total number of arguments.\nNote that the resulting table may not be a sequence,\nif some arguments are\n <b>\n  nil\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.pack (\u00b7\u00b7\u00b7)",
+    body: '<p>\n Returns a new table with all arguments stored into keys 1, 2, etc.\nand with a field "\n <code>\n  n\n </code>\n " with the total number of arguments.\nNote that the resulting table may not be a sequence,\nif some arguments are\n <b>\n  nil\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.remove (list [, pos])",
-      "body": "<p>\n Removes from\n <code>\n  list\n </code>\n the element at position\n <code>\n  pos\n </code>\n ,\nreturning the value of the removed element.\nWhen\n <code>\n  pos\n </code>\n is an integer between 1 and\n <code>\n  #list\n </code>\n ,\nit shifts down the elements\n <code>\n  list[pos+1], list[pos+2], \u00b7\u00b7\u00b7, list[#list]\n </code>\n and erases element\n <code>\n  list[#list]\n </code>\n ;\nThe index\n <code>\n  pos\n </code>\n can also be 0 when\n <code>\n  #list\n </code>\n is 0,\nor\n <code>\n  #list + 1\n </code>\n .\n</p>\n<p>\n The default value for\n <code>\n  pos\n </code>\n is\n <code>\n  #list\n </code>\n ,\nso that a call\n <code>\n  table.remove(l)\n </code>\n removes the last element\nof the list\n <code>\n  l\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.remove (list [, pos])",
+    body: "<p>\n Removes from\n <code>\n  list\n </code>\n the element at position\n <code>\n  pos\n </code>\n ,\nreturning the value of the removed element.\nWhen\n <code>\n  pos\n </code>\n is an integer between 1 and\n <code>\n  #list\n </code>\n ,\nit shifts down the elements\n <code>\n  list[pos+1], list[pos+2], \u00b7\u00b7\u00b7, list[#list]\n </code>\n and erases element\n <code>\n  list[#list]\n </code>\n ;\nThe index\n <code>\n  pos\n </code>\n can also be 0 when\n <code>\n  #list\n </code>\n is 0,\nor\n <code>\n  #list + 1\n </code>\n .\n</p>\n<p>\n The default value for\n <code>\n  pos\n </code>\n is\n <code>\n  #list\n </code>\n ,\nso that a call\n <code>\n  table.remove(l)\n </code>\n removes the last element\nof the list\n <code>\n  l\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.sort (list [, comp])",
-      "body": "<p>\n Sorts the list elements in a given order,\n <em>\n  in-place\n </em>\n ,\nfrom\n <code>\n  list[1]\n </code>\n to\n <code>\n  list[#list]\n </code>\n .\nIf\n <code>\n  comp\n </code>\n is given,\nthen it must be a function that receives two list elements\nand returns true when the first element must come\nbefore the second in the final order,\nso that, after the sort,\n <code>\n  i &lt;= j\n </code>\n implies\n <code>\n  not comp(list[j],list[i])\n </code>\n .\nIf\n <code>\n  comp\n </code>\n is not given,\nthen the standard Lua operator\n <code>\n  &lt;\n </code>\n is used instead.\n</p>\n<p>\n The\n <code>\n  comp\n </code>\n function must define a consistent order;\nmore formally, the function must define a strict weak order.\n(A weak order is similar to a total order,\nbut it can equate different elements for comparison purposes.)\n</p>\n<p>\n The sort algorithm is not stable:\nDifferent elements considered equal by the given order\nmay have their relative positions changed by the sort.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.sort (list [, comp])",
+    body: "<p>\n Sorts the list elements in a given order,\n <em>\n  in-place\n </em>\n ,\nfrom\n <code>\n  list[1]\n </code>\n to\n <code>\n  list[#list]\n </code>\n .\nIf\n <code>\n  comp\n </code>\n is given,\nthen it must be a function that receives two list elements\nand returns true when the first element must come\nbefore the second in the final order,\nso that, after the sort,\n <code>\n  i &lt;= j\n </code>\n implies\n <code>\n  not comp(list[j],list[i])\n </code>\n .\nIf\n <code>\n  comp\n </code>\n is not given,\nthen the standard Lua operator\n <code>\n  &lt;\n </code>\n is used instead.\n</p>\n<p>\n The\n <code>\n  comp\n </code>\n function must define a consistent order;\nmore formally, the function must define a strict weak order.\n(A weak order is similar to a total order,\nbut it can equate different elements for comparison purposes.)\n</p>\n<p>\n The sort algorithm is not stable:\nDifferent elements considered equal by the given order\nmay have their relative positions changed by the sort.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "table.unpack (list [, i [, j]])",
-      "body": "<p>\n Returns the elements from the given list.\nThis function is equivalent to\n</p>\n<pre>     return list[i], list[i+1], \u00b7\u00b7\u00b7, list[j]\n</pre>\n<p>\n By default,\n <code>\n  i\n </code>\n is\u00a01 and\n <code>\n  j\n </code>\n is\n <code>\n  #list\n </code>\n .\n</p>\n<h2>\n 6.7 \u2013\n <a name=\"6.7\">\n  Mathematical Functions\n </a>\n</h2>\n<p>\n This library provides basic mathematical functions.\nIt provides all its functions and constants inside the table\n <a name=\"pdf-math\">\n  <code>\n   math\n  </code>\n </a>\n .\nFunctions with the annotation \"\n <code>\n  integer/float\n </code>\n \" give\ninteger results for integer arguments\nand float results for non-integer arguments.\nThe rounding functions\n <a href=\"#pdf-math.ceil\">\n  <code>\n   math.ceil\n  </code>\n </a>\n ,\n <a href=\"#pdf-math.floor\">\n  <code>\n   math.floor\n  </code>\n </a>\n , and\n <a href=\"#pdf-math.modf\">\n  <code>\n   math.modf\n  </code>\n </a>\n return an integer when the result fits in the range of an integer,\nor a float otherwise.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "table.unpack (list [, i [, j]])",
+    body: '<p>\n Returns the elements from the given list.\nThis function is equivalent to\n</p>\n<pre>     return list[i], list[i+1], \u00b7\u00b7\u00b7, list[j]\n</pre>\n<p>\n By default,\n <code>\n  i\n </code>\n is\u00a01 and\n <code>\n  j\n </code>\n is\n <code>\n  #list\n </code>\n .\n</p>\n<h2>\n 6.7 \u2013\n <a name="6.7">\n  Mathematical Functions\n </a>\n</h2>\n<p>\n This library provides basic mathematical functions.\nIt provides all its functions and constants inside the table\n <a name="pdf-math">\n  <code>\n   math\n  </code>\n </a>\n .\nFunctions with the annotation "\n <code>\n  integer/float\n </code>\n " give\ninteger results for integer arguments\nand float results for non-integer arguments.\nThe rounding functions\n <a href="#pdf-math.ceil">\n  <code>\n   math.ceil\n  </code>\n </a>\n ,\n <a href="#pdf-math.floor">\n  <code>\n   math.floor\n  </code>\n </a>\n , and\n <a href="#pdf-math.modf">\n  <code>\n   math.modf\n  </code>\n </a>\n return an integer when the result fits in the range of an integer,\nor a float otherwise.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.abs (x)",
-      "body": "<p>\n Returns the maximum value between\n <code>\n  x\n </code>\n and\n <code>\n  -x\n </code>\n . (integer/float)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.abs (x)",
+    body: "<p>\n Returns the maximum value between\n <code>\n  x\n </code>\n and\n <code>\n  -x\n </code>\n . (integer/float)\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.acos (x)",
-      "body": "<p>\n Returns the arc cosine of\n <code>\n  x\n </code>\n (in radians).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.acos (x)",
+    body: "<p>\n Returns the arc cosine of\n <code>\n  x\n </code>\n (in radians).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.asin (x)",
-      "body": "<p>\n Returns the arc sine of\n <code>\n  x\n </code>\n (in radians).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.asin (x)",
+    body: "<p>\n Returns the arc sine of\n <code>\n  x\n </code>\n (in radians).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.atan (y [, x])",
-      "body": "<p>\n Returns the arc tangent of\n <code>\n  y/x\n </code>\n (in radians),\nbut uses the signs of both arguments to find the\nquadrant of the result.\nIt also handles correctly the case of\n <code>\n  x\n </code>\n being zero.\n</p>\n<p>\n The default value for\n <code>\n  x\n </code>\n is 1,\nso that the call\n <code>\n  math.atan(y)\n </code>\n returns the arc tangent of\n <code>\n  y\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.atan (y [, x])",
+    body: "<p>\n Returns the arc tangent of\n <code>\n  y/x\n </code>\n (in radians),\nbut uses the signs of both arguments to find the\nquadrant of the result.\nIt also handles correctly the case of\n <code>\n  x\n </code>\n being zero.\n</p>\n<p>\n The default value for\n <code>\n  x\n </code>\n is 1,\nso that the call\n <code>\n  math.atan(y)\n </code>\n returns the arc tangent of\n <code>\n  y\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.ceil (x)",
-      "body": "<p>\n Returns the smallest integral value greater than or equal to\n <code>\n  x\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.ceil (x)",
+    body: "<p>\n Returns the smallest integral value greater than or equal to\n <code>\n  x\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.cos (x)",
-      "body": "<p>\n Returns the cosine of\n <code>\n  x\n </code>\n (assumed to be in radians).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.cos (x)",
+    body: "<p>\n Returns the cosine of\n <code>\n  x\n </code>\n (assumed to be in radians).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.deg (x)",
-      "body": "<p>\n Converts the angle\n <code>\n  x\n </code>\n from radians to degrees.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.deg (x)",
+    body: "<p>\n Converts the angle\n <code>\n  x\n </code>\n from radians to degrees.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.exp (x)",
-      "body": "<p>\n Returns the value\n <em>\n  e\n  <sup>\n   x\n  </sup>\n </em>\n (where\n <code>\n  e\n </code>\n is the base of natural logarithms).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.exp (x)",
+    body: "<p>\n Returns the value\n <em>\n  e\n  <sup>\n   x\n  </sup>\n </em>\n (where\n <code>\n  e\n </code>\n is the base of natural logarithms).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.floor (x)",
-      "body": "<p>\n Returns the largest integral value less than or equal to\n <code>\n  x\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.floor (x)",
+    body: "<p>\n Returns the largest integral value less than or equal to\n <code>\n  x\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.fmod (x, y)",
-      "body": "<p>\n Returns the remainder of the division of\n <code>\n  x\n </code>\n by\n <code>\n  y\n </code>\n that rounds the quotient towards zero. (integer/float)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.fmod (x, y)",
+    body: "<p>\n Returns the remainder of the division of\n <code>\n  x\n </code>\n by\n <code>\n  y\n </code>\n that rounds the quotient towards zero. (integer/float)\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.huge",
-      "body": "<p>\n The float value\n <code>\n  HUGE_VAL\n </code>\n ,\na value greater than any other numeric value.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.huge",
+    body: "<p>\n The float value\n <code>\n  HUGE_VAL\n </code>\n ,\na value greater than any other numeric value.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.log (x [, base])",
-      "body": "<p>\n Returns the logarithm of\n <code>\n  x\n </code>\n in the given base.\nThe default for\n <code>\n  base\n </code>\n is\n <em>\n  e\n </em>\n (so that the function returns the natural logarithm of\n <code>\n  x\n </code>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.log (x [, base])",
+    body: "<p>\n Returns the logarithm of\n <code>\n  x\n </code>\n in the given base.\nThe default for\n <code>\n  base\n </code>\n is\n <em>\n  e\n </em>\n (so that the function returns the natural logarithm of\n <code>\n  x\n </code>\n ).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.max (x, \u00b7\u00b7\u00b7)",
-      "body": "<p>\n Returns the argument with the maximum value,\naccording to the Lua operator\n <code>\n  &lt;\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.max (x, \u00b7\u00b7\u00b7)",
+    body: "<p>\n Returns the argument with the maximum value,\naccording to the Lua operator\n <code>\n  &lt;\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.maxinteger",
-      "body": "<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.maxinteger",
+    body: "<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.min (x, \u00b7\u00b7\u00b7)",
-      "body": "<p>\n Returns the argument with the minimum value,\naccording to the Lua operator\n <code>\n  &lt;\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.min (x, \u00b7\u00b7\u00b7)",
+    body: "<p>\n Returns the argument with the minimum value,\naccording to the Lua operator\n <code>\n  &lt;\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.mininteger",
-      "body": "<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.mininteger",
+    body: "<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.modf (x)",
-      "body": "<p>\n Returns the integral part of\n <code>\n  x\n </code>\n and the fractional part of\n <code>\n  x\n </code>\n .\nIts second result is always a float.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.modf (x)",
+    body: "<p>\n Returns the integral part of\n <code>\n  x\n </code>\n and the fractional part of\n <code>\n  x\n </code>\n .\nIts second result is always a float.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.pi",
-      "body": "<p>\n The value of\n <em>\n  \u03c0\n </em>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.pi",
+    body: "<p>\n The value of\n <em>\n  \u03c0\n </em>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.rad (x)",
-      "body": "<p>\n Converts the angle\n <code>\n  x\n </code>\n from degrees to radians.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.rad (x)",
+    body: "<p>\n Converts the angle\n <code>\n  x\n </code>\n from degrees to radians.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.random ([m [, n]])",
-      "body": "<p>\n When called without arguments,\nreturns a pseudo-random float with uniform distribution\nin the range\n <em>\n  [0,1)\n </em>\n .  \nWhen called with two integers\n <code>\n  m\n </code>\n and\n <code>\n  n\n </code>\n ,\n <code>\n  math.random\n </code>\n returns a pseudo-random integer\nwith uniform distribution in the range\n <em>\n  [m, n]\n </em>\n .\nThe call\n <code>\n  math.random(n)\n </code>\n , for a positive\n <code>\n  n\n </code>\n ,\nis equivalent to\n <code>\n  math.random(1,n)\n </code>\n .\nThe call\n <code>\n  math.random(0)\n </code>\n produces an integer with\nall bits (pseudo)random.\n</p>\n<p>\n This function uses the\n <code>\n  xoshiro256**\n </code>\n algorithm to produce\npseudo-random 64-bit integers,\nwhich are the results of calls with argument\u00a00.\nOther results (ranges and floats)\nare unbiased extracted from these integers.\n</p>\n<p>\n Lua initializes its pseudo-random generator with the equivalent of\na call to\n <a href=\"#pdf-math.randomseed\">\n  <code>\n   math.randomseed\n  </code>\n </a>\n with no arguments,\nso that\n <code>\n  math.random\n </code>\n should generate\ndifferent sequences of results each time the program runs.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.random ([m [, n]])",
+    body: '<p>\n When called without arguments,\nreturns a pseudo-random float with uniform distribution\nin the range\n <em>\n  [0,1)\n </em>\n .  \nWhen called with two integers\n <code>\n  m\n </code>\n and\n <code>\n  n\n </code>\n ,\n <code>\n  math.random\n </code>\n returns a pseudo-random integer\nwith uniform distribution in the range\n <em>\n  [m, n]\n </em>\n .\nThe call\n <code>\n  math.random(n)\n </code>\n , for a positive\n <code>\n  n\n </code>\n ,\nis equivalent to\n <code>\n  math.random(1,n)\n </code>\n .\nThe call\n <code>\n  math.random(0)\n </code>\n produces an integer with\nall bits (pseudo)random.\n</p>\n<p>\n This function uses the\n <code>\n  xoshiro256**\n </code>\n algorithm to produce\npseudo-random 64-bit integers,\nwhich are the results of calls with argument\u00a00.\nOther results (ranges and floats)\nare unbiased extracted from these integers.\n</p>\n<p>\n Lua initializes its pseudo-random generator with the equivalent of\na call to\n <a href="#pdf-math.randomseed">\n  <code>\n   math.randomseed\n  </code>\n </a>\n with no arguments,\nso that\n <code>\n  math.random\n </code>\n should generate\ndifferent sequences of results each time the program runs.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.randomseed ([x [, y]])",
-      "body": "<p>\n When called with at least one argument,\nthe integer parameters\n <code>\n  x\n </code>\n and\n <code>\n  y\n </code>\n are\njoined into a 128-bit\n <em>\n  seed\n </em>\n that\nis used to reinitialize the pseudo-random generator;\nequal seeds produce equal sequences of numbers.\nThe default for\n <code>\n  y\n </code>\n is zero.\n</p>\n<p>\n When called with no arguments,\nLua generates a seed with\na weak attempt for randomness.\n</p>\n<p>\n This function returns the two seed components\nthat were effectively used,\nso that setting them again repeats the sequence.\n</p>\n<p>\n To ensure a required level of randomness to the initial state\n(or contrarily, to have a deterministic sequence,\nfor instance when debugging a program),\nyou should call\n <a href=\"#pdf-math.randomseed\">\n  <code>\n   math.randomseed\n  </code>\n </a>\n with explicit arguments.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.randomseed ([x [, y]])",
+    body: '<p>\n When called with at least one argument,\nthe integer parameters\n <code>\n  x\n </code>\n and\n <code>\n  y\n </code>\n are\njoined into a 128-bit\n <em>\n  seed\n </em>\n that\nis used to reinitialize the pseudo-random generator;\nequal seeds produce equal sequences of numbers.\nThe default for\n <code>\n  y\n </code>\n is zero.\n</p>\n<p>\n When called with no arguments,\nLua generates a seed with\na weak attempt for randomness.\n</p>\n<p>\n This function returns the two seed components\nthat were effectively used,\nso that setting them again repeats the sequence.\n</p>\n<p>\n To ensure a required level of randomness to the initial state\n(or contrarily, to have a deterministic sequence,\nfor instance when debugging a program),\nyou should call\n <a href="#pdf-math.randomseed">\n  <code>\n   math.randomseed\n  </code>\n </a>\n with explicit arguments.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.sin (x)",
-      "body": "<p>\n Returns the sine of\n <code>\n  x\n </code>\n (assumed to be in radians).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.sin (x)",
+    body: "<p>\n Returns the sine of\n <code>\n  x\n </code>\n (assumed to be in radians).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.sqrt (x)",
-      "body": "<p>\n Returns the square root of\n <code>\n  x\n </code>\n .\n(You can also use the expression\n <code>\n  x^0.5\n </code>\n to compute this value.)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.sqrt (x)",
+    body: "<p>\n Returns the square root of\n <code>\n  x\n </code>\n .\n(You can also use the expression\n <code>\n  x^0.5\n </code>\n to compute this value.)\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.tan (x)",
-      "body": "<p>\n Returns the tangent of\n <code>\n  x\n </code>\n (assumed to be in radians).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.tan (x)",
+    body: "<p>\n Returns the tangent of\n <code>\n  x\n </code>\n (assumed to be in radians).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.tointeger (x)",
-      "body": "<p>\n If the value\n <code>\n  x\n </code>\n is convertible to an integer,\nreturns that integer.\nOtherwise, returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.tointeger (x)",
+    body: "<p>\n If the value\n <code>\n  x\n </code>\n is convertible to an integer,\nreturns that integer.\nOtherwise, returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.type (x)",
-      "body": "<p>\n Returns \"\n <code>\n  integer\n </code>\n \" if\n <code>\n  x\n </code>\n is an integer,\n\"\n <code>\n  float\n </code>\n \" if it is a float,\nor\n <b>\n  fail\n </b>\n if\n <code>\n  x\n </code>\n is not a number.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.type (x)",
+    body: '<p>\n Returns "\n <code>\n  integer\n </code>\n " if\n <code>\n  x\n </code>\n is an integer,\n"\n <code>\n  float\n </code>\n " if it is a float,\nor\n <b>\n  fail\n </b>\n if\n <code>\n  x\n </code>\n is not a number.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "math.ult (m, n)",
-      "body": "<p>\n Returns a boolean,\n <b>\n  true\n </b>\n if and only if integer\n <code>\n  m\n </code>\n is below integer\n <code>\n  n\n </code>\n when\nthey are compared as unsigned integers.\n</p>\n<h2>\n 6.8 \u2013\n <a name=\"6.8\">\n  Input and Output Facilities\n </a>\n</h2>\n<p>\n The I/O library provides two different styles for file manipulation.\nThe first one uses implicit file handles;\nthat is, there are operations to set a default input file and a\ndefault output file,\nand all input/output operations are done over these default files.\nThe second style uses explicit file handles.\n</p>\n<p>\n When using implicit file handles,\nall operations are supplied by table\n <a name=\"pdf-io\">\n  <code>\n   io\n  </code>\n </a>\n .\nWhen using explicit file handles,\nthe operation\n <a href=\"#pdf-io.open\">\n  <code>\n   io.open\n  </code>\n </a>\n returns a file handle\nand then all operations are supplied as methods of the file handle.\n</p>\n<p>\n The metatable for file handles provides metamethods\nfor\n <code>\n  __gc\n </code>\n and\n <code>\n  __close\n </code>\n that try\nto close the file when called.\n</p>\n<p>\n The table\n <code>\n  io\n </code>\n also provides\nthree predefined file handles with their usual meanings from C:\n <a name=\"pdf-io.stdin\">\n  <code>\n   io.stdin\n  </code>\n </a>\n ,\n <a name=\"pdf-io.stdout\">\n  <code>\n   io.stdout\n  </code>\n </a>\n , and\n <a name=\"pdf-io.stderr\">\n  <code>\n   io.stderr\n  </code>\n </a>\n .\nThe I/O library never closes these files.\n</p>\n<p>\n Unless otherwise stated,\nall I/O functions return\n <b>\n  fail\n </b>\n on failure,\nplus an error message as a second result and\na system-dependent error code as a third result,\nand some non-false value on success.\nOn non-POSIX systems,\nthe computation of the error message and error code\nin case of errors\nmay be not thread safe,\nbecause they rely on the global C variable\n <code>\n  errno\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "math.ult (m, n)",
+    body: '<p>\n Returns a boolean,\n <b>\n  true\n </b>\n if and only if integer\n <code>\n  m\n </code>\n is below integer\n <code>\n  n\n </code>\n when\nthey are compared as unsigned integers.\n</p>\n<h2>\n 6.8 \u2013\n <a name="6.8">\n  Input and Output Facilities\n </a>\n</h2>\n<p>\n The I/O library provides two different styles for file manipulation.\nThe first one uses implicit file handles;\nthat is, there are operations to set a default input file and a\ndefault output file,\nand all input/output operations are done over these default files.\nThe second style uses explicit file handles.\n</p>\n<p>\n When using implicit file handles,\nall operations are supplied by table\n <a name="pdf-io">\n  <code>\n   io\n  </code>\n </a>\n .\nWhen using explicit file handles,\nthe operation\n <a href="#pdf-io.open">\n  <code>\n   io.open\n  </code>\n </a>\n returns a file handle\nand then all operations are supplied as methods of the file handle.\n</p>\n<p>\n The metatable for file handles provides metamethods\nfor\n <code>\n  __gc\n </code>\n and\n <code>\n  __close\n </code>\n that try\nto close the file when called.\n</p>\n<p>\n The table\n <code>\n  io\n </code>\n also provides\nthree predefined file handles with their usual meanings from C:\n <a name="pdf-io.stdin">\n  <code>\n   io.stdin\n  </code>\n </a>\n ,\n <a name="pdf-io.stdout">\n  <code>\n   io.stdout\n  </code>\n </a>\n , and\n <a name="pdf-io.stderr">\n  <code>\n   io.stderr\n  </code>\n </a>\n .\nThe I/O library never closes these files.\n</p>\n<p>\n Unless otherwise stated,\nall I/O functions return\n <b>\n  fail\n </b>\n on failure,\nplus an error message as a second result and\na system-dependent error code as a third result,\nand some non-false value on success.\nOn non-POSIX systems,\nthe computation of the error message and error code\nin case of errors\nmay be not thread safe,\nbecause they rely on the global C variable\n <code>\n  errno\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.close ([file])",
-      "body": "<p>\n Equivalent to\n <code>\n  file:close()\n </code>\n .\nWithout a\n <code>\n  file\n </code>\n , closes the default output file.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.close ([file])",
+    body: "<p>\n Equivalent to\n <code>\n  file:close()\n </code>\n .\nWithout a\n <code>\n  file\n </code>\n , closes the default output file.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.flush ()",
-      "body": "<p>\n Equivalent to\n <code>\n  io.output():flush()\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.flush ()",
+    body: "<p>\n Equivalent to\n <code>\n  io.output():flush()\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.input ([file])",
-      "body": "<p>\n When called with a file name, it opens the named file (in text mode),\nand sets its handle as the default input file.\nWhen called with a file handle,\nit simply sets this file handle as the default input file.\nWhen called without arguments,\nit returns the current default input file.\n</p>\n<p>\n In case of errors this function raises the error,\ninstead of returning an error code.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.input ([file])",
+    body: "<p>\n When called with a file name, it opens the named file (in text mode),\nand sets its handle as the default input file.\nWhen called with a file handle,\nit simply sets this file handle as the default input file.\nWhen called without arguments,\nit returns the current default input file.\n</p>\n<p>\n In case of errors this function raises the error,\ninstead of returning an error code.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.lines ([filename, \u00b7\u00b7\u00b7])",
-      "body": "<p>\n Opens the given file name in read mode\nand returns an iterator function that\nworks like\n <code>\n  file:lines(\u00b7\u00b7\u00b7)\n </code>\n over the opened file.\nWhen the iterator function fails to read any value,\nit automatically closes the file.\nBesides the iterator function,\n <code>\n  io.lines\n </code>\n returns three other values:\ntwo\n <b>\n  nil\n </b>\n values as placeholders,\nplus the created file handle.\nTherefore, when used in a generic\n <b>\n  for\n </b>\n loop,\nthe file is closed also if the loop is interrupted by an\nerror or a\n <b>\n  break\n </b>\n .\n</p>\n<p>\n The call\n <code>\n  io.lines()\n </code>\n (with no file name) is equivalent\nto\n <code>\n  io.input():lines(\"l\")\n </code>\n ;\nthat is, it iterates over the lines of the default input file.\nIn this case, the iterator does not close the file when the loop ends.\n</p>\n<p>\n In case of errors opening the file,\nthis function raises the error,\ninstead of returning an error code.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.lines ([filename, \u00b7\u00b7\u00b7])",
+    body: '<p>\n Opens the given file name in read mode\nand returns an iterator function that\nworks like\n <code>\n  file:lines(\u00b7\u00b7\u00b7)\n </code>\n over the opened file.\nWhen the iterator function fails to read any value,\nit automatically closes the file.\nBesides the iterator function,\n <code>\n  io.lines\n </code>\n returns three other values:\ntwo\n <b>\n  nil\n </b>\n values as placeholders,\nplus the created file handle.\nTherefore, when used in a generic\n <b>\n  for\n </b>\n loop,\nthe file is closed also if the loop is interrupted by an\nerror or a\n <b>\n  break\n </b>\n .\n</p>\n<p>\n The call\n <code>\n  io.lines()\n </code>\n (with no file name) is equivalent\nto\n <code>\n  io.input():lines("l")\n </code>\n ;\nthat is, it iterates over the lines of the default input file.\nIn this case, the iterator does not close the file when the loop ends.\n</p>\n<p>\n In case of errors opening the file,\nthis function raises the error,\ninstead of returning an error code.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.open (filename [, mode])",
-      "body": "<p>\n This function opens a file,\nin the mode specified in the string\n <code>\n  mode\n </code>\n .\nIn case of success,\nit returns a new file handle.\n</p>\n<p>\n The\n <code>\n  mode\n </code>\n string can be any of the following:\n</p>\n<ul>\n <li>\n  <b>\n   \"\n   <code>\n    r\n   </code>\n   \":\n  </b>\n  read mode (the default);\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    w\n   </code>\n   \":\n  </b>\n  write mode;\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    a\n   </code>\n   \":\n  </b>\n  append mode;\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    r+\n   </code>\n   \":\n  </b>\n  update mode, all previous data is preserved;\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    w+\n   </code>\n   \":\n  </b>\n  update mode, all previous data is erased;\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    a+\n   </code>\n   \":\n  </b>\n  append update mode, previous data is preserved,\n  writing is only allowed at the end of file.\n </li>\n</ul>\n<p>\n The\n <code>\n  mode\n </code>\n string can also have a '\n <code>\n  b\n </code>\n ' at the end,\nwhich is needed in some systems to open the file in binary mode.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.open (filename [, mode])",
+    body: '<p>\n This function opens a file,\nin the mode specified in the string\n <code>\n  mode\n </code>\n .\nIn case of success,\nit returns a new file handle.\n</p>\n<p>\n The\n <code>\n  mode\n </code>\n string can be any of the following:\n</p>\n<ul>\n <li>\n  <b>\n   "\n   <code>\n    r\n   </code>\n   ":\n  </b>\n  read mode (the default);\n </li>\n <li>\n  <b>\n   "\n   <code>\n    w\n   </code>\n   ":\n  </b>\n  write mode;\n </li>\n <li>\n  <b>\n   "\n   <code>\n    a\n   </code>\n   ":\n  </b>\n  append mode;\n </li>\n <li>\n  <b>\n   "\n   <code>\n    r+\n   </code>\n   ":\n  </b>\n  update mode, all previous data is preserved;\n </li>\n <li>\n  <b>\n   "\n   <code>\n    w+\n   </code>\n   ":\n  </b>\n  update mode, all previous data is erased;\n </li>\n <li>\n  <b>\n   "\n   <code>\n    a+\n   </code>\n   ":\n  </b>\n  append update mode, previous data is preserved,\n  writing is only allowed at the end of file.\n </li>\n</ul>\n<p>\n The\n <code>\n  mode\n </code>\n string can also have a \'\n <code>\n  b\n </code>\n \' at the end,\nwhich is needed in some systems to open the file in binary mode.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.output ([file])",
-      "body": "<p>\n Similar to\n <a href=\"#pdf-io.input\">\n  <code>\n   io.input\n  </code>\n </a>\n , but operates over the default output file.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.output ([file])",
+    body: '<p>\n Similar to\n <a href="#pdf-io.input">\n  <code>\n   io.input\n  </code>\n </a>\n , but operates over the default output file.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.popen (prog [, mode])",
-      "body": "<p>\n This function is system dependent and is not available\non all platforms.\n</p>\n<p>\n Starts the program\n <code>\n  prog\n </code>\n in a separated process and returns\na file handle that you can use to read data from this program\n(if\n <code>\n  mode\n </code>\n is\n <code>\n  \"r\"\n </code>\n , the default)\nor to write data to this program\n(if\n <code>\n  mode\n </code>\n is\n <code>\n  \"w\"\n </code>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.popen (prog [, mode])",
+    body: '<p>\n This function is system dependent and is not available\non all platforms.\n</p>\n<p>\n Starts the program\n <code>\n  prog\n </code>\n in a separated process and returns\na file handle that you can use to read data from this program\n(if\n <code>\n  mode\n </code>\n is\n <code>\n  "r"\n </code>\n , the default)\nor to write data to this program\n(if\n <code>\n  mode\n </code>\n is\n <code>\n  "w"\n </code>\n ).\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.read (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Equivalent to\n <code>\n  io.input():read(\u00b7\u00b7\u00b7)\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.read (\u00b7\u00b7\u00b7)",
+    body: "<p>\n Equivalent to\n <code>\n  io.input():read(\u00b7\u00b7\u00b7)\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.tmpfile ()",
-      "body": "<p>\n In case of success,\nreturns a handle for a temporary file.\nThis file is opened in update mode\nand it is automatically removed when the program ends.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.tmpfile ()",
+    body: "<p>\n In case of success,\nreturns a handle for a temporary file.\nThis file is opened in update mode\nand it is automatically removed when the program ends.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.type (obj)",
-      "body": "<p>\n Checks whether\n <code>\n  obj\n </code>\n is a valid file handle.\nReturns the string\n <code>\n  \"file\"\n </code>\n if\n <code>\n  obj\n </code>\n is an open file handle,\n <code>\n  \"closed file\"\n </code>\n if\n <code>\n  obj\n </code>\n is a closed file handle,\nor\n <b>\n  fail\n </b>\n if\n <code>\n  obj\n </code>\n is not a file handle.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.type (obj)",
+    body: '<p>\n Checks whether\n <code>\n  obj\n </code>\n is a valid file handle.\nReturns the string\n <code>\n  "file"\n </code>\n if\n <code>\n  obj\n </code>\n is an open file handle,\n <code>\n  "closed file"\n </code>\n if\n <code>\n  obj\n </code>\n is a closed file handle,\nor\n <b>\n  fail\n </b>\n if\n <code>\n  obj\n </code>\n is not a file handle.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "io.write (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Equivalent to\n <code>\n  io.output():write(\u00b7\u00b7\u00b7)\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "io.write (\u00b7\u00b7\u00b7)",
+    body: "<p>\n Equivalent to\n <code>\n  io.output():write(\u00b7\u00b7\u00b7)\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:close ()",
-      "body": "<p>\n Closes\n <code>\n  file\n </code>\n .\nNote that files are automatically closed when\ntheir handles are garbage collected,\nbut that takes an unpredictable amount of time to happen.\n</p>\n<p>\n When closing a file handle created with\n <a href=\"#pdf-io.popen\">\n  <code>\n   io.popen\n  </code>\n </a>\n ,\n <a href=\"#pdf-file:close\">\n  <code>\n   file:close\n  </code>\n </a>\n returns the same values\nreturned by\n <a href=\"#pdf-os.execute\">\n  <code>\n   os.execute\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:close ()",
+    body: '<p>\n Closes\n <code>\n  file\n </code>\n .\nNote that files are automatically closed when\ntheir handles are garbage collected,\nbut that takes an unpredictable amount of time to happen.\n</p>\n<p>\n When closing a file handle created with\n <a href="#pdf-io.popen">\n  <code>\n   io.popen\n  </code>\n </a>\n ,\n <a href="#pdf-file:close">\n  <code>\n   file:close\n  </code>\n </a>\n returns the same values\nreturned by\n <a href="#pdf-os.execute">\n  <code>\n   os.execute\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:flush ()",
-      "body": "<p>\n Saves any written data to\n <code>\n  file\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:flush ()",
+    body: "<p>\n Saves any written data to\n <code>\n  file\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:lines (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Returns an iterator function that,\neach time it is called,\nreads the file according to the given formats.\nWhen no format is given,\nuses \"\n <code>\n  l\n </code>\n \" as a default.\nAs an example, the construction\n</p>\n<pre>     for c in file:lines(1) do <em>body</em> end\n</pre>\n<p>\n will iterate over all characters of the file,\nstarting at the current position.\nUnlike\n <a href=\"#pdf-io.lines\">\n  <code>\n   io.lines\n  </code>\n </a>\n , this function does not close the file\nwhen the loop ends.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:lines (\u00b7\u00b7\u00b7)",
+    body: '<p>\n Returns an iterator function that,\neach time it is called,\nreads the file according to the given formats.\nWhen no format is given,\nuses "\n <code>\n  l\n </code>\n " as a default.\nAs an example, the construction\n</p>\n<pre>     for c in file:lines(1) do <em>body</em> end\n</pre>\n<p>\n will iterate over all characters of the file,\nstarting at the current position.\nUnlike\n <a href="#pdf-io.lines">\n  <code>\n   io.lines\n  </code>\n </a>\n , this function does not close the file\nwhen the loop ends.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:read (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Reads the file\n <code>\n  file\n </code>\n ,\naccording to the given formats, which specify what to read.\nFor each format,\nthe function returns a string or a number with the characters read,\nor\n <b>\n  fail\n </b>\n if it cannot read data with the specified format.\n(In this latter case,\nthe function does not read subsequent formats.)\nWhen called without arguments,\nit uses a default format that reads the next line\n(see below).\n</p>\n<p>\n The available formats are\n</p>\n<ul>\n <li>\n  <b>\n   \"\n   <code>\n    n\n   </code>\n   \":\n  </b>\n  reads a numeral and returns it as a float or an integer,\nfollowing the lexical conventions of Lua.\n(The numeral may have leading whitespaces and a sign.)\nThis format always reads the longest input sequence that\nis a valid prefix for a numeral;\nif that prefix does not form a valid numeral\n(e.g., an empty string, \"\n  <code>\n   0x\n  </code>\n  \", or \"\n  <code>\n   3.4e-\n  </code>\n  \")\nor it is too long (more than 200 characters),\nit is discarded and the format returns\n  <b>\n   fail\n  </b>\n  .\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    a\n   </code>\n   \":\n  </b>\n  reads the whole file, starting at the current position.\nOn end of file, it returns the empty string;\nthis format never fails.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    l\n   </code>\n   \":\n  </b>\n  reads the next line skipping the end of line,\nreturning\n  <b>\n   fail\n  </b>\n  on end of file.\nThis is the default format.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    L\n   </code>\n   \":\n  </b>\n  reads the next line keeping the end-of-line character (if present),\nreturning\n  <b>\n   fail\n  </b>\n  on end of file.\n </li>\n <li>\n  <b>\n   <em>\n    number\n   </em>\n   :\n  </b>\n  reads a string with up to this number of bytes,\nreturning\n  <b>\n   fail\n  </b>\n  on end of file.\nIf\n  <code>\n   number\n  </code>\n  is zero,\nit reads nothing and returns an empty string,\nor\n  <b>\n   fail\n  </b>\n  on end of file.\n </li>\n</ul>\n<p>\n The formats \"\n <code>\n  l\n </code>\n \" and \"\n <code>\n  L\n </code>\n \" should be used only for text files.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:read (\u00b7\u00b7\u00b7)",
+    body: '<p>\n Reads the file\n <code>\n  file\n </code>\n ,\naccording to the given formats, which specify what to read.\nFor each format,\nthe function returns a string or a number with the characters read,\nor\n <b>\n  fail\n </b>\n if it cannot read data with the specified format.\n(In this latter case,\nthe function does not read subsequent formats.)\nWhen called without arguments,\nit uses a default format that reads the next line\n(see below).\n</p>\n<p>\n The available formats are\n</p>\n<ul>\n <li>\n  <b>\n   "\n   <code>\n    n\n   </code>\n   ":\n  </b>\n  reads a numeral and returns it as a float or an integer,\nfollowing the lexical conventions of Lua.\n(The numeral may have leading whitespaces and a sign.)\nThis format always reads the longest input sequence that\nis a valid prefix for a numeral;\nif that prefix does not form a valid numeral\n(e.g., an empty string, "\n  <code>\n   0x\n  </code>\n  ", or "\n  <code>\n   3.4e-\n  </code>\n  ")\nor it is too long (more than 200 characters),\nit is discarded and the format returns\n  <b>\n   fail\n  </b>\n  .\n </li>\n <li>\n  <b>\n   "\n   <code>\n    a\n   </code>\n   ":\n  </b>\n  reads the whole file, starting at the current position.\nOn end of file, it returns the empty string;\nthis format never fails.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    l\n   </code>\n   ":\n  </b>\n  reads the next line skipping the end of line,\nreturning\n  <b>\n   fail\n  </b>\n  on end of file.\nThis is the default format.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    L\n   </code>\n   ":\n  </b>\n  reads the next line keeping the end-of-line character (if present),\nreturning\n  <b>\n   fail\n  </b>\n  on end of file.\n </li>\n <li>\n  <b>\n   <em>\n    number\n   </em>\n   :\n  </b>\n  reads a string with up to this number of bytes,\nreturning\n  <b>\n   fail\n  </b>\n  on end of file.\nIf\n  <code>\n   number\n  </code>\n  is zero,\nit reads nothing and returns an empty string,\nor\n  <b>\n   fail\n  </b>\n  on end of file.\n </li>\n</ul>\n<p>\n The formats "\n <code>\n  l\n </code>\n " and "\n <code>\n  L\n </code>\n " should be used only for text files.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:seek ([whence [, offset]])",
-      "body": "<p>\n Sets and gets the file position,\nmeasured from the beginning of the file,\nto the position given by\n <code>\n  offset\n </code>\n plus a base\nspecified by the string\n <code>\n  whence\n </code>\n , as follows:\n</p>\n<ul>\n <li>\n  <b>\n   \"\n   <code>\n    set\n   </code>\n   \":\n  </b>\n  base is position 0 (beginning of the file);\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    cur\n   </code>\n   \":\n  </b>\n  base is current position;\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    end\n   </code>\n   \":\n  </b>\n  base is end of file;\n </li>\n</ul>\n<p>\n In case of success,\n <code>\n  seek\n </code>\n returns the final file position,\nmeasured in bytes from the beginning of the file.\nIf\n <code>\n  seek\n </code>\n fails, it returns\n <b>\n  fail\n </b>\n ,\nplus a string describing the error.\n</p>\n<p>\n The default value for\n <code>\n  whence\n </code>\n is\n <code>\n  \"cur\"\n </code>\n ,\nand for\n <code>\n  offset\n </code>\n is 0.\nTherefore, the call\n <code>\n  file:seek()\n </code>\n returns the current\nfile position, without changing it;\nthe call\n <code>\n  file:seek(\"set\")\n </code>\n sets the position to the\nbeginning of the file (and returns 0);\nand the call\n <code>\n  file:seek(\"end\")\n </code>\n sets the position to the\nend of the file, and returns its size.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:seek ([whence [, offset]])",
+    body: '<p>\n Sets and gets the file position,\nmeasured from the beginning of the file,\nto the position given by\n <code>\n  offset\n </code>\n plus a base\nspecified by the string\n <code>\n  whence\n </code>\n , as follows:\n</p>\n<ul>\n <li>\n  <b>\n   "\n   <code>\n    set\n   </code>\n   ":\n  </b>\n  base is position 0 (beginning of the file);\n </li>\n <li>\n  <b>\n   "\n   <code>\n    cur\n   </code>\n   ":\n  </b>\n  base is current position;\n </li>\n <li>\n  <b>\n   "\n   <code>\n    end\n   </code>\n   ":\n  </b>\n  base is end of file;\n </li>\n</ul>\n<p>\n In case of success,\n <code>\n  seek\n </code>\n returns the final file position,\nmeasured in bytes from the beginning of the file.\nIf\n <code>\n  seek\n </code>\n fails, it returns\n <b>\n  fail\n </b>\n ,\nplus a string describing the error.\n</p>\n<p>\n The default value for\n <code>\n  whence\n </code>\n is\n <code>\n  "cur"\n </code>\n ,\nand for\n <code>\n  offset\n </code>\n is 0.\nTherefore, the call\n <code>\n  file:seek()\n </code>\n returns the current\nfile position, without changing it;\nthe call\n <code>\n  file:seek("set")\n </code>\n sets the position to the\nbeginning of the file (and returns 0);\nand the call\n <code>\n  file:seek("end")\n </code>\n sets the position to the\nend of the file, and returns its size.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:setvbuf (mode [, size])",
-      "body": "<p>\n Sets the buffering mode for a file.\nThere are three available modes:\n</p>\n<ul>\n <li>\n  <b>\n   \"\n   <code>\n    no\n   </code>\n   \":\n  </b>\n  no buffering.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    full\n   </code>\n   \":\n  </b>\n  full buffering.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    line\n   </code>\n   \":\n  </b>\n  line buffering.\n </li>\n</ul>\n<p>\n For the last two cases,\n <code>\n  size\n </code>\n is a hint for the size of the buffer, in bytes.\nThe default is an appropriate size.\n</p>\n<p>\n The specific behavior of each mode is non portable;\ncheck the underlying ISO\u00a0C function\n <code>\n  setvbuf\n </code>\n in your platform for\nmore details.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:setvbuf (mode [, size])",
+    body: '<p>\n Sets the buffering mode for a file.\nThere are three available modes:\n</p>\n<ul>\n <li>\n  <b>\n   "\n   <code>\n    no\n   </code>\n   ":\n  </b>\n  no buffering.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    full\n   </code>\n   ":\n  </b>\n  full buffering.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    line\n   </code>\n   ":\n  </b>\n  line buffering.\n </li>\n</ul>\n<p>\n For the last two cases,\n <code>\n  size\n </code>\n is a hint for the size of the buffer, in bytes.\nThe default is an appropriate size.\n</p>\n<p>\n The specific behavior of each mode is non portable;\ncheck the underlying ISO\u00a0C function\n <code>\n  setvbuf\n </code>\n in your platform for\nmore details.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "file:write (\u00b7\u00b7\u00b7)",
-      "body": "<p>\n Writes the value of each of its arguments to\n <code>\n  file\n </code>\n .\nThe arguments must be strings or numbers.\n</p>\n<p>\n In case of success, this function returns\n <code>\n  file\n </code>\n .\n</p>\n<h2>\n 6.9 \u2013\n <a name=\"6.9\">\n  Operating System Facilities\n </a>\n</h2>\n<p>\n This library is implemented through table\n <a name=\"pdf-os\">\n  <code>\n   os\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "file:write (\u00b7\u00b7\u00b7)",
+    body: '<p>\n Writes the value of each of its arguments to\n <code>\n  file\n </code>\n .\nThe arguments must be strings or numbers.\n</p>\n<p>\n In case of success, this function returns\n <code>\n  file\n </code>\n .\n</p>\n<h2>\n 6.9 \u2013\n <a name="6.9">\n  Operating System Facilities\n </a>\n</h2>\n<p>\n This library is implemented through table\n <a name="pdf-os">\n  <code>\n   os\n  </code>\n </a>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.clock ()",
-      "body": "<p>\n Returns an approximation of the amount in seconds of CPU time\nused by the program,\nas returned by the underlying ISO\u00a0C function\n <code>\n  clock\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.clock ()",
+    body: "<p>\n Returns an approximation of the amount in seconds of CPU time\nused by the program,\nas returned by the underlying ISO\u00a0C function\n <code>\n  clock\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.date ([format [, time]])",
-      "body": "<p>\n Returns a string or a table containing date and time,\nformatted according to the given string\n <code>\n  format\n </code>\n .\n</p>\n<p>\n If the\n <code>\n  time\n </code>\n argument is present,\nthis is the time to be formatted\n(see the\n <a href=\"#pdf-os.time\">\n  <code>\n   os.time\n  </code>\n </a>\n function for a description of this value).\nOtherwise,\n <code>\n  date\n </code>\n formats the current time.\n</p>\n<p>\n If\n <code>\n  format\n </code>\n starts with '\n <code>\n  !\n </code>\n ',\nthen the date is formatted in Coordinated Universal Time.\nAfter this optional character,\nif\n <code>\n  format\n </code>\n is the string \"\n <code>\n  *t\n </code>\n \",\nthen\n <code>\n  date\n </code>\n returns a table with the following fields:\n <code>\n  year\n </code>\n ,\n <code>\n  month\n </code>\n (1\u201312),\n <code>\n  day\n </code>\n (1\u201331),\n <code>\n  hour\n </code>\n (0\u201323),\n <code>\n  min\n </code>\n (0\u201359),\n <code>\n  sec\n </code>\n (0\u201361, due to leap seconds),\n <code>\n  wday\n </code>\n (weekday, 1\u20137, Sunday is\u00a01),\n <code>\n  yday\n </code>\n (day of the year, 1\u2013366),\nand\n <code>\n  isdst\n </code>\n (daylight saving flag, a boolean).\nThis last field may be absent\nif the information is not available.\n</p>\n<p>\n If\n <code>\n  format\n </code>\n is not \"\n <code>\n  *t\n </code>\n \",\nthen\n <code>\n  date\n </code>\n returns the date as a string,\nformatted according to the same rules as the ISO\u00a0C function\n <code>\n  strftime\n </code>\n .\n</p>\n<p>\n If\n <code>\n  format\n </code>\n is absent, it defaults to \"\n <code>\n  %c\n </code>\n \",\nwhich gives a human-readable date and time representation\nusing the current locale.\n</p>\n<p>\n On non-POSIX systems,\nthis function may be not thread safe\nbecause of its reliance on C\u00a0function\n <code>\n  gmtime\n </code>\n and C\u00a0function\n <code>\n  localtime\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.date ([format [, time]])",
+    body: '<p>\n Returns a string or a table containing date and time,\nformatted according to the given string\n <code>\n  format\n </code>\n .\n</p>\n<p>\n If the\n <code>\n  time\n </code>\n argument is present,\nthis is the time to be formatted\n(see the\n <a href="#pdf-os.time">\n  <code>\n   os.time\n  </code>\n </a>\n function for a description of this value).\nOtherwise,\n <code>\n  date\n </code>\n formats the current time.\n</p>\n<p>\n If\n <code>\n  format\n </code>\n starts with \'\n <code>\n  !\n </code>\n \',\nthen the date is formatted in Coordinated Universal Time.\nAfter this optional character,\nif\n <code>\n  format\n </code>\n is the string "\n <code>\n  *t\n </code>\n ",\nthen\n <code>\n  date\n </code>\n returns a table with the following fields:\n <code>\n  year\n </code>\n ,\n <code>\n  month\n </code>\n (1\u201312),\n <code>\n  day\n </code>\n (1\u201331),\n <code>\n  hour\n </code>\n (0\u201323),\n <code>\n  min\n </code>\n (0\u201359),\n <code>\n  sec\n </code>\n (0\u201361, due to leap seconds),\n <code>\n  wday\n </code>\n (weekday, 1\u20137, Sunday is\u00a01),\n <code>\n  yday\n </code>\n (day of the year, 1\u2013366),\nand\n <code>\n  isdst\n </code>\n (daylight saving flag, a boolean).\nThis last field may be absent\nif the information is not available.\n</p>\n<p>\n If\n <code>\n  format\n </code>\n is not "\n <code>\n  *t\n </code>\n ",\nthen\n <code>\n  date\n </code>\n returns the date as a string,\nformatted according to the same rules as the ISO\u00a0C function\n <code>\n  strftime\n </code>\n .\n</p>\n<p>\n If\n <code>\n  format\n </code>\n is absent, it defaults to "\n <code>\n  %c\n </code>\n ",\nwhich gives a human-readable date and time representation\nusing the current locale.\n</p>\n<p>\n On non-POSIX systems,\nthis function may be not thread safe\nbecause of its reliance on C\u00a0function\n <code>\n  gmtime\n </code>\n and C\u00a0function\n <code>\n  localtime\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.difftime (t2, t1)",
-      "body": "<p>\n Returns the difference, in seconds,\nfrom time\n <code>\n  t1\n </code>\n to time\n <code>\n  t2\n </code>\n (where the times are values returned by\n <a href=\"#pdf-os.time\">\n  <code>\n   os.time\n  </code>\n </a>\n ).\nIn POSIX, Windows, and some other systems,\nthis value is exactly\n <code>\n  t2\n </code>\n <em>\n  -\n </em>\n <code>\n  t1\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.difftime (t2, t1)",
+    body: '<p>\n Returns the difference, in seconds,\nfrom time\n <code>\n  t1\n </code>\n to time\n <code>\n  t2\n </code>\n (where the times are values returned by\n <a href="#pdf-os.time">\n  <code>\n   os.time\n  </code>\n </a>\n ).\nIn POSIX, Windows, and some other systems,\nthis value is exactly\n <code>\n  t2\n </code>\n <em>\n  -\n </em>\n <code>\n  t1\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.execute ([command])",
-      "body": "<p>\n This function is equivalent to the ISO\u00a0C function\n <code>\n  system\n </code>\n .\nIt passes\n <code>\n  command\n </code>\n to be executed by an operating system shell.\nIts first result is\n <b>\n  true\n </b>\n if the command terminated successfully,\nor\n <b>\n  fail\n </b>\n otherwise.\nAfter this first result\nthe function returns a string plus a number,\nas follows:\n</p>\n<ul>\n <li>\n  <b>\n   \"\n   <code>\n    exit\n   </code>\n   \":\n  </b>\n  the command terminated normally;\nthe following number is the exit status of the command.\n </li>\n <li>\n  <b>\n   \"\n   <code>\n    signal\n   </code>\n   \":\n  </b>\n  the command was terminated by a signal;\nthe following number is the signal that terminated the command.\n </li>\n</ul>\n<p>\n When called without a\n <code>\n  command\n </code>\n ,\n <code>\n  os.execute\n </code>\n returns a boolean that is true if a shell is available.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.execute ([command])",
+    body: '<p>\n This function is equivalent to the ISO\u00a0C function\n <code>\n  system\n </code>\n .\nIt passes\n <code>\n  command\n </code>\n to be executed by an operating system shell.\nIts first result is\n <b>\n  true\n </b>\n if the command terminated successfully,\nor\n <b>\n  fail\n </b>\n otherwise.\nAfter this first result\nthe function returns a string plus a number,\nas follows:\n</p>\n<ul>\n <li>\n  <b>\n   "\n   <code>\n    exit\n   </code>\n   ":\n  </b>\n  the command terminated normally;\nthe following number is the exit status of the command.\n </li>\n <li>\n  <b>\n   "\n   <code>\n    signal\n   </code>\n   ":\n  </b>\n  the command was terminated by a signal;\nthe following number is the signal that terminated the command.\n </li>\n</ul>\n<p>\n When called without a\n <code>\n  command\n </code>\n ,\n <code>\n  os.execute\n </code>\n returns a boolean that is true if a shell is available.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.exit ([code [, close]])",
-      "body": "<p>\n Calls the ISO\u00a0C function\n <code>\n  exit\n </code>\n to terminate the host program.\nIf\n <code>\n  code\n </code>\n is\n <b>\n  true\n </b>\n ,\nthe returned status is\n <code>\n  EXIT_SUCCESS\n </code>\n ;\nif\n <code>\n  code\n </code>\n is\n <b>\n  false\n </b>\n ,\nthe returned status is\n <code>\n  EXIT_FAILURE\n </code>\n ;\nif\n <code>\n  code\n </code>\n is a number,\nthe returned status is this number.\nThe default value for\n <code>\n  code\n </code>\n is\n <b>\n  true\n </b>\n .\n</p>\n<p>\n If the optional second argument\n <code>\n  close\n </code>\n is true,\ncloses the Lua state before exiting.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.exit ([code [, close]])",
+    body: "<p>\n Calls the ISO\u00a0C function\n <code>\n  exit\n </code>\n to terminate the host program.\nIf\n <code>\n  code\n </code>\n is\n <b>\n  true\n </b>\n ,\nthe returned status is\n <code>\n  EXIT_SUCCESS\n </code>\n ;\nif\n <code>\n  code\n </code>\n is\n <b>\n  false\n </b>\n ,\nthe returned status is\n <code>\n  EXIT_FAILURE\n </code>\n ;\nif\n <code>\n  code\n </code>\n is a number,\nthe returned status is this number.\nThe default value for\n <code>\n  code\n </code>\n is\n <b>\n  true\n </b>\n .\n</p>\n<p>\n If the optional second argument\n <code>\n  close\n </code>\n is true,\ncloses the Lua state before exiting.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.getenv (varname)",
-      "body": "<p>\n Returns the value of the process environment variable\n <code>\n  varname\n </code>\n or\n <b>\n  fail\n </b>\n if the variable is not defined.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.getenv (varname)",
+    body: "<p>\n Returns the value of the process environment variable\n <code>\n  varname\n </code>\n or\n <b>\n  fail\n </b>\n if the variable is not defined.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.remove (filename)",
-      "body": "<p>\n Deletes the file (or empty directory, on POSIX systems)\nwith the given name.\nIf this function fails, it returns\n <b>\n  fail\n </b>\n plus a string describing the error and the error code.\nOtherwise, it returns true.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.remove (filename)",
+    body: "<p>\n Deletes the file (or empty directory, on POSIX systems)\nwith the given name.\nIf this function fails, it returns\n <b>\n  fail\n </b>\n plus a string describing the error and the error code.\nOtherwise, it returns true.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.rename (oldname, newname)",
-      "body": "<p>\n Renames the file or directory named\n <code>\n  oldname\n </code>\n to\n <code>\n  newname\n </code>\n .\nIf this function fails, it returns\n <b>\n  fail\n </b>\n ,\nplus a string describing the error and the error code.\nOtherwise, it returns true.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.rename (oldname, newname)",
+    body: "<p>\n Renames the file or directory named\n <code>\n  oldname\n </code>\n to\n <code>\n  newname\n </code>\n .\nIf this function fails, it returns\n <b>\n  fail\n </b>\n ,\nplus a string describing the error and the error code.\nOtherwise, it returns true.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.setlocale (locale [, category])",
-      "body": "<p>\n Sets the current locale of the program.\n <code>\n  locale\n </code>\n is a system-dependent string specifying a locale;\n <code>\n  category\n </code>\n is an optional string describing which category to change:\n <code>\n  \"all\"\n </code>\n ,\n <code>\n  \"collate\"\n </code>\n ,\n <code>\n  \"ctype\"\n </code>\n ,\n <code>\n  \"monetary\"\n </code>\n ,\n <code>\n  \"numeric\"\n </code>\n , or\n <code>\n  \"time\"\n </code>\n ;\nthe default category is\n <code>\n  \"all\"\n </code>\n .\nThe function returns the name of the new locale,\nor\n <b>\n  fail\n </b>\n if the request cannot be honored.\n</p>\n<p>\n If\n <code>\n  locale\n </code>\n is the empty string,\nthe current locale is set to an implementation-defined native locale.\nIf\n <code>\n  locale\n </code>\n is the string \"\n <code>\n  C\n </code>\n \",\nthe current locale is set to the standard C locale.\n</p>\n<p>\n When called with\n <b>\n  nil\n </b>\n as the first argument,\nthis function only returns the name of the current locale\nfor the given category.\n</p>\n<p>\n This function may be not thread safe\nbecause of its reliance on C\u00a0function\n <code>\n  setlocale\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.setlocale (locale [, category])",
+    body: '<p>\n Sets the current locale of the program.\n <code>\n  locale\n </code>\n is a system-dependent string specifying a locale;\n <code>\n  category\n </code>\n is an optional string describing which category to change:\n <code>\n  "all"\n </code>\n ,\n <code>\n  "collate"\n </code>\n ,\n <code>\n  "ctype"\n </code>\n ,\n <code>\n  "monetary"\n </code>\n ,\n <code>\n  "numeric"\n </code>\n , or\n <code>\n  "time"\n </code>\n ;\nthe default category is\n <code>\n  "all"\n </code>\n .\nThe function returns the name of the new locale,\nor\n <b>\n  fail\n </b>\n if the request cannot be honored.\n</p>\n<p>\n If\n <code>\n  locale\n </code>\n is the empty string,\nthe current locale is set to an implementation-defined native locale.\nIf\n <code>\n  locale\n </code>\n is the string "\n <code>\n  C\n </code>\n ",\nthe current locale is set to the standard C locale.\n</p>\n<p>\n When called with\n <b>\n  nil\n </b>\n as the first argument,\nthis function only returns the name of the current locale\nfor the given category.\n</p>\n<p>\n This function may be not thread safe\nbecause of its reliance on C\u00a0function\n <code>\n  setlocale\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.time ([table])",
-      "body": "<p>\n Returns the current time when called without arguments,\nor a time representing the local date and time specified by the given table.\nThis table must have fields\n <code>\n  year\n </code>\n ,\n <code>\n  month\n </code>\n , and\n <code>\n  day\n </code>\n ,\nand may have fields\n <code>\n  hour\n </code>\n (default is 12),\n <code>\n  min\n </code>\n (default is 0),\n <code>\n  sec\n </code>\n (default is 0),\nand\n <code>\n  isdst\n </code>\n (default is\n <b>\n  nil\n </b>\n ).\nOther fields are ignored.\nFor a description of these fields, see the\n <a href=\"#pdf-os.date\">\n  <code>\n   os.date\n  </code>\n </a>\n function.\n</p>\n<p>\n When the function is called,\nthe values in these fields do not need to be inside their valid ranges.\nFor instance, if\n <code>\n  sec\n </code>\n is -10,\nit means 10 seconds before the time specified by the other fields;\nif\n <code>\n  hour\n </code>\n is 1000,\nit means 1000 hours after the time specified by the other fields.\n</p>\n<p>\n The returned value is a number, whose meaning depends on your system.\nIn POSIX, Windows, and some other systems,\nthis number counts the number\nof seconds since some given start time (the \"epoch\").\nIn other systems, the meaning is not specified,\nand the number returned by\n <code>\n  time\n </code>\n can be used only as an argument to\n <a href=\"#pdf-os.date\">\n  <code>\n   os.date\n  </code>\n </a>\n and\n <a href=\"#pdf-os.difftime\">\n  <code>\n   os.difftime\n  </code>\n </a>\n .\n</p>\n<p>\n When called with a table,\n <code>\n  os.time\n </code>\n also normalizes all the fields\ndocumented in the\n <a href=\"#pdf-os.date\">\n  <code>\n   os.date\n  </code>\n </a>\n function,\nso that they represent the same time as before the call\nbut with values inside their valid ranges.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.time ([table])",
+    body: '<p>\n Returns the current time when called without arguments,\nor a time representing the local date and time specified by the given table.\nThis table must have fields\n <code>\n  year\n </code>\n ,\n <code>\n  month\n </code>\n , and\n <code>\n  day\n </code>\n ,\nand may have fields\n <code>\n  hour\n </code>\n (default is 12),\n <code>\n  min\n </code>\n (default is 0),\n <code>\n  sec\n </code>\n (default is 0),\nand\n <code>\n  isdst\n </code>\n (default is\n <b>\n  nil\n </b>\n ).\nOther fields are ignored.\nFor a description of these fields, see the\n <a href="#pdf-os.date">\n  <code>\n   os.date\n  </code>\n </a>\n function.\n</p>\n<p>\n When the function is called,\nthe values in these fields do not need to be inside their valid ranges.\nFor instance, if\n <code>\n  sec\n </code>\n is -10,\nit means 10 seconds before the time specified by the other fields;\nif\n <code>\n  hour\n </code>\n is 1000,\nit means 1000 hours after the time specified by the other fields.\n</p>\n<p>\n The returned value is a number, whose meaning depends on your system.\nIn POSIX, Windows, and some other systems,\nthis number counts the number\nof seconds since some given start time (the "epoch").\nIn other systems, the meaning is not specified,\nand the number returned by\n <code>\n  time\n </code>\n can be used only as an argument to\n <a href="#pdf-os.date">\n  <code>\n   os.date\n  </code>\n </a>\n and\n <a href="#pdf-os.difftime">\n  <code>\n   os.difftime\n  </code>\n </a>\n .\n</p>\n<p>\n When called with a table,\n <code>\n  os.time\n </code>\n also normalizes all the fields\ndocumented in the\n <a href="#pdf-os.date">\n  <code>\n   os.date\n  </code>\n </a>\n function,\nso that they represent the same time as before the call\nbut with values inside their valid ranges.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "os.tmpname ()",
-      "body": "<p>\n Returns a string with a file name that can\nbe used for a temporary file.\nThe file must be explicitly opened before its use\nand explicitly removed when no longer needed.\n</p>\n<p>\n In POSIX systems,\nthis function also creates a file with that name,\nto avoid security risks.\n(Someone else might create the file with wrong permissions\nin the time between getting the name and creating the file.)\nYou still have to open the file to use it\nand to remove it (even if you do not use it).\n</p>\n<p>\n When possible,\nyou may prefer to use\n <a href=\"#pdf-io.tmpfile\">\n  <code>\n   io.tmpfile\n  </code>\n </a>\n ,\nwhich automatically removes the file when the program ends.\n</p>\n<h2>\n 6.10 \u2013\n <a name=\"6.10\">\n  The Debug Library\n </a>\n</h2>\n<p>\n This library provides\nthe functionality of the debug interface (\n <a href=\"#4.7\">\n  \u00a74.7\n </a>\n ) to Lua programs.\nYou should exert care when using this library.\nSeveral of its functions\nviolate basic assumptions about Lua code\n(e.g., that variables local to a function\ncannot be accessed from outside;\nthat userdata metatables cannot be changed by Lua code;\nthat Lua programs do not crash)\nand therefore can compromise otherwise secure code.\nMoreover, some functions in this library may be slow.\n</p>\n<p>\n All functions in this library are provided\ninside the\n <a name=\"pdf-debug\">\n  <code>\n   debug\n  </code>\n </a>\n table.\nAll functions that operate over a thread\nhave an optional first argument which is the\nthread to operate over.\nThe default is always the current thread.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "os.tmpname ()",
+    body: '<p>\n Returns a string with a file name that can\nbe used for a temporary file.\nThe file must be explicitly opened before its use\nand explicitly removed when no longer needed.\n</p>\n<p>\n In POSIX systems,\nthis function also creates a file with that name,\nto avoid security risks.\n(Someone else might create the file with wrong permissions\nin the time between getting the name and creating the file.)\nYou still have to open the file to use it\nand to remove it (even if you do not use it).\n</p>\n<p>\n When possible,\nyou may prefer to use\n <a href="#pdf-io.tmpfile">\n  <code>\n   io.tmpfile\n  </code>\n </a>\n ,\nwhich automatically removes the file when the program ends.\n</p>\n<h2>\n 6.10 \u2013\n <a name="6.10">\n  The Debug Library\n </a>\n</h2>\n<p>\n This library provides\nthe functionality of the debug interface (\n <a href="#4.7">\n  \u00a74.7\n </a>\n ) to Lua programs.\nYou should exert care when using this library.\nSeveral of its functions\nviolate basic assumptions about Lua code\n(e.g., that variables local to a function\ncannot be accessed from outside;\nthat userdata metatables cannot be changed by Lua code;\nthat Lua programs do not crash)\nand therefore can compromise otherwise secure code.\nMoreover, some functions in this library may be slow.\n</p>\n<p>\n All functions in this library are provided\ninside the\n <a name="pdf-debug">\n  <code>\n   debug\n  </code>\n </a>\n table.\nAll functions that operate over a thread\nhave an optional first argument which is the\nthread to operate over.\nThe default is always the current thread.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.debug ()",
-      "body": "<p>\n Enters an interactive mode with the user,\nrunning each string that the user enters.\nUsing simple commands and other debug facilities,\nthe user can inspect global and local variables,\nchange their values, evaluate expressions, and so on.\nA line containing only the word\n <code>\n  cont\n </code>\n finishes this function,\nso that the caller continues its execution.\n</p>\n<p>\n Note that commands for\n <code>\n  debug.debug\n </code>\n are not lexically nested\nwithin any function and so have no direct access to local variables.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.debug ()",
+    body: "<p>\n Enters an interactive mode with the user,\nrunning each string that the user enters.\nUsing simple commands and other debug facilities,\nthe user can inspect global and local variables,\nchange their values, evaluate expressions, and so on.\nA line containing only the word\n <code>\n  cont\n </code>\n finishes this function,\nso that the caller continues its execution.\n</p>\n<p>\n Note that commands for\n <code>\n  debug.debug\n </code>\n are not lexically nested\nwithin any function and so have no direct access to local variables.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.gethook ([thread])",
-      "body": "<p>\n Returns the current hook settings of the thread, as three values:\nthe current hook function, the current hook mask,\nand the current hook count,\nas set by the\n <a href=\"#pdf-debug.sethook\">\n  <code>\n   debug.sethook\n  </code>\n </a>\n function.\n</p>\n<p>\n Returns\n <b>\n  fail\n </b>\n if there is no active hook.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.gethook ([thread])",
+    body: '<p>\n Returns the current hook settings of the thread, as three values:\nthe current hook function, the current hook mask,\nand the current hook count,\nas set by the\n <a href="#pdf-debug.sethook">\n  <code>\n   debug.sethook\n  </code>\n </a>\n function.\n</p>\n<p>\n Returns\n <b>\n  fail\n </b>\n if there is no active hook.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.getinfo ([thread,] f [, what])",
-      "body": "<p>\n Returns a table with information about a function.\nYou can give the function directly\nor you can give a number as the value of\n <code>\n  f\n </code>\n ,\nwhich means the function running at level\n <code>\n  f\n </code>\n of the call stack\nof the given thread:\nlevel\u00a00 is the current function (\n <code>\n  getinfo\n </code>\n itself);\nlevel\u00a01 is the function that called\n <code>\n  getinfo\n </code>\n (except for tail calls, which do not count in the stack);\nand so on.\nIf\n <code>\n  f\n </code>\n is a number greater than the number of active functions,\nthen\n <code>\n  getinfo\n </code>\n returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n The returned table can contain all the fields returned by\n <a href=\"#lua_getinfo\">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n ,\nwith the string\n <code>\n  what\n </code>\n describing which fields to fill in.\nThe default for\n <code>\n  what\n </code>\n is to get all information available,\nexcept the table of valid lines.\nIf present,\nthe option '\n <code>\n  f\n </code>\n '\nadds a field named\n <code>\n  func\n </code>\n with the function itself.\nIf present,\nthe option '\n <code>\n  L\n </code>\n '\nadds a field named\n <code>\n  activelines\n </code>\n with the table of\nvalid lines.\n</p>\n<p>\n For instance, the expression\n <code>\n  debug.getinfo(1,\"n\").name\n </code>\n returns\na name for the current function,\nif a reasonable name can be found,\nand the expression\n <code>\n  debug.getinfo(print)\n </code>\n returns a table with all available information\nabout the\n <a href=\"#pdf-print\">\n  <code>\n   print\n  </code>\n </a>\n function.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.getinfo ([thread,] f [, what])",
+    body: '<p>\n Returns a table with information about a function.\nYou can give the function directly\nor you can give a number as the value of\n <code>\n  f\n </code>\n ,\nwhich means the function running at level\n <code>\n  f\n </code>\n of the call stack\nof the given thread:\nlevel\u00a00 is the current function (\n <code>\n  getinfo\n </code>\n itself);\nlevel\u00a01 is the function that called\n <code>\n  getinfo\n </code>\n (except for tail calls, which do not count in the stack);\nand so on.\nIf\n <code>\n  f\n </code>\n is a number greater than the number of active functions,\nthen\n <code>\n  getinfo\n </code>\n returns\n <b>\n  fail\n </b>\n .\n</p>\n<p>\n The returned table can contain all the fields returned by\n <a href="#lua_getinfo">\n  <code>\n   lua_getinfo\n  </code>\n </a>\n ,\nwith the string\n <code>\n  what\n </code>\n describing which fields to fill in.\nThe default for\n <code>\n  what\n </code>\n is to get all information available,\nexcept the table of valid lines.\nIf present,\nthe option \'\n <code>\n  f\n </code>\n \'\nadds a field named\n <code>\n  func\n </code>\n with the function itself.\nIf present,\nthe option \'\n <code>\n  L\n </code>\n \'\nadds a field named\n <code>\n  activelines\n </code>\n with the table of\nvalid lines.\n</p>\n<p>\n For instance, the expression\n <code>\n  debug.getinfo(1,"n").name\n </code>\n returns\na name for the current function,\nif a reasonable name can be found,\nand the expression\n <code>\n  debug.getinfo(print)\n </code>\n returns a table with all available information\nabout the\n <a href="#pdf-print">\n  <code>\n   print\n  </code>\n </a>\n function.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.getlocal ([thread,] f, local)",
-      "body": "<p>\n This function returns the name and the value of the local variable\nwith index\n <code>\n  local\n </code>\n of the function at level\n <code>\n  f\n </code>\n of the stack.\nThis function accesses not only explicit local variables,\nbut also parameters and temporary values.\n</p>\n<p>\n The first parameter or local variable has index\u00a01, and so on,\nfollowing the order that they are declared in the code,\ncounting only the variables that are active\nin the current scope of the function.\nCompile-time constants may not appear in this listing,\nif they were optimized away by the compiler.\nNegative indices refer to vararg arguments;\n-1 is the first vararg argument.\nThe function returns\n <b>\n  fail\n </b>\n if there is no variable with the given index,\nand raises an error when called with a level out of range.\n(You can call\n <a href=\"#pdf-debug.getinfo\">\n  <code>\n   debug.getinfo\n  </code>\n </a>\n to check whether the level is valid.)\n</p>\n<p>\n Variable names starting with '\n <code>\n  (\n </code>\n ' (open parenthesis) \nrepresent variables with no known names\n(internal variables such as loop control variables,\nand variables from chunks saved without debug information).\n</p>\n<p>\n The parameter\n <code>\n  f\n </code>\n may also be a function.\nIn that case,\n <code>\n  getlocal\n </code>\n returns only the name of function parameters.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.getlocal ([thread,] f, local)",
+    body: "<p>\n This function returns the name and the value of the local variable\nwith index\n <code>\n  local\n </code>\n of the function at level\n <code>\n  f\n </code>\n of the stack.\nThis function accesses not only explicit local variables,\nbut also parameters and temporary values.\n</p>\n<p>\n The first parameter or local variable has index\u00a01, and so on,\nfollowing the order that they are declared in the code,\ncounting only the variables that are active\nin the current scope of the function.\nCompile-time constants may not appear in this listing,\nif they were optimized away by the compiler.\nNegative indices refer to vararg arguments;\n-1 is the first vararg argument.\nThe function returns\n <b>\n  fail\n </b>\n if there is no variable with the given index,\nand raises an error when called with a level out of range.\n(You can call\n <a href=\"#pdf-debug.getinfo\">\n  <code>\n   debug.getinfo\n  </code>\n </a>\n to check whether the level is valid.)\n</p>\n<p>\n Variable names starting with '\n <code>\n  (\n </code>\n ' (open parenthesis) \nrepresent variables with no known names\n(internal variables such as loop control variables,\nand variables from chunks saved without debug information).\n</p>\n<p>\n The parameter\n <code>\n  f\n </code>\n may also be a function.\nIn that case,\n <code>\n  getlocal\n </code>\n returns only the name of function parameters.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.getmetatable (value)",
-      "body": "<p>\n Returns the metatable of the given\n <code>\n  value\n </code>\n or\n <b>\n  nil\n </b>\n if it does not have a metatable.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.getmetatable (value)",
+    body: "<p>\n Returns the metatable of the given\n <code>\n  value\n </code>\n or\n <b>\n  nil\n </b>\n if it does not have a metatable.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.getregistry ()",
-      "body": "<p>\n Returns the registry table (see\n <a href=\"#4.3\">\n  \u00a74.3\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.getregistry ()",
+    body: '<p>\n Returns the registry table (see\n <a href="#4.3">\n  \u00a74.3\n </a>\n ).\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.getupvalue (f, up)",
-      "body": "<p>\n This function returns the name and the value of the upvalue\nwith index\n <code>\n  up\n </code>\n of the function\n <code>\n  f\n </code>\n .\nThe function returns\n <b>\n  fail\n </b>\n if there is no upvalue with the given index.\n</p>\n<p>\n (For Lua functions,\nupvalues are the external local variables that the function uses,\nand that are consequently included in its closure.)\n</p>\n<p>\n For C\u00a0functions, this function uses the empty string\n <code>\n  \"\"\n </code>\n as a name for all upvalues.\n</p>\n<p>\n Variable name '\n <code>\n  ?\n </code>\n ' (interrogation mark)\nrepresents variables with no known names\n(variables from chunks saved without debug information).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.getupvalue (f, up)",
+    body: "<p>\n This function returns the name and the value of the upvalue\nwith index\n <code>\n  up\n </code>\n of the function\n <code>\n  f\n </code>\n .\nThe function returns\n <b>\n  fail\n </b>\n if there is no upvalue with the given index.\n</p>\n<p>\n (For Lua functions,\nupvalues are the external local variables that the function uses,\nand that are consequently included in its closure.)\n</p>\n<p>\n For C\u00a0functions, this function uses the empty string\n <code>\n  \"\"\n </code>\n as a name for all upvalues.\n</p>\n<p>\n Variable name '\n <code>\n  ?\n </code>\n ' (interrogation mark)\nrepresents variables with no known names\n(variables from chunks saved without debug information).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.getuservalue (u, n)",
-      "body": "<p>\n Returns the\n <code>\n  n\n </code>\n -th user value associated\nto the userdata\n <code>\n  u\n </code>\n plus a boolean,\n <b>\n  false\n </b>\n if the userdata does not have that value.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.getuservalue (u, n)",
+    body: "<p>\n Returns the\n <code>\n  n\n </code>\n -th user value associated\nto the userdata\n <code>\n  u\n </code>\n plus a boolean,\n <b>\n  false\n </b>\n if the userdata does not have that value.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.sethook ([thread,] hook, mask [, count])",
-      "body": "<p>\n Sets the given function as the debug hook.\nThe string\n <code>\n  mask\n </code>\n and the number\n <code>\n  count\n </code>\n describe\nwhen the hook will be called.\nThe string mask may have any combination of the following characters,\nwith the given meaning:\n</p>\n<ul>\n <li>\n  <b>\n   '\n   <code>\n    c\n   </code>\n   ':\n  </b>\n  the hook is called every time Lua calls a function;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    r\n   </code>\n   ':\n  </b>\n  the hook is called every time Lua returns from a function;\n </li>\n <li>\n  <b>\n   '\n   <code>\n    l\n   </code>\n   ':\n  </b>\n  the hook is called every time Lua enters a new line of code.\n </li>\n</ul>\n<p>\n Moreover,\nwith a\n <code>\n  count\n </code>\n different from zero,\nthe hook is called also after every\n <code>\n  count\n </code>\n instructions.\n</p>\n<p>\n When called without arguments,\n <a href=\"#pdf-debug.sethook\">\n  <code>\n   debug.sethook\n  </code>\n </a>\n turns off the hook.\n</p>\n<p>\n When the hook is called, its first parameter is a string\ndescribing the event that has triggered its call:\n <code>\n  \"call\"\n </code>\n ,\n <code>\n  \"tail call\"\n </code>\n ,\n <code>\n  \"return\"\n </code>\n ,\n <code>\n  \"line\"\n </code>\n , and\n <code>\n  \"count\"\n </code>\n .\nFor line events,\nthe hook also gets the new line number as its second parameter.\nInside a hook,\nyou can call\n <code>\n  getinfo\n </code>\n with level\u00a02 to get more information about\nthe running function.\n(Level\u00a00 is the\n <code>\n  getinfo\n </code>\n function,\nand level\u00a01 is the hook function.)\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.sethook ([thread,] hook, mask [, count])",
+    body: '<p>\n Sets the given function as the debug hook.\nThe string\n <code>\n  mask\n </code>\n and the number\n <code>\n  count\n </code>\n describe\nwhen the hook will be called.\nThe string mask may have any combination of the following characters,\nwith the given meaning:\n</p>\n<ul>\n <li>\n  <b>\n   \'\n   <code>\n    c\n   </code>\n   \':\n  </b>\n  the hook is called every time Lua calls a function;\n </li>\n <li>\n  <b>\n   \'\n   <code>\n    r\n   </code>\n   \':\n  </b>\n  the hook is called every time Lua returns from a function;\n </li>\n <li>\n  <b>\n   \'\n   <code>\n    l\n   </code>\n   \':\n  </b>\n  the hook is called every time Lua enters a new line of code.\n </li>\n</ul>\n<p>\n Moreover,\nwith a\n <code>\n  count\n </code>\n different from zero,\nthe hook is called also after every\n <code>\n  count\n </code>\n instructions.\n</p>\n<p>\n When called without arguments,\n <a href="#pdf-debug.sethook">\n  <code>\n   debug.sethook\n  </code>\n </a>\n turns off the hook.\n</p>\n<p>\n When the hook is called, its first parameter is a string\ndescribing the event that has triggered its call:\n <code>\n  "call"\n </code>\n ,\n <code>\n  "tail call"\n </code>\n ,\n <code>\n  "return"\n </code>\n ,\n <code>\n  "line"\n </code>\n , and\n <code>\n  "count"\n </code>\n .\nFor line events,\nthe hook also gets the new line number as its second parameter.\nInside a hook,\nyou can call\n <code>\n  getinfo\n </code>\n with level\u00a02 to get more information about\nthe running function.\n(Level\u00a00 is the\n <code>\n  getinfo\n </code>\n function,\nand level\u00a01 is the hook function.)\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.setlocal ([thread,] level, local, value)",
-      "body": "<p>\n This function assigns the value\n <code>\n  value\n </code>\n to the local variable\nwith index\n <code>\n  local\n </code>\n of the function at level\n <code>\n  level\n </code>\n of the stack.\nThe function returns\n <b>\n  fail\n </b>\n if there is no local\nvariable with the given index,\nand raises an error when called with a\n <code>\n  level\n </code>\n out of range.\n(You can call\n <code>\n  getinfo\n </code>\n to check whether the level is valid.)\nOtherwise, it returns the name of the local variable.\n</p>\n<p>\n See\n <a href=\"#pdf-debug.getlocal\">\n  <code>\n   debug.getlocal\n  </code>\n </a>\n for more information about\nvariable indices and names.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.setlocal ([thread,] level, local, value)",
+    body: '<p>\n This function assigns the value\n <code>\n  value\n </code>\n to the local variable\nwith index\n <code>\n  local\n </code>\n of the function at level\n <code>\n  level\n </code>\n of the stack.\nThe function returns\n <b>\n  fail\n </b>\n if there is no local\nvariable with the given index,\nand raises an error when called with a\n <code>\n  level\n </code>\n out of range.\n(You can call\n <code>\n  getinfo\n </code>\n to check whether the level is valid.)\nOtherwise, it returns the name of the local variable.\n</p>\n<p>\n See\n <a href="#pdf-debug.getlocal">\n  <code>\n   debug.getlocal\n  </code>\n </a>\n for more information about\nvariable indices and names.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.setmetatable (value, table)",
-      "body": "<p>\n Sets the metatable for the given\n <code>\n  value\n </code>\n to the given\n <code>\n  table\n </code>\n (which can be\n <b>\n  nil\n </b>\n ).\nReturns\n <code>\n  value\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.setmetatable (value, table)",
+    body: "<p>\n Sets the metatable for the given\n <code>\n  value\n </code>\n to the given\n <code>\n  table\n </code>\n (which can be\n <b>\n  nil\n </b>\n ).\nReturns\n <code>\n  value\n </code>\n .\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.setupvalue (f, up, value)",
-      "body": "<p>\n This function assigns the value\n <code>\n  value\n </code>\n to the upvalue\nwith index\n <code>\n  up\n </code>\n of the function\n <code>\n  f\n </code>\n .\nThe function returns\n <b>\n  fail\n </b>\n if there is no upvalue\nwith the given index.\nOtherwise, it returns the name of the upvalue.\n</p>\n<p>\n See\n <a href=\"#pdf-debug.getupvalue\">\n  <code>\n   debug.getupvalue\n  </code>\n </a>\n for more information about upvalues.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.setupvalue (f, up, value)",
+    body: '<p>\n This function assigns the value\n <code>\n  value\n </code>\n to the upvalue\nwith index\n <code>\n  up\n </code>\n of the function\n <code>\n  f\n </code>\n .\nThe function returns\n <b>\n  fail\n </b>\n if there is no upvalue\nwith the given index.\nOtherwise, it returns the name of the upvalue.\n</p>\n<p>\n See\n <a href="#pdf-debug.getupvalue">\n  <code>\n   debug.getupvalue\n  </code>\n </a>\n for more information about upvalues.\n</p>\n<p>\n</p>\n<hr/>\n',
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.setuservalue (udata, value, n)",
-      "body": "<p>\n Sets the given\n <code>\n  value\n </code>\n as\nthe\n <code>\n  n\n </code>\n -th user value associated to the given\n <code>\n  udata\n </code>\n .\n <code>\n  udata\n </code>\n must be a full userdata.\n</p>\n<p>\n Returns\n <code>\n  udata\n </code>\n ,\nor\n <b>\n  fail\n </b>\n if the userdata does not have that value.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.setuservalue (udata, value, n)",
+    body: "<p>\n Sets the given\n <code>\n  value\n </code>\n as\nthe\n <code>\n  n\n </code>\n -th user value associated to the given\n <code>\n  udata\n </code>\n .\n <code>\n  udata\n </code>\n must be a full userdata.\n</p>\n<p>\n Returns\n <code>\n  udata\n </code>\n ,\nor\n <b>\n  fail\n </b>\n if the userdata does not have that value.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.traceback ([thread,] [message [, level]])",
-      "body": "<p>\n If\n <code>\n  message\n </code>\n is present but is neither a string nor\n <b>\n  nil\n </b>\n ,\nthis function returns\n <code>\n  message\n </code>\n without further processing.\nOtherwise,\nit returns a string with a traceback of the call stack.\nThe optional\n <code>\n  message\n </code>\n string is appended\nat the beginning of the traceback.\nAn optional\n <code>\n  level\n </code>\n number tells at which level\nto start the traceback\n(default is 1, the function calling\n <code>\n  traceback\n </code>\n ).\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.traceback ([thread,] [message [, level]])",
+    body: "<p>\n If\n <code>\n  message\n </code>\n is present but is neither a string nor\n <b>\n  nil\n </b>\n ,\nthis function returns\n <code>\n  message\n </code>\n without further processing.\nOtherwise,\nit returns a string with a traceback of the call stack.\nThe optional\n <code>\n  message\n </code>\n string is appended\nat the beginning of the traceback.\nAn optional\n <code>\n  level\n </code>\n number tells at which level\nto start the traceback\n(default is 1, the function calling\n <code>\n  traceback\n </code>\n ).\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.upvalueid (f, n)",
-      "body": "<p>\n Returns a unique identifier (as a light userdata)\nfor the upvalue numbered\n <code>\n  n\n </code>\n from the given function.\n</p>\n<p>\n These unique identifiers allow a program to check whether different\nclosures share upvalues.\nLua closures that share an upvalue\n(that is, that access a same external local variable)\nwill return identical ids for those upvalue indices.\n</p>\n<p>\n</p>\n<hr/>\n"
+    group: "function",
+    type: [],
+    name: "debug.upvalueid (f, n)",
+    body: "<p>\n Returns a unique identifier (as a light userdata)\nfor the upvalue numbered\n <code>\n  n\n </code>\n from the given function.\n</p>\n<p>\n These unique identifiers allow a program to check whether different\nclosures share upvalues.\nLua closures that share an upvalue\n(that is, that access a same external local variable)\nwill return identical ids for those upvalue indices.\n</p>\n<p>\n</p>\n<hr/>\n",
   },
   {
-      "group": "function",
-      "type": [],
-      "name": "debug.upvaluejoin (f1, n1, f2, n2)",
-      "body": "<p>\n Make the\n <code>\n  n1\n </code>\n -th upvalue of the Lua closure\n <code>\n  f1\n </code>\n refer to the\n <code>\n  n2\n </code>\n -th upvalue of the Lua closure\n <code>\n  f2\n </code>\n .\n</p>\n<h1>\n 7 \u2013\n <a name=\"7\">\n  Lua Standalone\n </a>\n</h1>\n<p>\n Although Lua has been designed as an extension language,\nto be embedded in a host C\u00a0program,\nit is also frequently used as a standalone language.\nAn interpreter for Lua as a standalone language,\ncalled simply\n <code>\n  lua\n </code>\n ,\nis provided with the standard distribution.\nThe standalone interpreter includes\nall standard libraries.\nIts usage is:\n</p>\n<pre>     lua [options] [script [args]]\n</pre>\n<p>\n The options are:\n</p>\n<ul>\n <li>\n  <b>\n   <code>\n    -e\n    <em>\n     stat\n    </em>\n   </code>\n   :\n  </b>\n  execute string\n  <em>\n   stat\n  </em>\n  ;\n </li>\n <li>\n  <b>\n   <code>\n    -i\n   </code>\n   :\n  </b>\n  enter interactive mode after running\n  <em>\n   script\n  </em>\n  ;\n </li>\n <li>\n  <b>\n   <code>\n    -l\n    <em>\n     mod\n    </em>\n   </code>\n   :\n  </b>\n  \"require\"\n  <em>\n   mod\n  </em>\n  and assign the\n  result to global\n  <em>\n   mod\n  </em>\n  ;\n </li>\n <li>\n  <b>\n   <code>\n    -v\n   </code>\n   :\n  </b>\n  print version information;\n </li>\n <li>\n  <b>\n   <code>\n    -E\n   </code>\n   :\n  </b>\n  ignore environment variables;\n </li>\n <li>\n  <b>\n   <code>\n    -W\n   </code>\n   :\n  </b>\n  turn warnings on;\n </li>\n <li>\n  <b>\n   <code>\n    --\n   </code>\n   :\n  </b>\n  stop handling options;\n </li>\n <li>\n  <b>\n   <code>\n    -\n   </code>\n   :\n  </b>\n  execute\n  <code>\n   stdin\n  </code>\n  as a file and stop handling options.\n </li>\n</ul>\n<p>\n After handling its options,\n <code>\n  lua\n </code>\n runs the given\n <em>\n  script\n </em>\n .\nWhen called without arguments,\n <code>\n  lua\n </code>\n behaves as\n <code>\n  lua -v -i\n </code>\n when the standard input (\n <code>\n  stdin\n </code>\n ) is a terminal,\nand as\n <code>\n  lua -\n </code>\n otherwise.\n</p>\n<p>\n When called without the option\n <code>\n  -E\n </code>\n ,\nthe interpreter checks for an environment variable\n <a name=\"pdf-LUA_INIT_5_4\">\n  <code>\n   LUA_INIT_5_4\n  </code>\n </a>\n (or\n <a name=\"pdf-LUA_INIT\">\n  <code>\n   LUA_INIT\n  </code>\n </a>\n if the versioned name is not defined)\nbefore running any argument.\nIf the variable content has the format\n <code>\n  @\n  <em>\n   filename\n  </em>\n </code>\n ,\nthen\n <code>\n  lua\n </code>\n executes the file.\nOtherwise,\n <code>\n  lua\n </code>\n executes the string itself.\n</p>\n<p>\n When called with the option\n <code>\n  -E\n </code>\n ,\nLua does not consult any environment variables.\nIn particular,\nthe values of\n <a href=\"#pdf-package.path\">\n  <code>\n   package.path\n  </code>\n </a>\n and\n <a href=\"#pdf-package.cpath\">\n  <code>\n   package.cpath\n  </code>\n </a>\n are set with the default paths defined in\n <code>\n  luaconf.h\n </code>\n .\n</p>\n<p>\n The options\n <code>\n  -e\n </code>\n ,\n <code>\n  -l\n </code>\n , and\n <code>\n  -W\n </code>\n are handled in\nthe order they appear.\nFor instance, an invocation like\n</p>\n<pre>     $ lua -e 'a=1' -llib1 script.lua\n</pre>\n<p>\n will first set\n <code>\n  a\n </code>\n to 1, then require the library\n <code>\n  lib1\n </code>\n ,\nand finally run the file\n <code>\n  script.lua\n </code>\n with no arguments.\n(Here\n <code>\n  $\n </code>\n is the shell prompt. Your prompt may be different.)\n</p>\n<p>\n Before running any code,\n <code>\n  lua\n </code>\n collects all command-line arguments\nin a global table called\n <code>\n  arg\n </code>\n .\nThe script name goes to index 0,\nthe first argument after the script name goes to index 1,\nand so on.\nAny arguments before the script name\n(that is, the interpreter name plus its options)\ngo to negative indices.\nFor instance, in the call\n</p>\n<pre>     $ lua -la b.lua t1 t2\n</pre>\n<p>\n the table is like this:\n</p>\n<pre>     arg = { [-2] = \"lua\", [-1] = \"-la\",\n             [0] = \"b.lua\",\n             [1] = \"t1\", [2] = \"t2\" }\n</pre>\n<p>\n If there is no script in the call,\nthe interpreter name goes to index 0,\nfollowed by the other arguments.\nFor instance, the call\n</p>\n<pre>     $ lua -e \"print(arg[1])\"\n</pre>\n<p>\n will print \"\n <code>\n  -e\n </code>\n \".\nIf there is a script,\nthe script is called with arguments\n <code>\n  arg[1]\n </code>\n , \u00b7\u00b7\u00b7,\n <code>\n  arg[#arg]\n </code>\n .\nLike all chunks in Lua,\nthe script is compiled as a vararg function.\n</p>\n<p>\n In interactive mode,\nLua repeatedly prompts and waits for a line.\nAfter reading a line,\nLua first try to interpret the line as an expression.\nIf it succeeds, it prints its value.\nOtherwise, it interprets the line as a statement.\nIf you write an incomplete statement,\nthe interpreter waits for its completion\nby issuing a different prompt.\n</p>\n<p>\n If the global variable\n <a name=\"pdf-_PROMPT\">\n  <code>\n   _PROMPT\n  </code>\n </a>\n contains a string,\nthen its value is used as the prompt.\nSimilarly, if the global variable\n <a name=\"pdf-_PROMPT2\">\n  <code>\n   _PROMPT2\n  </code>\n </a>\n contains a string,\nits value is used as the secondary prompt\n(issued during incomplete statements).\n</p>\n<p>\n In case of unprotected errors in the script,\nthe interpreter reports the error to the standard error stream.\nIf the error object is not a string but\nhas a metamethod\n <code>\n  __tostring\n </code>\n ,\nthe interpreter calls this metamethod to produce the final message.\nOtherwise, the interpreter converts the error object to a string\nand adds a stack traceback to it.\nWhen warnings are on,\nthey are simply printed in the standard error output.\n</p>\n<p>\n When finishing normally,\nthe interpreter closes its main Lua state\n(see\n <a href=\"#lua_close\">\n  <code>\n   lua_close\n  </code>\n </a>\n ).\nThe script can avoid this step by\ncalling\n <a href=\"#pdf-os.exit\">\n  <code>\n   os.exit\n  </code>\n </a>\n to terminate.\n</p>\n<p>\n To allow the use of Lua as a\nscript interpreter in Unix systems,\nLua skips the first line of a file chunk if it starts with\n <code>\n  #\n </code>\n .\nTherefore, Lua scripts can be made into executable programs\nby using\n <code>\n  chmod +x\n </code>\n and the\n <code>\n  #!\n </code>\n form,\nas in\n</p>\n<pre>     #!/usr/local/bin/lua\n</pre>\n<p>\n Of course,\nthe location of the Lua interpreter may be different in your machine.\nIf\n <code>\n  lua\n </code>\n is in your\n <code>\n  PATH\n </code>\n ,\nthen\n</p>\n<pre>     #!/usr/bin/env lua\n</pre>\n<p>\n is a more portable solution.\n</p>\n<h1>\n 8 \u2013\n <a name=\"8\">\n  Incompatibilities with the Previous Version\n </a>\n</h1>\n<p>\n Here we list the incompatibilities that you may find when moving a program\nfrom Lua\u00a05.3 to Lua\u00a05.4.\n</p>\n<p>\n You can avoid some incompatibilities by compiling Lua with\nappropriate options (see file\n <code>\n  luaconf.h\n </code>\n ).\nHowever,\nall these compatibility options will be removed in the future.\nMore often than not,\ncompatibility issues arise when these compatibility options\nare removed.\nSo, whenever you have the chance,\nyou should try to test your code with a version of Lua compiled\nwith all compatibility options turned off.\nThat will ease transitions to newer versions of Lua.\n</p>\n<p>\n Lua versions can always change the C API in ways that\ndo not imply source-code changes in a program,\nsuch as the numeric values for constants\nor the implementation of functions as macros.\nTherefore,\nyou should never assume that binaries are compatible between\ndifferent Lua versions.\nAlways recompile clients of the Lua API when\nusing a new version.\n</p>\n<p>\n Similarly, Lua versions can always change the internal representation\nof precompiled chunks;\nprecompiled chunks are not compatible between different Lua versions.\n</p>\n<p>\n The standard paths in the official distribution may\nchange between versions.\n</p>\n<h2>\n 8.1 \u2013\n <a name=\"8.1\">\n  Incompatibilities in the Language\n </a>\n</h2>\n<ul>\n <li>\n  The coercion of strings to numbers in\narithmetic and bitwise operations\nhas been removed from the core language.\nThe string library does a similar job\nfor arithmetic (but not for bitwise) operations\nusing the string metamethods.\nHowever, unlike in previous versions,\nthe new implementation preserves the implicit type of the numeral\nin the string.\nFor instance, the result of\n  <code>\n   \"1\" + \"2\"\n  </code>\n  now is an integer,\nnot a float.\n </li>\n <li>\n  Literal decimal integer constants that overflow are read as floats,\ninstead of wrapping around.\nYou can use hexadecimal notation for such constants if you\nwant the old behavior\n(reading them as integers with wrap around).\n </li>\n <li>\n  The use of the\n  <code>\n   __lt\n  </code>\n  metamethod to emulate\n  <code>\n   __le\n  </code>\n  has been removed.\nWhen needed, this metamethod must be explicitly defined.\n </li>\n <li>\n  The semantics of the numerical\n  <b>\n   for\n  </b>\n  loop\nover integers changed in some details.\nIn particular, the control variable never wraps around.\n </li>\n <li>\n  A label for a\n  <b>\n   goto\n  </b>\n  cannot be declared where a label with the same\nname is visible, even if this other label is declared in an enclosing\nblock.\n </li>\n <li>\n  When finalizing an object,\nLua does not ignore\n  <code>\n   __gc\n  </code>\n  metamethods that are not functions.\nAny value will be called, if present.\n(Non-callable values will generate a warning,\nlike any other error when calling a finalizer.)\n </li>\n</ul>\n<h2>\n 8.2 \u2013\n <a name=\"8.2\">\n  Incompatibilities in the Libraries\n </a>\n</h2>\n<ul>\n <li>\n  The function\n  <a href=\"#pdf-print\">\n   <code>\n    print\n   </code>\n  </a>\n  does not call\n  <a href=\"#pdf-tostring\">\n   <code>\n    tostring\n   </code>\n  </a>\n  to format its arguments;\ninstead, it has this functionality hardwired.\nYou should use\n  <code>\n   __tostring\n  </code>\n  to modify how values are printed.\n </li>\n <li>\n  The pseudo-random number generator used by the function\n  <a href=\"#pdf-math.random\">\n   <code>\n    math.random\n   </code>\n  </a>\n  now starts with a somewhat random seed.\nMoreover, it uses a different algorithm.\n </li>\n <li>\n  By default, the decoding functions in the\n  <a href=\"#pdf-utf8\">\n   <code>\n    utf8\n   </code>\n  </a>\n  library\ndo not accept surrogates as valid code points.\nAn extra parameter in these functions makes them more permissive.\n </li>\n <li>\n  The options \"\n  <code>\n   setpause\n  </code>\n  \" and \"\n  <code>\n   setstepmul\n  </code>\n  \"\nof the function\n  <a href=\"#pdf-collectgarbage\">\n   <code>\n    collectgarbage\n   </code>\n  </a>\n  are deprecated.\nYou should use the new option \"\n  <code>\n   incremental\n  </code>\n  \" to set them.\n </li>\n <li>\n  The function\n  <a href=\"#pdf-io.lines\">\n   <code>\n    io.lines\n   </code>\n  </a>\n  now returns four values,\ninstead of just one.\nThat can be a problem when it is used as the sole\nargument to another function that has optional parameters,\nsuch as in\n  <code>\n   load(io.lines(filename, \"L\"))\n  </code>\n  .\nTo fix that issue,\nyou can wrap the call into parentheses,\nto adjust its number of results to one.\n </li>\n</ul>\n<h2>\n 8.3 \u2013\n <a name=\"8.3\">\n  Incompatibilities in the API\n </a>\n</h2>\n<ul>\n <li>\n  Full userdata now has an arbitrary number of associated user values.\nTherefore, the functions\n  <code>\n   lua_newuserdata\n  </code>\n  ,\n  <code>\n   lua_setuservalue\n  </code>\n  , and\n  <code>\n   lua_getuservalue\n  </code>\n  were\nreplaced by\n  <a href=\"#lua_newuserdatauv\">\n   <code>\n    lua_newuserdatauv\n   </code>\n  </a>\n  ,\n  <a href=\"#lua_setiuservalue\">\n   <code>\n    lua_setiuservalue\n   </code>\n  </a>\n  , and\n  <a href=\"#lua_getiuservalue\">\n   <code>\n    lua_getiuservalue\n   </code>\n  </a>\n  ,\nwhich have an extra argument.\n  <p>\n   For compatibility, the old names still work as macros assuming\none single user value.\nNote, however, that userdata with zero user values\nare more efficient memory-wise.\n  </p>\n </li>\n <li>\n  The function\n  <a href=\"#lua_resume\">\n   <code>\n    lua_resume\n   </code>\n  </a>\n  has an extra parameter.\nThis out parameter returns the number of values on\nthe top of the stack that were yielded or returned by the coroutine.\n(In previous versions,\nthose values were the entire stack.)\n </li>\n <li>\n  The function\n  <a href=\"#lua_version\">\n   <code>\n    lua_version\n   </code>\n  </a>\n  returns the version number,\ninstead of an address of the version number.\nThe Lua core should work correctly with libraries using their\nown static copies of the same core,\nso there is no need to check whether they are using the same\naddress space.\n </li>\n <li>\n  The constant\n  <code>\n   LUA_ERRGCMM\n  </code>\n  was removed.\nErrors in finalizers are never propagated;\ninstead, they generate a warning.\n </li>\n <li>\n  The options\n  <code>\n   LUA_GCSETPAUSE\n  </code>\n  and\n  <code>\n   LUA_GCSETSTEPMUL\n  </code>\n  of the function\n  <a href=\"#lua_gc\">\n   <code>\n    lua_gc\n   </code>\n  </a>\n  are deprecated.\nYou should use the new option\n  <code>\n   LUA_GCINC\n  </code>\n  to set them.\n </li>\n</ul>\n<h1>\n 9 \u2013\n <a name=\"9\">\n  The Complete Syntax of Lua\n </a>\n</h1>\n<p>\n Here is the complete syntax of Lua in extended BNF.\nAs usual in extended BNF,\n{A} means 0 or more As,\nand [A] means an optional A.\n(For operator precedences, see\n <a href=\"#3.4.8\">\n  \u00a73.4.8\n </a>\n ;\nfor a description of the terminals\nName, Numeral,\nand LiteralString, see\n <a href=\"#3.1\">\n  \u00a73.1\n </a>\n .)\n</p>\n<pre>\n\tchunk ::= block\n\n\tblock ::= {stat} [retstat]\n\n\tstat ::=  \u2018<b>;</b>\u2019 | \n\t\t varlist \u2018<b>=</b>\u2019 explist | \n\t\t functioncall | \n\t\t label | \n\t\t <b>break</b> | \n\t\t <b>goto</b> Name | \n\t\t <b>do</b> block <b>end</b> | \n\t\t <b>while</b> exp <b>do</b> block <b>end</b> | \n\t\t <b>repeat</b> block <b>until</b> exp | \n\t\t <b>if</b> exp <b>then</b> block {<b>elseif</b> exp <b>then</b> block} [<b>else</b> block] <b>end</b> | \n\t\t <b>for</b> Name \u2018<b>=</b>\u2019 exp \u2018<b>,</b>\u2019 exp [\u2018<b>,</b>\u2019 exp] <b>do</b> block <b>end</b> | \n\t\t <b>for</b> namelist <b>in</b> explist <b>do</b> block <b>end</b> | \n\t\t <b>function</b> funcname funcbody | \n\t\t <b>local</b> <b>function</b> Name funcbody | \n\t\t <b>local</b> attnamelist [\u2018<b>=</b>\u2019 explist] \n\n\tattnamelist ::=  Name attrib {\u2018<b>,</b>\u2019 Name attrib}\n\n\tattrib ::= [\u2018<b>&lt;</b>\u2019 Name \u2018<b>&gt;</b>\u2019]\n\n\tretstat ::= <b>return</b> [explist] [\u2018<b>;</b>\u2019]\n\n\tlabel ::= \u2018<b>::</b>\u2019 Name \u2018<b>::</b>\u2019\n\n\tfuncname ::= Name {\u2018<b>.</b>\u2019 Name} [\u2018<b>:</b>\u2019 Name]\n\n\tvarlist ::= var {\u2018<b>,</b>\u2019 var}\n\n\tvar ::=  Name | prefixexp \u2018<b>[</b>\u2019 exp \u2018<b>]</b>\u2019 | prefixexp \u2018<b>.</b>\u2019 Name \n\n\tnamelist ::= Name {\u2018<b>,</b>\u2019 Name}\n\n\texplist ::= exp {\u2018<b>,</b>\u2019 exp}\n\n\texp ::=  <b>nil</b> | <b>false</b> | <b>true</b> | Numeral | LiteralString | \u2018<b>...</b>\u2019 | functiondef | \n\t\t prefixexp | tableconstructor | exp binop exp | unop exp \n\n\tprefixexp ::= var | functioncall | \u2018<b>(</b>\u2019 exp \u2018<b>)</b>\u2019\n\n\tfunctioncall ::=  prefixexp args | prefixexp \u2018<b>:</b>\u2019 Name args \n\n\targs ::=  \u2018<b>(</b>\u2019 [explist] \u2018<b>)</b>\u2019 | tableconstructor | LiteralString \n\n\tfunctiondef ::= <b>function</b> funcbody\n\n\tfuncbody ::= \u2018<b>(</b>\u2019 [parlist] \u2018<b>)</b>\u2019 block <b>end</b>\n\n\tparlist ::= namelist [\u2018<b>,</b>\u2019 \u2018<b>...</b>\u2019] | \u2018<b>...</b>\u2019\n\n\ttableconstructor ::= \u2018<b>{</b>\u2019 [fieldlist] \u2018<b>}</b>\u2019\n\n\tfieldlist ::= field {fieldsep field} [fieldsep]\n\n\tfield ::= \u2018<b>[</b>\u2019 exp \u2018<b>]</b>\u2019 \u2018<b>=</b>\u2019 exp | Name \u2018<b>=</b>\u2019 exp | exp\n\n\tfieldsep ::= \u2018<b>,</b>\u2019 | \u2018<b>;</b>\u2019\n\n\tbinop ::=  \u2018<b>+</b>\u2019 | \u2018<b>-</b>\u2019 | \u2018<b>*</b>\u2019 | \u2018<b>/</b>\u2019 | \u2018<b>//</b>\u2019 | \u2018<b>^</b>\u2019 | \u2018<b>%</b>\u2019 | \n\t\t \u2018<b>&amp;</b>\u2019 | \u2018<b>~</b>\u2019 | \u2018<b>|</b>\u2019 | \u2018<b>&gt;&gt;</b>\u2019 | \u2018<b>&lt;&lt;</b>\u2019 | \u2018<b>..</b>\u2019 | \n\t\t \u2018<b>&lt;</b>\u2019 | \u2018<b>&lt;=</b>\u2019 | \u2018<b>&gt;</b>\u2019 | \u2018<b>&gt;=</b>\u2019 | \u2018<b>==</b>\u2019 | \u2018<b>~=</b>\u2019 | \n\t\t <b>and</b> | <b>or</b>\n\n\tunop ::= \u2018<b>-</b>\u2019 | <b>not</b> | \u2018<b>#</b>\u2019 | \u2018<b>~</b>\u2019\n\n</pre>\n<p>\n</p>\n<p class=\"footer\">\n Last update:\nThu Jan 13 11:33:16 UTC 2022\n</p>\n"
-  }
+    group: "function",
+    type: [],
+    name: "debug.upvaluejoin (f1, n1, f2, n2)",
+    body: '<p>\n Make the\n <code>\n  n1\n </code>\n -th upvalue of the Lua closure\n <code>\n  f1\n </code>\n refer to the\n <code>\n  n2\n </code>\n -th upvalue of the Lua closure\n <code>\n  f2\n </code>\n .\n</p>\n<h1>\n 7 \u2013\n <a name="7">\n  Lua Standalone\n </a>\n</h1>\n<p>\n Although Lua has been designed as an extension language,\nto be embedded in a host C\u00a0program,\nit is also frequently used as a standalone language.\nAn interpreter for Lua as a standalone language,\ncalled simply\n <code>\n  lua\n </code>\n ,\nis provided with the standard distribution.\nThe standalone interpreter includes\nall standard libraries.\nIts usage is:\n</p>\n<pre>     lua [options] [script [args]]\n</pre>\n<p>\n The options are:\n</p>\n<ul>\n <li>\n  <b>\n   <code>\n    -e\n    <em>\n     stat\n    </em>\n   </code>\n   :\n  </b>\n  execute string\n  <em>\n   stat\n  </em>\n  ;\n </li>\n <li>\n  <b>\n   <code>\n    -i\n   </code>\n   :\n  </b>\n  enter interactive mode after running\n  <em>\n   script\n  </em>\n  ;\n </li>\n <li>\n  <b>\n   <code>\n    -l\n    <em>\n     mod\n    </em>\n   </code>\n   :\n  </b>\n  "require"\n  <em>\n   mod\n  </em>\n  and assign the\n  result to global\n  <em>\n   mod\n  </em>\n  ;\n </li>\n <li>\n  <b>\n   <code>\n    -v\n   </code>\n   :\n  </b>\n  print version information;\n </li>\n <li>\n  <b>\n   <code>\n    -E\n   </code>\n   :\n  </b>\n  ignore environment variables;\n </li>\n <li>\n  <b>\n   <code>\n    -W\n   </code>\n   :\n  </b>\n  turn warnings on;\n </li>\n <li>\n  <b>\n   <code>\n    --\n   </code>\n   :\n  </b>\n  stop handling options;\n </li>\n <li>\n  <b>\n   <code>\n    -\n   </code>\n   :\n  </b>\n  execute\n  <code>\n   stdin\n  </code>\n  as a file and stop handling options.\n </li>\n</ul>\n<p>\n After handling its options,\n <code>\n  lua\n </code>\n runs the given\n <em>\n  script\n </em>\n .\nWhen called without arguments,\n <code>\n  lua\n </code>\n behaves as\n <code>\n  lua -v -i\n </code>\n when the standard input (\n <code>\n  stdin\n </code>\n ) is a terminal,\nand as\n <code>\n  lua -\n </code>\n otherwise.\n</p>\n<p>\n When called without the option\n <code>\n  -E\n </code>\n ,\nthe interpreter checks for an environment variable\n <a name="pdf-LUA_INIT_5_4">\n  <code>\n   LUA_INIT_5_4\n  </code>\n </a>\n (or\n <a name="pdf-LUA_INIT">\n  <code>\n   LUA_INIT\n  </code>\n </a>\n if the versioned name is not defined)\nbefore running any argument.\nIf the variable content has the format\n <code>\n  @\n  <em>\n   filename\n  </em>\n </code>\n ,\nthen\n <code>\n  lua\n </code>\n executes the file.\nOtherwise,\n <code>\n  lua\n </code>\n executes the string itself.\n</p>\n<p>\n When called with the option\n <code>\n  -E\n </code>\n ,\nLua does not consult any environment variables.\nIn particular,\nthe values of\n <a href="#pdf-package.path">\n  <code>\n   package.path\n  </code>\n </a>\n and\n <a href="#pdf-package.cpath">\n  <code>\n   package.cpath\n  </code>\n </a>\n are set with the default paths defined in\n <code>\n  luaconf.h\n </code>\n .\n</p>\n<p>\n The options\n <code>\n  -e\n </code>\n ,\n <code>\n  -l\n </code>\n , and\n <code>\n  -W\n </code>\n are handled in\nthe order they appear.\nFor instance, an invocation like\n</p>\n<pre>     $ lua -e \'a=1\' -llib1 script.lua\n</pre>\n<p>\n will first set\n <code>\n  a\n </code>\n to 1, then require the library\n <code>\n  lib1\n </code>\n ,\nand finally run the file\n <code>\n  script.lua\n </code>\n with no arguments.\n(Here\n <code>\n  $\n </code>\n is the shell prompt. Your prompt may be different.)\n</p>\n<p>\n Before running any code,\n <code>\n  lua\n </code>\n collects all command-line arguments\nin a global table called\n <code>\n  arg\n </code>\n .\nThe script name goes to index 0,\nthe first argument after the script name goes to index 1,\nand so on.\nAny arguments before the script name\n(that is, the interpreter name plus its options)\ngo to negative indices.\nFor instance, in the call\n</p>\n<pre>     $ lua -la b.lua t1 t2\n</pre>\n<p>\n the table is like this:\n</p>\n<pre>     arg = { [-2] = "lua", [-1] = "-la",\n             [0] = "b.lua",\n             [1] = "t1", [2] = "t2" }\n</pre>\n<p>\n If there is no script in the call,\nthe interpreter name goes to index 0,\nfollowed by the other arguments.\nFor instance, the call\n</p>\n<pre>     $ lua -e "print(arg[1])"\n</pre>\n<p>\n will print "\n <code>\n  -e\n </code>\n ".\nIf there is a script,\nthe script is called with arguments\n <code>\n  arg[1]\n </code>\n , \u00b7\u00b7\u00b7,\n <code>\n  arg[#arg]\n </code>\n .\nLike all chunks in Lua,\nthe script is compiled as a vararg function.\n</p>\n<p>\n In interactive mode,\nLua repeatedly prompts and waits for a line.\nAfter reading a line,\nLua first try to interpret the line as an expression.\nIf it succeeds, it prints its value.\nOtherwise, it interprets the line as a statement.\nIf you write an incomplete statement,\nthe interpreter waits for its completion\nby issuing a different prompt.\n</p>\n<p>\n If the global variable\n <a name="pdf-_PROMPT">\n  <code>\n   _PROMPT\n  </code>\n </a>\n contains a string,\nthen its value is used as the prompt.\nSimilarly, if the global variable\n <a name="pdf-_PROMPT2">\n  <code>\n   _PROMPT2\n  </code>\n </a>\n contains a string,\nits value is used as the secondary prompt\n(issued during incomplete statements).\n</p>\n<p>\n In case of unprotected errors in the script,\nthe interpreter reports the error to the standard error stream.\nIf the error object is not a string but\nhas a metamethod\n <code>\n  __tostring\n </code>\n ,\nthe interpreter calls this metamethod to produce the final message.\nOtherwise, the interpreter converts the error object to a string\nand adds a stack traceback to it.\nWhen warnings are on,\nthey are simply printed in the standard error output.\n</p>\n<p>\n When finishing normally,\nthe interpreter closes its main Lua state\n(see\n <a href="#lua_close">\n  <code>\n   lua_close\n  </code>\n </a>\n ).\nThe script can avoid this step by\ncalling\n <a href="#pdf-os.exit">\n  <code>\n   os.exit\n  </code>\n </a>\n to terminate.\n</p>\n<p>\n To allow the use of Lua as a\nscript interpreter in Unix systems,\nLua skips the first line of a file chunk if it starts with\n <code>\n  #\n </code>\n .\nTherefore, Lua scripts can be made into executable programs\nby using\n <code>\n  chmod +x\n </code>\n and the\n <code>\n  #!\n </code>\n form,\nas in\n</p>\n<pre>     #!/usr/local/bin/lua\n</pre>\n<p>\n Of course,\nthe location of the Lua interpreter may be different in your machine.\nIf\n <code>\n  lua\n </code>\n is in your\n <code>\n  PATH\n </code>\n ,\nthen\n</p>\n<pre>     #!/usr/bin/env lua\n</pre>\n<p>\n is a more portable solution.\n</p>\n<h1>\n 8 \u2013\n <a name="8">\n  Incompatibilities with the Previous Version\n </a>\n</h1>\n<p>\n Here we list the incompatibilities that you may find when moving a program\nfrom Lua\u00a05.3 to Lua\u00a05.4.\n</p>\n<p>\n You can avoid some incompatibilities by compiling Lua with\nappropriate options (see file\n <code>\n  luaconf.h\n </code>\n ).\nHowever,\nall these compatibility options will be removed in the future.\nMore often than not,\ncompatibility issues arise when these compatibility options\nare removed.\nSo, whenever you have the chance,\nyou should try to test your code with a version of Lua compiled\nwith all compatibility options turned off.\nThat will ease transitions to newer versions of Lua.\n</p>\n<p>\n Lua versions can always change the C API in ways that\ndo not imply source-code changes in a program,\nsuch as the numeric values for constants\nor the implementation of functions as macros.\nTherefore,\nyou should never assume that binaries are compatible between\ndifferent Lua versions.\nAlways recompile clients of the Lua API when\nusing a new version.\n</p>\n<p>\n Similarly, Lua versions can always change the internal representation\nof precompiled chunks;\nprecompiled chunks are not compatible between different Lua versions.\n</p>\n<p>\n The standard paths in the official distribution may\nchange between versions.\n</p>\n<h2>\n 8.1 \u2013\n <a name="8.1">\n  Incompatibilities in the Language\n </a>\n</h2>\n<ul>\n <li>\n  The coercion of strings to numbers in\narithmetic and bitwise operations\nhas been removed from the core language.\nThe string library does a similar job\nfor arithmetic (but not for bitwise) operations\nusing the string metamethods.\nHowever, unlike in previous versions,\nthe new implementation preserves the implicit type of the numeral\nin the string.\nFor instance, the result of\n  <code>\n   "1" + "2"\n  </code>\n  now is an integer,\nnot a float.\n </li>\n <li>\n  Literal decimal integer constants that overflow are read as floats,\ninstead of wrapping around.\nYou can use hexadecimal notation for such constants if you\nwant the old behavior\n(reading them as integers with wrap around).\n </li>\n <li>\n  The use of the\n  <code>\n   __lt\n  </code>\n  metamethod to emulate\n  <code>\n   __le\n  </code>\n  has been removed.\nWhen needed, this metamethod must be explicitly defined.\n </li>\n <li>\n  The semantics of the numerical\n  <b>\n   for\n  </b>\n  loop\nover integers changed in some details.\nIn particular, the control variable never wraps around.\n </li>\n <li>\n  A label for a\n  <b>\n   goto\n  </b>\n  cannot be declared where a label with the same\nname is visible, even if this other label is declared in an enclosing\nblock.\n </li>\n <li>\n  When finalizing an object,\nLua does not ignore\n  <code>\n   __gc\n  </code>\n  metamethods that are not functions.\nAny value will be called, if present.\n(Non-callable values will generate a warning,\nlike any other error when calling a finalizer.)\n </li>\n</ul>\n<h2>\n 8.2 \u2013\n <a name="8.2">\n  Incompatibilities in the Libraries\n </a>\n</h2>\n<ul>\n <li>\n  The function\n  <a href="#pdf-print">\n   <code>\n    print\n   </code>\n  </a>\n  does not call\n  <a href="#pdf-tostring">\n   <code>\n    tostring\n   </code>\n  </a>\n  to format its arguments;\ninstead, it has this functionality hardwired.\nYou should use\n  <code>\n   __tostring\n  </code>\n  to modify how values are printed.\n </li>\n <li>\n  The pseudo-random number generator used by the function\n  <a href="#pdf-math.random">\n   <code>\n    math.random\n   </code>\n  </a>\n  now starts with a somewhat random seed.\nMoreover, it uses a different algorithm.\n </li>\n <li>\n  By default, the decoding functions in the\n  <a href="#pdf-utf8">\n   <code>\n    utf8\n   </code>\n  </a>\n  library\ndo not accept surrogates as valid code points.\nAn extra parameter in these functions makes them more permissive.\n </li>\n <li>\n  The options "\n  <code>\n   setpause\n  </code>\n  " and "\n  <code>\n   setstepmul\n  </code>\n  "\nof the function\n  <a href="#pdf-collectgarbage">\n   <code>\n    collectgarbage\n   </code>\n  </a>\n  are deprecated.\nYou should use the new option "\n  <code>\n   incremental\n  </code>\n  " to set them.\n </li>\n <li>\n  The function\n  <a href="#pdf-io.lines">\n   <code>\n    io.lines\n   </code>\n  </a>\n  now returns four values,\ninstead of just one.\nThat can be a problem when it is used as the sole\nargument to another function that has optional parameters,\nsuch as in\n  <code>\n   load(io.lines(filename, "L"))\n  </code>\n  .\nTo fix that issue,\nyou can wrap the call into parentheses,\nto adjust its number of results to one.\n </li>\n</ul>\n<h2>\n 8.3 \u2013\n <a name="8.3">\n  Incompatibilities in the API\n </a>\n</h2>\n<ul>\n <li>\n  Full userdata now has an arbitrary number of associated user values.\nTherefore, the functions\n  <code>\n   lua_newuserdata\n  </code>\n  ,\n  <code>\n   lua_setuservalue\n  </code>\n  , and\n  <code>\n   lua_getuservalue\n  </code>\n  were\nreplaced by\n  <a href="#lua_newuserdatauv">\n   <code>\n    lua_newuserdatauv\n   </code>\n  </a>\n  ,\n  <a href="#lua_setiuservalue">\n   <code>\n    lua_setiuservalue\n   </code>\n  </a>\n  , and\n  <a href="#lua_getiuservalue">\n   <code>\n    lua_getiuservalue\n   </code>\n  </a>\n  ,\nwhich have an extra argument.\n  <p>\n   For compatibility, the old names still work as macros assuming\none single user value.\nNote, however, that userdata with zero user values\nare more efficient memory-wise.\n  </p>\n </li>\n <li>\n  The function\n  <a href="#lua_resume">\n   <code>\n    lua_resume\n   </code>\n  </a>\n  has an extra parameter.\nThis out parameter returns the number of values on\nthe top of the stack that were yielded or returned by the coroutine.\n(In previous versions,\nthose values were the entire stack.)\n </li>\n <li>\n  The function\n  <a href="#lua_version">\n   <code>\n    lua_version\n   </code>\n  </a>\n  returns the version number,\ninstead of an address of the version number.\nThe Lua core should work correctly with libraries using their\nown static copies of the same core,\nso there is no need to check whether they are using the same\naddress space.\n </li>\n <li>\n  The constant\n  <code>\n   LUA_ERRGCMM\n  </code>\n  was removed.\nErrors in finalizers are never propagated;\ninstead, they generate a warning.\n </li>\n <li>\n  The options\n  <code>\n   LUA_GCSETPAUSE\n  </code>\n  and\n  <code>\n   LUA_GCSETSTEPMUL\n  </code>\n  of the function\n  <a href="#lua_gc">\n   <code>\n    lua_gc\n   </code>\n  </a>\n  are deprecated.\nYou should use the new option\n  <code>\n   LUA_GCINC\n  </code>\n  to set them.\n </li>\n</ul>\n<h1>\n 9 \u2013\n <a name="9">\n  The Complete Syntax of Lua\n </a>\n</h1>\n<p>\n Here is the complete syntax of Lua in extended BNF.\nAs usual in extended BNF,\n{A} means 0 or more As,\nand [A] means an optional A.\n(For operator precedences, see\n <a href="#3.4.8">\n  \u00a73.4.8\n </a>\n ;\nfor a description of the terminals\nName, Numeral,\nand LiteralString, see\n <a href="#3.1">\n  \u00a73.1\n </a>\n .)\n</p>\n<pre>\n\tchunk ::= block\n\n\tblock ::= {stat} [retstat]\n\n\tstat ::=  \u2018<b>;</b>\u2019 | \n\t\t varlist \u2018<b>=</b>\u2019 explist | \n\t\t functioncall | \n\t\t label | \n\t\t <b>break</b> | \n\t\t <b>goto</b> Name | \n\t\t <b>do</b> block <b>end</b> | \n\t\t <b>while</b> exp <b>do</b> block <b>end</b> | \n\t\t <b>repeat</b> block <b>until</b> exp | \n\t\t <b>if</b> exp <b>then</b> block {<b>elseif</b> exp <b>then</b> block} [<b>else</b> block] <b>end</b> | \n\t\t <b>for</b> Name \u2018<b>=</b>\u2019 exp \u2018<b>,</b>\u2019 exp [\u2018<b>,</b>\u2019 exp] <b>do</b> block <b>end</b> | \n\t\t <b>for</b> namelist <b>in</b> explist <b>do</b> block <b>end</b> | \n\t\t <b>function</b> funcname funcbody | \n\t\t <b>local</b> <b>function</b> Name funcbody | \n\t\t <b>local</b> attnamelist [\u2018<b>=</b>\u2019 explist] \n\n\tattnamelist ::=  Name attrib {\u2018<b>,</b>\u2019 Name attrib}\n\n\tattrib ::= [\u2018<b>&lt;</b>\u2019 Name \u2018<b>&gt;</b>\u2019]\n\n\tretstat ::= <b>return</b> [explist] [\u2018<b>;</b>\u2019]\n\n\tlabel ::= \u2018<b>::</b>\u2019 Name \u2018<b>::</b>\u2019\n\n\tfuncname ::= Name {\u2018<b>.</b>\u2019 Name} [\u2018<b>:</b>\u2019 Name]\n\n\tvarlist ::= var {\u2018<b>,</b>\u2019 var}\n\n\tvar ::=  Name | prefixexp \u2018<b>[</b>\u2019 exp \u2018<b>]</b>\u2019 | prefixexp \u2018<b>.</b>\u2019 Name \n\n\tnamelist ::= Name {\u2018<b>,</b>\u2019 Name}\n\n\texplist ::= exp {\u2018<b>,</b>\u2019 exp}\n\n\texp ::=  <b>nil</b> | <b>false</b> | <b>true</b> | Numeral | LiteralString | \u2018<b>...</b>\u2019 | functiondef | \n\t\t prefixexp | tableconstructor | exp binop exp | unop exp \n\n\tprefixexp ::= var | functioncall | \u2018<b>(</b>\u2019 exp \u2018<b>)</b>\u2019\n\n\tfunctioncall ::=  prefixexp args | prefixexp \u2018<b>:</b>\u2019 Name args \n\n\targs ::=  \u2018<b>(</b>\u2019 [explist] \u2018<b>)</b>\u2019 | tableconstructor | LiteralString \n\n\tfunctiondef ::= <b>function</b> funcbody\n\n\tfuncbody ::= \u2018<b>(</b>\u2019 [parlist] \u2018<b>)</b>\u2019 block <b>end</b>\n\n\tparlist ::= namelist [\u2018<b>,</b>\u2019 \u2018<b>...</b>\u2019] | \u2018<b>...</b>\u2019\n\n\ttableconstructor ::= \u2018<b>{</b>\u2019 [fieldlist] \u2018<b>}</b>\u2019\n\n\tfieldlist ::= field {fieldsep field} [fieldsep]\n\n\tfield ::= \u2018<b>[</b>\u2019 exp \u2018<b>]</b>\u2019 \u2018<b>=</b>\u2019 exp | Name \u2018<b>=</b>\u2019 exp | exp\n\n\tfieldsep ::= \u2018<b>,</b>\u2019 | \u2018<b>;</b>\u2019\n\n\tbinop ::=  \u2018<b>+</b>\u2019 | \u2018<b>-</b>\u2019 | \u2018<b>*</b>\u2019 | \u2018<b>/</b>\u2019 | \u2018<b>//</b>\u2019 | \u2018<b>^</b>\u2019 | \u2018<b>%</b>\u2019 | \n\t\t \u2018<b>&amp;</b>\u2019 | \u2018<b>~</b>\u2019 | \u2018<b>|</b>\u2019 | \u2018<b>&gt;&gt;</b>\u2019 | \u2018<b>&lt;&lt;</b>\u2019 | \u2018<b>..</b>\u2019 | \n\t\t \u2018<b>&lt;</b>\u2019 | \u2018<b>&lt;=</b>\u2019 | \u2018<b>&gt;</b>\u2019 | \u2018<b>&gt;=</b>\u2019 | \u2018<b>==</b>\u2019 | \u2018<b>~=</b>\u2019 | \n\t\t <b>and</b> | <b>or</b>\n\n\tunop ::= \u2018<b>-</b>\u2019 | <b>not</b> | \u2018<b>#</b>\u2019 | \u2018<b>~</b>\u2019\n\n</pre>\n<p>\n</p>\n<p class="footer">\n Last update:\nThu Jan 13 11:33:16 UTC 2022\n</p>\n',
+  },
 ];
 
 /**
@@ -6164,7 +6164,10 @@ function findDocs(selection, language) {
             item: {
               group: "",
               name: "Boiler Plate For Flask:",
-              body: `<h1>Welcome to Docfinder</h1></br><p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+              body: `<h1>Welcome to Docfinder</h1></br>
+          <p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+          <br><p>Meanwhile, here's a sample for flask:</p>
+          <br>
 
 <pre>
 from flask import Flask
@@ -6187,14 +6190,17 @@ def hello_world():
             item: {
               group: "",
               name: "Boiler Plate For Vue:",
-              body: `<h1>Welcome to Docfinder</h1></br><p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+              body: `<h1>Welcome to Docfinder</h1></br>
+          <p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+          <br><p>Meanwhile, here's a sample for vue:</p>
+          <br>
   
 <pre>
-<template>
-  <p class="greeting">{{ greeting }}</p>
-</template>
+&lt;template>
+  &lt;p class="greeting">{{ greeting }}&lt;/p>
+&lt;/template>
 
-<script>
+&lt;script>
   export default {
   data() {
     return {
@@ -6202,14 +6208,14 @@ def hello_world():
     }
   }
   }
-</script>
+&lt;/script>
 
-<style>
+&lt;style>
   .greeting {
     color: red;
     font-weight: bold;
   }
-</style>
+&lt;/style>
 </pre>
               `,
             },

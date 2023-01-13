@@ -5,8 +5,33 @@ currentLang = currentLang == "python" ? "flask" : currentLang;
 let boilerplate = "";
 
 switch (currentLang) {
-  case "javascript":
-    boilerplate = "Boilerplate for JS.";
+  case "vue":
+    boilerplate = `
+<pre>
+<code>
+&lt;template>
+  &lt;p class="greeting">{{ greeting }}&lt;/p>
+&lt;/template>
+
+&lt;script>
+  export default {
+  data() {
+    return {
+      greeting: 'Hello World!'
+    }
+  }
+  }
+&lt;/script>
+
+&lt;style>
+  .greeting {
+    color: red;
+    font-weight: bold;
+  }
+&lt;/style>
+</code>
+</pre>
+    `;
     break;
   case "flask":
     boilerplate = `
