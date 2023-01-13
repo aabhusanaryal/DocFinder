@@ -6190,11 +6190,11 @@ def hello_world():
               body: `<h1>Welcome to Docfinder</h1></br><p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
   
 <pre>
-<template>
-  <p class="greeting">{{ greeting }}</p>
-</template>
+$lt;template&gt;
+  $lt;p class="greeting"&gt;{{ greeting }}$lt;/p&gt;
+$lt;/template&gt;
 
-<script>
+$lt;script&gt;
   export default {
   data() {
     return {
@@ -6202,14 +6202,14 @@ def hello_world():
     }
   }
   }
-</script>
+$lt;/script&gt;
 
-<style>
+$lt;style&gt;
   .greeting {
     color: red;
     font-weight: bold;
   }
-</style>
+$lt;/style&gt;
 </pre>
               `,
             },
