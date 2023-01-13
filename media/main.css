@@ -47,3 +47,8 @@ dd {
   margin-left: 5px;
   /* padding: ; */
 }
+
+button.copy,
+span.lang {
+  display: none;
+}

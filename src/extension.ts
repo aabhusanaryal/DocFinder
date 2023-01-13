@@ -1,23 +1,39 @@
 import * as vscode from "vscode";
 
-const currentLang = vscode.window.activeTextEditor?.document.languageId;
+let currentLang = vscode.window.activeTextEditor?.document.languageId;
+currentLang = currentLang == "python" ? "flask" : currentLang;
 let boilerplate = "";
 
 switch (currentLang) {
   case "javascript":
     boilerplate = "Boilerplate for JS.";
     break;
-  case "python":
-    boilerplate = "Boilerplate for Python.";
+  case "flask":
+    boilerplate = `<pre><code>def main():
+    """ Main entry point of the app """
+    print("hello world")
+
+
+if __name__ == "__main__":
+    """ This is executed when run from the command line """
+    main()
+    </code>
+</pre><br>
+<button id="btn">Add Snippet</button>
+
+<script>
+import * as vscode from "vscode";
+
+let btn = document.querySelector('#btn').addEventListener('click', addSnippet)
+function addSnippet(){
+  vscode.window.activeTextEditor?.insertSnippet(
+            new vscode.SnippetString("Test")
+          );
+}
+</script>`;
     break;
   default:
     boilerplate = "No boilerplate found.";
-}
-
-if (currentLang == "javascript") {
-  boilerplate = "Boilerplate for Javascrpit";
-} else {
-  boilerplate = "No boilerplate found.";
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -34,10 +50,11 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("docfinder.findDocs", async () => {
       // Focusing on the DocFinder view
       await vscode.commands.executeCommand("docfinder.sidebarView.focus");
-      vscode.window.showInformationMessage("Done");
       provider.findDocs();
     })
   );
+
+  provider.initBoilerplate();
 }
 
 class ColorsViewProvider implements vscode.WebviewViewProvider {
@@ -76,17 +93,26 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  public addColor() {
-    if (this._view) {
-      this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
-      this._view.webview.postMessage({ type: "addColor" });
-    }
-  }
+  public initBoilerplate() {
+    setTimeout(() => {
+      if (this._view) {
+        console.log("Initing boilerplate inside extension.ts");
+        const { activeTextEditor } = vscode.window;
 
-  public clearColors() {
-    if (this._view) {
-      this._view.webview.postMessage({ type: "clearColors" });
-    }
+        if (!activeTextEditor) {
+          vscode.window.showInformationMessage("No text editor");
+          return;
+        }
+
+        const selection = "";
+        const language = activeTextEditor.document.languageId;
+        this._view.webview.postMessage({
+          type: "findDocs",
+          selection,
+          language,
+        });
+      }
+    }, 1000);
   }
 
   public findDocs() {
