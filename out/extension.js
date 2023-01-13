@@ -2,6 +2,24 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = void 0;
 const vscode = require("vscode");
+const currentLang = vscode.window.activeTextEditor?.document.languageId;
+let boilerplate = "";
+switch (currentLang) {
+    case "javascript":
+        boilerplate = "Boilerplate for JS.";
+        break;
+    case "python":
+        boilerplate = "Boilerplate for Python.";
+        break;
+    default:
+        boilerplate = "No boilerplate found.";
+}
+if (currentLang == "javascript") {
+    boilerplate = "Boilerplate for Javascrpit";
+}
+else {
+    boilerplate = "No boilerplate found.";
+}
 function activate(context) {
     const provider = new ColorsViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
@@ -90,12 +108,14 @@ class ColorsViewProvider {
 				<link rel="stylesheet"
       
 
-				<title>DocFinder</title>
+				// <title>DocFinder</title>
 			</head>
 			<body>
 				<div id = "app">
-          <h2>Welcome to Docfinder</h2></br>
-          <div>Please select some text to search on docs</div>
+          <h1>Welcome to Docfinder</h1></br>
+          <p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+          <br><p>Meanwhile, here's a sample for ${currentLang}:</p>
+          <br><div>${boilerplate}</div>
         </div>
 				
 				<script nonce="${nonce}" src="${scriptUri}" defer></script>
