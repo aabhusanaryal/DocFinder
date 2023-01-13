@@ -4968,9 +4968,9 @@ function search(keyword, language) {
     return fuse.search(toSearch);
   }
   else if (language == "vue") {
-    const fuse = new Fuse(vue, options);
+    const fuse2 = new Fuse(vue, options);
     let toSearch = keyword;
-    return fuse.search(toSearch);
+    return fuse2.search(toSearch);
   }
 }
 
@@ -4990,7 +4990,7 @@ app = document.querySelector("#app");
 
 function findDocs(selection, language) {
   console.log("IM RUNNING");
-  let searched = search(selection, "flask");
+  let searched = search(selection, "vue");
   console.log(searched);
   if (searched.length == 0) {
     console.log("NOOO");
