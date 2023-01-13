@@ -11,6 +11,11 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
+    vscode.commands.registerCommand("docfinder.findDocs", () => {
+      provider.findDocs();
+    })
+  );
+  context.subscriptions.push(
     vscode.commands.registerCommand("docfinder.addColor", () => {
       provider.addColor();
     })
@@ -71,6 +76,21 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
     }
   }
 
+  public findDocs() {
+    if (this._view) {
+      const { activeTextEditor } = vscode.window;
+
+      if (!activeTextEditor) {
+        vscode.window.showInformationMessage("No text editor");
+        return;
+      }
+      const selection = activeTextEditor.document.getText(
+        activeTextEditor.selection
+      );
+      this._view.webview.postMessage({ type: "findDocs", selection });
+    }
+  }
+
   private _getHtmlForWebview(webview: vscode.Webview) {
     // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 
@@ -118,7 +138,7 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 			<body>
 				<ul class="color-list">
 				</ul>
-
+				<div id = "app"></div>
 				<button class="add-color-button">Add Color</button>
 				
 				<script nonce="${nonce}" src="${scriptUri}" defer></script>

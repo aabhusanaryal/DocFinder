@@ -5,6 +5,9 @@ const vscode = require("vscode");
 function activate(context) {
     const provider = new ColorsViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
+    context.subscriptions.push(vscode.commands.registerCommand("docfinder.findDocs", () => {
+        provider.findDocs();
+    }));
     context.subscriptions.push(vscode.commands.registerCommand("docfinder.addColor", () => {
         provider.addColor();
     }));
@@ -45,6 +48,17 @@ class ColorsViewProvider {
             this._view.webview.postMessage({ type: "clearColors" });
         }
     }
+    findDocs() {
+        if (this._view) {
+            const { activeTextEditor } = vscode.window;
+            if (!activeTextEditor) {
+                vscode.window.showInformationMessage("No text editor");
+                return;
+            }
+            const selection = activeTextEditor.document.getText(activeTextEditor.selection);
+            this._view.webview.postMessage({ type: "findDocs", selection });
+        }
+    }
     _getHtmlForWebview(webview) {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
         const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "main.js"));
@@ -80,7 +94,7 @@ class ColorsViewProvider {
 			<body>
 				<ul class="color-list">
 				</ul>
-
+				<div id = "app"></div>
 				<button class="add-color-button">Add Color</button>
 				
 				<script nonce="${nonce}" src="${scriptUri}" defer></script>

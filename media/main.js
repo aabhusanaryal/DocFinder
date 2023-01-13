@@ -24,6 +24,9 @@ window.addEventListener("message", (event) => {
       updateColorList(colors);
       break;
     }
+    case "findDocs": {
+      findDocs(message.selection);
+    }
   }
 });
 
@@ -86,4 +89,8 @@ function getNewCalicoColor() {
 function addColor() {
   colors.push({ value: getNewCalicoColor() });
   updateColorList(colors);
+}
+
+function findDocs(selection) {
+  document.querySelector("#app").innerHTML = `The: ${selection}`;
 }
