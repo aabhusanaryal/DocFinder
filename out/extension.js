@@ -7,7 +7,7 @@ function activate(context) {
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
     context.subscriptions.push(vscode.commands.registerCommand("docfinder.findDocs", () => {
         // Focusing on the DocFinder view
-        vscode.commands.executeCommand("docfinder.colorsView.focus");
+        vscode.commands.executeCommand("docfinder.sidebarView.focus");
         provider.findDocs();
     }));
     context.subscriptions.push(vscode.commands.registerCommand("docfinder.addColor", () => {
@@ -105,7 +105,7 @@ class ColorsViewProvider {
 			</html>`;
     }
 }
-ColorsViewProvider.viewType = "docfinder.colorsView";
+ColorsViewProvider.viewType = "docfinder.sidebarView";
 function getNonce() {
     let text = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

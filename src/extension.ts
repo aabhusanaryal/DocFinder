@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("docfinder.findDocs", () => {
       // Focusing on the DocFinder view
-      vscode.commands.executeCommand("docfinder.colorsView.focus");
+      vscode.commands.executeCommand("docfinder.sidebarView.focus");
       provider.findDocs();
     })
   );
@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 class ColorsViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "docfinder.colorsView";
+  public static readonly viewType = "docfinder.sidebarView";
 
   private _view?: vscode.WebviewView;
 

@@ -35,7 +35,7 @@
       "docfinder-sidebar-view": [
         {
           "type": "webview",
-          "id": "docfinder.colorsView",
+          "id": "docfinder.sidebarView",
           "name": "DocFinder"
         }
       ]
@@ -64,7 +64,7 @@
         {
           "command": "docfinder.clearColors",
           "group": "navigation",
-          "when": "view == docfinder.colorsView"
+          "when": "view == docfinder.sidebarView"
         }
       ],
       "editor/context": [
