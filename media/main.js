@@ -10,10 +10,12 @@ window.addEventListener("message", (event) => {
   }
 });
 
+app = document.querySelector("#app");
+app.addEventListener("click", () => {
+  console.log("Event sent!");
+  vscode.postMessage({ type: "addSnippet", value: "Helloooo" });
+});
+
 function findDocs(selection) {
-  app = document.querySelector("#app");
   app.innerHTML = `The: ${selection}`;
-  app.addEventListener("click", () => {
-    vscode.postMessage({ type: "addSnippet", value: "Helloooo" });
-  });
 }

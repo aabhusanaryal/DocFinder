@@ -56,6 +56,7 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage((data) => {
       switch (data.type) {
         case "addSnippet": {
+          console.log("Event received!");
           vscode.window.activeTextEditor?.insertSnippet(
             new vscode.SnippetString(`${data.value}`)
           );
