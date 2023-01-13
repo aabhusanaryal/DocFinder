@@ -5,10 +5,10 @@ const vscode = require("vscode");
 function activate(context) {
     const provider = new ColorsViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
-    context.subscriptions.push(vscode.commands.registerCommand('calicoColors.addColor', () => {
+    context.subscriptions.push(vscode.commands.registerCommand("calicoColors.addColor", () => {
         provider.addColor();
     }));
-    context.subscriptions.push(vscode.commands.registerCommand('calicoColors.clearColors', () => {
+    context.subscriptions.push(vscode.commands.registerCommand("calicoColors.clearColors", () => {
         provider.clearColors();
     }));
 }
@@ -27,7 +27,7 @@ class ColorsViewProvider {
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
         webviewView.webview.onDidReceiveMessage((data) => {
             switch (data.type) {
-                case 'colorSelected': {
+                case "colorSelected": {
                     vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
                     break;
                 }
@@ -37,22 +37,21 @@ class ColorsViewProvider {
     addColor() {
         if (this._view) {
             this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
-            this._view.webview.postMessage({ type: 'addColor' });
+            this._view.webview.postMessage({ type: "addColor" });
         }
     }
     clearColors() {
         if (this._view) {
-            this._view.webview.postMessage({ type: 'clearColors' });
+            this._view.webview.postMessage({ type: "clearColors" });
         }
     }
     _getHtmlForWebview(webview) {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
-        let vueUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vue.js'));
-        const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
+        const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "main.js"));
         // Do the same for the stylesheet.
-        const styleResetUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css'));
-        const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
-        const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
+        const styleResetUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "reset.css"));
+        const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css"));
+        const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "main.css"));
         // Use a nonce to only allow a specific script to be run.
         const nonce = getNonce();
         return `<!DOCTYPE html>
@@ -83,18 +82,16 @@ class ColorsViewProvider {
 				</ul>
 
 				<button class="add-color-button">Add Color</button>
-				<div id="#app">{{hemlo}}</div>
 				
-				<script nonce="${nonce}" src="${vueUri}" defer></script>
 				<script nonce="${nonce}" src="${scriptUri}" defer></script>
 			</body>
 			</html>`;
     }
 }
-ColorsViewProvider.viewType = 'calicoColors.colorsView';
+ColorsViewProvider.viewType = "calicoColors.colorsView";
 function getNonce() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let text = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for (let i = 0; i < 32; i++) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
