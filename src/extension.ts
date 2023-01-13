@@ -95,7 +95,6 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage((data) => {
       switch (data.type) {
         case "addSnippet": {
-          console.log("Event received!");
           vscode.window.activeTextEditor?.insertSnippet(
             new vscode.SnippetString(`${data.value}`)
           );
@@ -108,7 +107,6 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
   public initBoilerplate() {
     setTimeout(() => {
       if (this._view) {
-        console.log("Initing boilerplate inside extension.ts");
         const { activeTextEditor } = vscode.window;
 
         if (!activeTextEditor) {

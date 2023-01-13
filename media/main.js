@@ -6236,7 +6236,7 @@ def hello_world():
       app.innerHTML += `
         <details ${idx == 0 ? "open" : ""}>
         <summary>
-          ${searchItm.item.name}
+          ${searchItm.item.name} [${searchItm.item.group}]
         </summary>
         <div>
           <p>
@@ -6258,13 +6258,20 @@ def hello_world():
     // Inserting a code element inside pre element
     let codeBlock = document.createElement("code");
     codeBlock.innerHTML = preBlock.innerHTML;
+
+    let extraDiv = document.createElement("div");
+    extraDiv.classList.add("pre-div");
+    extraDiv.appendChild(codeBlock);
+
     preBlock.innerHTML = "";
-    preBlock.appendChild(codeBlock);
+    preBlock.appendChild(extraDiv);
 
     const button = document.createElement("button");
+    button.classList.add("margin-top");
     let text = document.createTextNode("Add Snippet");
     button.appendChild(text);
-    preBlock.parentElement.appendChild(button);
+
+    preBlock.appendChild(button);
     button.addEventListener("click", () => {
       vscode.postMessage({ type: "addSnippet", value: codeBlock.textContent });
     });

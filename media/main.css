@@ -39,7 +39,7 @@ body {
   margin: 0 auto;
 }
 
-pre {
+.pre-div {
   overflow-x: scroll;
 }
 
@@ -51,4 +51,8 @@ dd {
 button.copy,
 span.lang {
   display: none;
+}
+
+.margin-top {
+  margin-top: 5px;
 }
