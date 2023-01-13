@@ -25,14 +25,14 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "codicon-sidebar-view",
+          "id": "docfinder-sidebar-view",
           "title": "DocFinder",
           "icon": "media/icon.svg"
         }
       ]
     },
     "views": {
-      "codicon-sidebar-view": [
+      "docfinder-sidebar-view": [
         {
           "type": "webview",
           "id": "docfinder.colorsView",
@@ -55,7 +55,8 @@
       {
         "command": "docfinder.findDocs",
         "category": "DocFinder",
-        "title": "Search For Docs"
+        "title": "Search For Docs",
+        "when": "editorHasSelection"
       }
     ],
     "menus": {
@@ -68,9 +69,9 @@
       ],
       "editor/context": [
         {
-            "command": "docfinder.toggle",
-            "group": "toggle",
-            "when": "editorTextFocus && config.bookmarks.showCommandsInContextMenu"
+          "command": "docfinder.findDocs",
+          "group": "1_modification",
+          "when": "editorTextFocus"
         }
       ]
     }

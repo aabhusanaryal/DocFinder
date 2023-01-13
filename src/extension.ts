@@ -12,6 +12,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("docfinder.findDocs", () => {
+      // Focusing on the DocFinder view
+      vscode.commands.executeCommand("docfinder.colorsView.focus");
       provider.findDocs();
     })
   );
@@ -55,7 +57,7 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
       switch (data.type) {
         case "addSnippet": {
           vscode.window.activeTextEditor?.insertSnippet(
-            new vscode.SnippetString(`#${data.value}`)
+            new vscode.SnippetString(`${data.value}`)
           );
           break;
         }

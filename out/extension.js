@@ -6,6 +6,8 @@ function activate(context) {
     const provider = new ColorsViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
     context.subscriptions.push(vscode.commands.registerCommand("docfinder.findDocs", () => {
+        // Focusing on the DocFinder view
+        vscode.commands.executeCommand("docfinder.colorsView.focus");
         provider.findDocs();
     }));
     context.subscriptions.push(vscode.commands.registerCommand("docfinder.addColor", () => {
@@ -31,7 +33,7 @@ class ColorsViewProvider {
         webviewView.webview.onDidReceiveMessage((data) => {
             switch (data.type) {
                 case "addSnippet": {
-                    vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
+                    vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`${data.value}`));
                     break;
                 }
             }
