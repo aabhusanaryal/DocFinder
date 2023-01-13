@@ -138,6 +138,8 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 			<body>
 				<ul class="color-list">
 				</ul>
+        <h2>Welcome to Docfinder</h2></br>
+        <div>Please select some text to search on docs</div>
 				<div id = "app"></div>
 				<button class="add-color-button">Add Color</button>
 				
