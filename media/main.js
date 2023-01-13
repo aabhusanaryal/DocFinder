@@ -9,14 +9,31 @@ window.addEventListener("message", (event) => {
     }
   }
 });
+testHTML = `
+<h1>Test HTML</h1>
+<pre>
+<code class="language-python">
+print('Hello World')
+</code>
+</pre>
 
+<pre>
+<code class="language-python">
+print('This is second code block!')
+</code>
+</pre>
+`;
 app = document.querySelector("#app");
-app.addEventListener("click", () => {
-  console.log("Event sent!");
-  vscode.postMessage({ type: "addSnippet", value: "Helloooo" });
-});
 
 function findDocs(selection, language) {
   console.log("IM RUNNING");
-  app.innerHTML = `Selection: ${selection} Lang: ${language}`;
+  app.innerHTML = `
+	<pre><code><span></span><span class=\"nd\">@app</span><span class=\"o\">.</span><span class=\"n\">route</span><span class=\"p\">(</span><span class=\"s2\">\"/\"</span><span class=\"p\">)</span>\n<span class=\"k\">def</span> <span class=\"nf\">index</span><span class=\"p\">():</span>\n    <span class=\"o\">...</span>\n</code></pre>
+  `;
+  //   app.innerHTML = testHTML;
+  document.querySelectorAll("code").forEach((codeBlock) => {
+    codeBlock.addEventListener("click", () => {
+      vscode.postMessage({ type: "addSnippet", value: codeBlock.textContent });
+    });
+  });
 }

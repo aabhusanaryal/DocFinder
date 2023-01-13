@@ -39,5 +39,6 @@ body {
   margin: 0 auto;
 }
 
-code {
+pre {
+  overflow-x: scroll;
 }
