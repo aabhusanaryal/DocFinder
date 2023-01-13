@@ -42,3 +42,8 @@ body {
 pre {
   overflow-x: scroll;
 }
+
+dd {
+  margin-left: 5px;
+  /* padding: ; */
+}

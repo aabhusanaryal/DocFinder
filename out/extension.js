@@ -93,11 +93,10 @@ class ColorsViewProvider {
 				<title>DocFinder</title>
 			</head>
 			<body>
-				<ul class="color-list">
-				</ul>
-        <h2>Welcome to Docfinder</h2></br>
-        <div>Please select some text to search on docs</div>
-				<div id = "app"></div>
+				<div id = "app">
+          <h2>Welcome to Docfinder</h2></br>
+          <div>Please select some text to search on docs</div>
+        </div>
 				
 				<script nonce="${nonce}" src="${scriptUri}" defer></script>
 			</body>

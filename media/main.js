@@ -2991,8 +2991,6 @@ function search(keyword, language) {
   }
 }
 
-// import { search } from "./search";
-
 const vscode = acquireVsCodeApi();
 
 // Handle messages sent from the extension to the webview
@@ -3004,49 +3002,52 @@ window.addEventListener("message", (event) => {
     }
   }
 });
-testHTML = `
-<h1>Test HTML</h1>
-<pre>
-<code class="language-python">
-print('Hello World')
-</code>
-</pre>
 
-<pre>
-<code class="language-python">
-print('This is second code block!')
-</code>
-</pre>
-`;
 app = document.querySelector("#app");
 
 function findDocs(selection, language) {
   console.log("IM RUNNING");
   let searched = search(selection, "flask");
   console.log(searched);
-  app.innerHTML = "";
-  searched.forEach((searchItm, idx) => {
-    app.innerHTML += `
-      <details ${idx == 0 ? "open" : ""}>
-      <summary>
-        ${searchItm.item.name}
-      </summary>
-      <div>
-        <p>
-        ${searchItm.item.body}
-        </p>
-      </div>
-      </details>
-    `;
-  });
+  if (searched.length == 0) {
+    console.log("NOOO");
+    app.innerHTML = `No results found. Please select a valid keyword and try again.`;
+  } else {
+    app.innerHTML = "";
+    searched.forEach((searchItm, idx) => {
+      app.innerHTML += `
+        <details ${idx == 0 ? "open" : ""}>
+        <summary>
+          ${searchItm.item.name}
+        </summary>
+        <div>
+          <p>
+          ${searchItm.item.body}
+          </p>
+        </div>
+        </details>
+        </br>
+      `;
+    });
+  }
 
   // searched.forEach((searchItm) => {
   //   app.innerHTML += searchItm.item.body;
   //   app.innerHTML += "</br>";
   // });
   //   app.innerHTML = testHTML;
-  document.querySelectorAll("code").forEach((codeBlock) => {
-    codeBlock.addEventListener("click", () => {
+  document.querySelectorAll("pre").forEach((preBlock) => {
+    // Inserting a code element inside pre element
+    let codeBlock = document.createElement("code");
+    codeBlock.innerHTML = preBlock.innerHTML;
+    preBlock.innerHTML = "";
+    preBlock.appendChild(codeBlock);
+
+    const button = document.createElement("button");
+    let text = document.createTextNode("Add Snippet");
+    button.appendChild(text);
+    preBlock.parentElement.appendChild(button);
+    button.addEventListener("click", () => {
       vscode.postMessage({ type: "addSnippet", value: codeBlock.textContent });
     });
   });
