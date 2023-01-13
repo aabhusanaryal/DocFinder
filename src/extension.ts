@@ -11,21 +11,11 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("docfinder.findDocs", () => {
+    vscode.commands.registerCommand("docfinder.findDocs", async () => {
       // Focusing on the DocFinder view
-      vscode.commands.executeCommand("docfinder.sidebarView.focus");
+      await vscode.commands.executeCommand("docfinder.sidebarView.focus");
+      vscode.window.showInformationMessage("Done");
       provider.findDocs();
-    })
-  );
-  context.subscriptions.push(
-    vscode.commands.registerCommand("docfinder.addColor", () => {
-      provider.addColor();
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("docfinder.clearColors", () => {
-      provider.clearColors();
     })
   );
 }
@@ -87,10 +77,12 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
         vscode.window.showInformationMessage("No text editor");
         return;
       }
+
       const selection = activeTextEditor.document.getText(
         activeTextEditor.selection
       );
-      this._view.webview.postMessage({ type: "findDocs", selection });
+      const language = activeTextEditor.document.languageId;
+      this._view.webview.postMessage({ type: "findDocs", selection, language });
     }
   }
 
@@ -129,14 +121,17 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
 
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				
+				<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+				<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 
 				<link href="${styleResetUri}" rel="stylesheet">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
 				<link href="${styleMainUri}" rel="stylesheet">
+				<link rel="stylesheet"
+      
 
-
-
-				<title>Cat Colors</title>
+				<title>DocFinder</title>
 			</head>
 			<body>
 				<ul class="color-list">

@@ -5,7 +5,7 @@ window.addEventListener("message", (event) => {
   const message = event.data; // The json data that the extension sent
   switch (message.type) {
     case "findDocs": {
-      findDocs(message.selection);
+      findDocs(message.selection, message.language);
     }
   }
 });
@@ -16,6 +16,7 @@ app.addEventListener("click", () => {
   vscode.postMessage({ type: "addSnippet", value: "Helloooo" });
 });
 
-function findDocs(selection) {
-  app.innerHTML = `The: ${selection}`;
+function findDocs(selection, language) {
+  console.log("IM RUNNING");
+  app.innerHTML = `Selection: ${selection} Lang: ${language}`;
 }
