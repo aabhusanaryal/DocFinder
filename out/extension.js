@@ -5,10 +5,10 @@ const vscode = require("vscode");
 function activate(context) {
     const provider = new ColorsViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
-    context.subscriptions.push(vscode.commands.registerCommand("calicoColors.addColor", () => {
+    context.subscriptions.push(vscode.commands.registerCommand("docfinder.addColor", () => {
         provider.addColor();
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("calicoColors.clearColors", () => {
+    context.subscriptions.push(vscode.commands.registerCommand("docfinder.clearColors", () => {
         provider.clearColors();
     }));
 }
@@ -88,7 +88,7 @@ class ColorsViewProvider {
 			</html>`;
     }
 }
-ColorsViewProvider.viewType = "calicoColors.colorsView";
+ColorsViewProvider.viewType = "docfinder.colorsView";
 function getNonce() {
     let text = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

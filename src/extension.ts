@@ -11,20 +11,20 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("calicoColors.addColor", () => {
+    vscode.commands.registerCommand("docfinder.addColor", () => {
       provider.addColor();
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("calicoColors.clearColors", () => {
+    vscode.commands.registerCommand("docfinder.clearColors", () => {
       provider.clearColors();
     })
   );
 }
 
 class ColorsViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "calicoColors.colorsView";
+  public static readonly viewType = "docfinder.colorsView";
 
   private _view?: vscode.WebviewView;
 

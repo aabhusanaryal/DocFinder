@@ -1,6 +1,6 @@
 {
-	"name": "calico-colors",
-	"description": "Calico Colors - A Webview View API Sample",
+	"name": "docfinder",
+	"description": "DocFinder",
 	"version": "0.0.1",
 	"publisher": "vscode-samples",
 	"private": true,
@@ -35,20 +35,20 @@
 			"codicon-sidebar-view": [
 				{
 					"type": "webview",
-					"id": "calicoColors.colorsView",
-					"name": "Calico Colors"
+					"id": "docfinder.colorsView",
+					"name": "DocFinder"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "calicoColors.addColor",
-				"category": "Calico Colors",
+				"command": "docfinder.addColor",
+				"category": "DocFinder",
 				"title": "Add Color"
 			},
 			{
-				"command": "calicoColors.clearColors",
-				"category": "Calico Colors",
+				"command": "docfinder.clearColors",
+				"category": "DocFinder",
 				"title": "Clear Colors",
 				"icon": "$(clear-all)"
 			}
@@ -56,9 +56,9 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "calicoColors.clearColors",
+					"command": "docfinder.clearColors",
 					"group": "navigation",
-					"when": "view == calicoColors.colorsView"
+					"when": "view == docfinder.colorsView"
 				}
 			]
 		}
