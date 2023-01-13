@@ -30,7 +30,7 @@ class ColorsViewProvider {
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
         webviewView.webview.onDidReceiveMessage((data) => {
             switch (data.type) {
-                case "colorSelected": {
+                case "addSnippet": {
                     vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
                     break;
                 }
@@ -97,7 +97,6 @@ class ColorsViewProvider {
         <h2>Welcome to Docfinder</h2></br>
         <div>Please select some text to search on docs</div>
 				<div id = "app"></div>
-				<button class="add-color-button">Add Color</button>
 				
 				<script nonce="${nonce}" src="${scriptUri}" defer></script>
 			</body>
