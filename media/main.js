@@ -4063,16 +4063,65 @@ function findDocs(selection, language) {
   if (selection == "") {
     console.log("INITING BOILERPLATE INSIDE MAIN");
     switch (language) {
-      case "flask":
+      case "flask": {
         searched = [
           {
             item: {
               group: "",
               name: "Boiler Plate For Flask:",
-              body: "<pre>Helllo flask</pre>",
+              body: `<h1>Welcome to Docfinder</h1></br><p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+
+<pre>
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+  return "Hello, World!"
+</pre>
+              `,
             },
           },
         ];
+        break;
+      }
+
+      case "vue": {
+        searched = [
+          {
+            item: {
+              group: "",
+              name: "Boiler Plate For Vue:",
+              body: `<h1>Welcome to Docfinder</h1></br><p>Please select a keyword in your text editor and run Search Docs command to search docs for that keyword.</p>
+  
+<pre>
+<template>
+  <p class="greeting">{{ greeting }}</p>
+</template>
+
+<script>
+  export default {
+  data() {
+    return {
+      greeting: 'Hello World!'
+    }
+  }
+  }
+</script>
+
+<style>
+  .greeting {
+    color: red;
+    font-weight: bold;
+  }
+</style>
+</pre>
+              `,
+            },
+          },
+        ];
+        break;
+      }
     }
   } else searched = search(selection, language);
 

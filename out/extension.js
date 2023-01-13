@@ -10,28 +10,15 @@ switch (currentLang) {
         boilerplate = "Boilerplate for JS.";
         break;
     case "flask":
-        boilerplate = `<pre><code>def main():
-    """ Main entry point of the app """
-    print("hello world")
+        boilerplate = `
+<pre><code>
+from flask import Flask
+app = Flask(__name__)
 
-
-if __name__ == "__main__":
-    """ This is executed when run from the command line """
-    main()
-    </code>
-</pre><br>
-<button id="btn">Add Snippet</button>
-
-<script>
-import * as vscode from "vscode";
-
-let btn = document.querySelector('#btn').addEventListener('click', addSnippet)
-function addSnippet(){
-  vscode.window.activeTextEditor?.insertSnippet(
-            new vscode.SnippetString("Test")
-          );
-}
-</script>`;
+@app.route("/")
+def hello_world():
+  return "Hello, World!"
+</code></pre>`;
         break;
     default:
         boilerplate = "No boilerplate found.";
