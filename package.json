@@ -1,13 +1,14 @@
 {
-  "name": "docfinder",
-  "description": "DocFinder",
-  "version": "0.0.1",
+  "name": "DocFinder",
+  "description": "Documentation for the Power Users.",
+  "icon": "media/logo.png",
+  "version": "0.0.2",
   "publisher": "gagnant",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/vscode-extension-samples"
+    "url": "https://github.com/aabhusanaryal/docfinder"
   },
   "engines": {
     "vscode": "^1.74.0"
@@ -41,17 +42,6 @@
       ]
     },
     "commands": [
-      {
-        "command": "docfinder.addColor",
-        "category": "DocFinder",
-        "title": "Add Color"
-      },
-      {
-        "command": "docfinder.clearColors",
-        "category": "DocFinder",
-        "title": "Clear Colors",
-        "icon": "$(clear-all)"
-      },
       {
         "command": "docfinder.findDocs",
         "category": "DocFinder",
